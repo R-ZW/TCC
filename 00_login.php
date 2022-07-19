@@ -5,7 +5,7 @@ session_start();
     $senha = $_POST['senha'];
     $senhaMD5 = md5($senha);
 
-    require_once "conexao_bd.php";
+    require_once ".conexao_bd.php";
 
     $sql = "SELECT * FROM usuarios WHERE email='$email'";
     $resultado = mysqli_query($conexao, $sql);
@@ -20,7 +20,8 @@ session_start();
     } else if ($senhaMD5 == $usuario['senha']) {
 
         $_SESSION['id_usuario'] = $usuario['id_usuario'];
-        header("Location: 01_capa.php");
+        $_SESSION['email'] = $email;
+        header("Location: 0___home_consumidor.php");
 
     } else {
 

@@ -1,3 +1,7 @@
+<?php
+session_start();
+
+?>
 <!DOCTYPE html>
 <html lang="pt">
   
@@ -30,9 +34,9 @@
 
         include_once ".conexao_bd.php";
 
-        $email= "reinaldozimmerwendt@mail";
+        $email= $_SESSION['email'];
         
-        echo "<br><center><a href='1_____home_produtor.php?email=$email' class='white-text'><div class='waves-effect waves-light btn bold'>PERMUTAR CONTA <i class='material-icons right'>sync</i></div></a></center><br><br>";
+        echo "<br><center><a href='1_____home_produtor.php' class='white-text'><div class='waves-effect waves-light btn bold'>PERMUTAR CONTA <i class='material-icons right'>sync</i></div></a></center><br><br>";
 
         //obtenção dos cursos associados a um usuário
         $sql = "SELECT id_curso FROM relacao_usuario_curso WHERE email='$email' AND tipo_relacao='consumidor'";
@@ -106,7 +110,29 @@
             echo "<br><h4>Não existem cursos associados a esta conta.</h4>";
 
         }
+
+        $sql_1 = "SELECT * FROM usuarios WHERE id_usuario='".$_SESSION['id_usuario']."'";
+        $resultado_1 = mysqli_query($conexao, $sql_1);
+
+        $linha_1 = mysqli_fetch_assoc($resultado_1);
+
+        $nome_usuario = $linha_1['nome_usuario'];
+        $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
+
+        echo "<br>
+        
+              <img src='$endereco_imagem_usuario' width='5%'> 
+              
+              $nome_usuario
+
+              <a href='00_logout.php'>logout</a>
+              
+              <a href='00__form_altera_usuario.php'>editar</a>
+              
+              <a href='00__excluir_usuario.php'>excluir</a>";
     ?>
+
+    
 
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>

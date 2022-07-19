@@ -1,8 +1,27 @@
 <?php
 session_start();
-    require_once "conexao_bd.php";
+    require_once ".conexao_bd.php";
 
     $nome_usuario = $_POST['nome_usuario'];
+    if(isset($_FILES['endereco_imagem_usuario'])){
+
+        $ext = strrchr($_FILES['endereco_imagem_usuario']['name'], '.');
+        $nome = md5(time()).$ext;
+        $dir = "arquivos/imgs_usuarios/";
+    
+        move_uploaded_file($_FILES['endereco_imagem_usuario']['tmp_name'], $dir.$nome);
+    
+    }
+    if($ext != ""){
+    
+        $endereco_imagem_usuario= $dir.$nome;
+    
+    }else{
+    
+        $endereco_imagem_usuario= "arquivos/_imgs_default/sem_imagem_usuario.png";
+    
+    }
+
     $email = $_POST['email'];
     $senha = $_POST['senha'];
 
@@ -20,19 +39,20 @@ session_start();
 
     } else {
 
-        $sql = "INSERT INTO usuarios (nome_usuario, email, senha) " . "VALUES ('$nome_usuario', '$email', '$senhaMD5')";
+        $sql = "INSERT INTO usuarios (email, nome_usuario, senha, endereco_imagem_usuario) " . "VALUES ('$email', '$nome_usuario', '$senhaMD5', '$endereco_imagem_usuario')";
         $resultado = mysqli_query($conexao, $sql);
 
         if ($resultado) {
 
-            // pegar o id gerado
+             // pegar o id gerado
             $id_usuario = mysqli_insert_id($conexao);
 
             // colocar na sessão
             $_SESSION['id_usuario'] = $id_usuario;
+            $_SESSION['email'] = $email;
 
-            // redirecionar para a página principal
-            header("Location: 01_capa.php");
+            // redirecionar o usuário
+            header("Location: 0___home_consumidor.php");
 
         } else {
 
