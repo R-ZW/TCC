@@ -13,7 +13,7 @@
 
     } else {
 
-        $sql = "SELECT id_relacao FROM relacao_usuario_curso WHERE email='$email_novo' AND tipo_relacao='consumidor'";
+        $sql = "SELECT  FROM relacao_usuario_curso WHERE email='$email_novo' AND tipo_relacao='consumidor'";
         $resultado = mysqli_query($conexao,$sql);
 
         $linha = mysqli_fetch_array($resultado);

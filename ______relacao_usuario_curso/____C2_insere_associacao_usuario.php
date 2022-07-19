@@ -9,11 +9,11 @@
     date_default_timezone_set('America/Sao_Paulo');
     $data = date("Y-m-d H:i:s");
 
-    //obtendo id_relacao
-    $sq = "SELECT id_relacao FROM relacao_usuario_curso WHERE email='$email' AND id_curso=$id_curso AND tipo_relacao='consumidor'";
+    //obtendo id_relacao_usuario_curso_usuario_curso
+    $sq = "SELECT id_relacao_usuario_curso FROM relacao_usuario_curso WHERE email='$email' AND id_curso=$id_curso AND tipo_relacao='consumidor'";
     $result = mysqli_query($conexao, $sq);
     $linha = mysqli_fetch_assoc($result);
-    //obtido id_relacao
+    //obtido id_relacao_usuario_curso
 
     if(isset($linha)){
 
