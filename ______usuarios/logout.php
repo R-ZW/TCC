@@ -3,5 +3,5 @@ session_start();
 
 session_destroy();
 
-header("Location: 00___entrada.php");
+header("Location: ../index/entrada.php");
 ?>

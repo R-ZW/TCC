@@ -9,7 +9,7 @@
 
     <?php
     
-    include ".conexao_bd.php";
+    include "../_______necessarios/.conexao_bd.php";
 
     $id_material = $_GET['id_material'];
     $id_aula = $_GET['id_aula'];
@@ -21,7 +21,7 @@
 
     if($resultado){
 
-        header("Location: 1__modificacao_aula.php?id_aula=$id_aula");
+        header("Location: ../index/produtor/PROD__tela_aula_produtor.php?id_aula=$id_aula");
 
     }
 

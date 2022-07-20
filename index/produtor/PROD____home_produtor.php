@@ -1,13 +1,17 @@
 <?php
 session_start();
 
+require_once "../../_______necessarios/.funcoes.php";
+
+echo exibeMensagens();
 ?>
 <!DOCTYPE html>
 <html lang="pt">
   
 <head>
     <meta charset="UTF-8">
-    <title>Home Consumidor</title>
+    <title>Home Produtor</title>
+
 
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -16,30 +20,30 @@ session_start();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="../../_.materialize/css/materialize.min.css"  media="screen,projection"/>
 
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <!--Link with configs-->
-    <link rel="stylesheet" type="text/css" href="materialize/css/configs.css">
+    <link rel="stylesheet" type="text/css" href="../../_.materialize/css/configs.css">
 
 </head>
 
 <body class="container">
-    
-    <h2 class="center-align bold">Home Consumidor</h2>	
+
+    <h2 class="center-align bold">Home Produtor</h2>	
 
     <?php 
 
-        include_once ".conexao_bd.php";
+        include_once "../../_______necessarios/.conexao_bd.php";
 
         $email= $_SESSION['email'];
         
-        echo "<br><center><a href='1_____home_produtor.php' class='white-text'><div class='waves-effect waves-light btn bold'>PERMUTAR CONTA <i class='material-icons right'>sync</i></div></a></center><br><br>";
+        echo "<br><center><a href='../consumidor/CONS____home_consumidor.php' class='white-text'><div class='waves-effect waves-light btn bold'>PERMUTAR CONTA <i class='material-icons right'>sync</i></div></a></center><br><br>";
 
         //obtenção dos cursos associados a um usuário
-        $sql = "SELECT id_curso FROM relacao_usuario_curso WHERE email='$email' AND tipo_relacao='consumidor'";
+        $sql = "SELECT id_curso FROM relacao_usuario_curso WHERE email='$email' AND tipo_relacao='produtor'";
         $resultado = mysqli_query($conexao,$sql);
 
         while($linha = mysqli_fetch_assoc($resultado))
@@ -62,8 +66,8 @@ session_start();
 	                $descricao_curso[$b]= $linhab[$b]['descricao_curso'];
 	                $endereco_imagem_curso[$b]= $linhab[$b]['endereco_imagem_curso'];
 
-                } 
-
+                }
+                
                 if(strlen($descricao_curso[$b])>=950){
 
                     $str = $descricao_curso[$b];
@@ -84,9 +88,13 @@ session_start();
             for($i=0 ; $i<count($id_curso) ; $i++){
 
                 echo "
-                    <a href='0__tela_curso.php?id_curso=" . $id_curso[$i] . "&email=$email' class='link-curso'>
+
+                    <a href='PROD___tela_curso_produtor.php?id_curso=" . $id_curso[$i] . "' class='link-curso'>
+                     
                         <div class='card-panel hoverable'>
-                            <div class='row '>
+
+                            <div class='row'>
+
                                 <div class='col s4 m4 l4 flow-text'>
                                 
                                     <img src=" . $endereco_imagem_curso[$i] ." class='img-curso'>
@@ -94,20 +102,28 @@ session_start();
                                 </div>
                             
                                 <div class='center-align'>
+
                                     <h4 class='bold'>" . $nome_curso[$i] . "</h4>
                                     <h6 class='descricao-curso'>" . $descricao_curso[$i] . "<br><br>
-                                </div>
+
+                                </div> 
+
                             </div>
+                            <div class='center-align'><a href='../../_____cursos/__U1_form_altera_curso.php?id_curso=" . $id_curso[$i] . "&i=0' class='edita-exclui'><i class='material-icons small'>edit</i></a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                <a href='../../_____cursos/_D1_excluir_curso.php?id_curso=" . $id_curso[$i] . "' class='edita-exclui'><i class='material-icons small'>delete</i></a></div>
+                            
                         </div>
+                    
                     </a>
                     <br>
+                        
                 ";
 
             }
 
         } else {
 
-            echo "<br><h4>Não existem cursos associados a esta conta.</h4>";
+            echo "<br><h4>Não existem cursos associados à esta conta.</h4>";
 
         }
 
@@ -125,19 +141,24 @@ session_start();
               
               $nome_usuario
 
-              <a href='00_logout.php'>logout</a>
+              <a href='../../______usuarios/logout.php'>logout</a>
               
-              <a href='00__form_altera_usuario.php'>editar</a>
+              <a href='../../______usuarios/__U1_form_altera_usuario.php'>editar</a>
               
-              <a href='00__excluir_usuario.php'>excluir</a>";
+              <a href='../../______usuarios/_D1_excluir_usuario.php'>excluir</a>";
+
     ?>
 
-    
+    <br>
+
+    <div class='center-align'><a href='../../_____cursos/____C1_form_insere_curso.php?email=<?php echo $email;?>' class='btn-floating btn-large waves-effect waves-light'><i class='material-icons'>add</i></a></div>
+
+    <br> 
 
     <!--Import jQuery before materialize.js-->
-    <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript" src="js/materialize.min.js"></script>
-    
+    <script type="text/javascript" src="../../_.materialize/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="../../_.materialize/js/materialize.min.js"></script>
+
 </body>
 
 </html>

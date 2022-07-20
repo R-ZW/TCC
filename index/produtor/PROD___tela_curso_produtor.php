@@ -12,13 +12,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="../../_.materialize/css/materialize.min.css"  media="screen,projection"/>
 
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <!--Link with configs-->
-    <link rel="stylesheet" type="text/css" href="materialize/css/configs.css">
+    <link rel="stylesheet" type="text/css" href="../../_.materialize/css/configs.css">
     
 </head>
 
@@ -26,7 +26,7 @@
 
     <?php 
 
-        include_once ".conexao_bd.php";
+        include_once "../../_______necessarios/.conexao_bd.php";
 
         $id_curso= $_GET['id_curso'];
 
@@ -38,7 +38,7 @@
         //obtido o email do produtor
 
         //obtenção dos dados do curso
-        $sql = "SELECT nome_curso, descricao_curso, endereco_imagem_curso FROM cursos WHERE id_curso=$id_curso";
+        $sql = "SELECT * FROM cursos WHERE id_curso=$id_curso";
         $resultado = mysqli_query($conexao,$sql); 
 
         while($linha = mysqli_fetch_assoc($resultado))
@@ -52,8 +52,8 @@
         //fim da obtenção dos dados do curso
 
         echo "<h2 class='center-align bold'>$nome_curso
-        <a href='1____form_altera_curso.php?id_curso=$id_curso&i=1' class='link-curso'><i class='material-icons small'>edit</i></a>
-        <a href='1____excluir_curso.php?id_curso=$id_curso' class='link-curso'><i class='material-icons small'>delete</i></a>
+        <a href='../../_____cursos/__U1_form_altera_curso.php?id_curso=$id_curso&i=1' class='link-curso'><i class='material-icons small'>edit</i></a>
+        <a href='../../_____cursos/_D1_excluir_curso.php?id_curso=$id_curso' class='link-curso'><i class='material-icons small'>delete</i></a>
         </h2><br>";
 
         echo "<center><img src=$endereco_imagem_curso class='materialboxed' width='50%'></center><br><br>";
@@ -61,7 +61,7 @@
         
 
         //obtenção dos dados dos módulos
-        $sql_1 = "SELECT id_modulo, nome_modulo, descricao_modulo, endereco_imagem_modulo FROM modulos WHERE id_curso=$id_curso";
+        $sql_1 = "SELECT * FROM modulos WHERE id_curso=$id_curso";
         $resultado_1 = mysqli_query($conexao,$sql_1); 
 
         while($linha_1 = mysqli_fetch_assoc($resultado_1))
@@ -82,7 +82,7 @@
             $i=0;
             while($i<count($id_modulo)){
 
-                $sqli[$i] = "SELECT id_aula, nome_aula, descricao_aula, endereco_imagem_aula FROM aulas WHERE id_modulo=$id_modulo[$i]";
+                $sqli[$i] = "SELECT * FROM aulas WHERE id_modulo=$id_modulo[$i]";
                 $resultadoi[$i] = mysqli_query($conexao,$sqli[$i]);
     
                 while($linhai[$i] = mysqli_fetch_assoc($resultadoi[$i])){
@@ -103,8 +103,8 @@
                 <div class='card-panel'>
                     <div class='row'>
                         <h4 class='bold center-align'>" . $nome_modulo[$i] . " 
-                        <a href='1___form_altera_modulo.php?id_modulo=".$id_modulo[$i]."' class='link-curso'> <i class='material-icons small'>edit</i></a>
-                        <a href='1___excluir_modulo.php?id_modulo=".$id_modulo[$i]."' class='link-curso'><i class='material-icons small'>delete</i></a>
+                        <a href='../../____modulos/__U1_form_altera_modulo.php?id_modulo=".$id_modulo[$i]."' class='link-curso'> <i class='material-icons small'>edit</i></a>
+                        <a href='../../____modulos/_D1_excluir_modulo.php?id_modulo=".$id_modulo[$i]."' class='link-curso'><i class='material-icons small'>delete</i></a>
                         </h4><br><br>
                             <div class='col s4 m4 l4 flow-text'>
                             
@@ -121,9 +121,9 @@
 
                     for($j=0 ; $j<count($id_aula[$i]) ; $j++){
 
-                        echo "<big>- <a href='1__modificacao_aula.php?id_aula=".$id_aula[$i][$j]."'>".$nome_aula[$i][$j]."</a> </big> 
-                        <a href='1__form_altera_aula.php?id_aula=".$id_aula[$i][$j]."&i=0'class='link-curso'><i class='material-icons'>edit</i></a>
-                        <a href='1__excluir_aula.php?id_aula=".$id_aula[$i][$j]."'class='link-curso'><i class='material-icons'>delete</i></a><br>";
+                        echo "<big>- <a href='PROD__tela_aula_produtor.php?id_aula=".$id_aula[$i][$j]."'>".$nome_aula[$i][$j]."</a> </big> 
+                        <a href='../../___aulas/__U1_form_altera_aula.php?id_aula=".$id_aula[$i][$j]."&i=0'class='link-curso'><i class='material-icons'>edit</i></a>
+                        <a href='../../___aulas/_D1_excluir_aula.php?id_aula=".$id_aula[$i][$j]."'class='link-curso'><i class='material-icons'>delete</i></a><br>";
 
                     }
 
@@ -133,7 +133,7 @@
 
                 }
 
-                echo "<br><a href='1__form_insere_aula.php?id_modulo=" . $id_modulo[$i] . "'class='white-text'><div class='waves-effect waves-light btn bold'>ADICIONAR AULA<i class='material-icons left'>add</i></div></a><br><br>";
+                echo "<br><a href='../../___aulas/____C1_form_insere_aula.php?id_modulo=" . $id_modulo[$i] . "'class='white-text'><div class='waves-effect waves-light btn bold'>ADICIONAR AULA<i class='material-icons left'>add</i></div></a><br><br>";
                 echo "</div><br>";
             }
 
@@ -146,7 +146,7 @@
 
     ?>
 
-    <center><a href='1___form_insere_modulo.php?id_curso=<?php echo $id_curso;?>'class='white-text'><div class='waves-effect waves-light btn bold'>ADICIONAR MÓDULO<i class='material-icons left'>add</i></div></a></center><br>
+    <center><a href='../../____modulos/____C1_form_insere_modulo.php?id_curso=<?php echo $id_curso;?>'class='white-text'><div class='waves-effect waves-light btn bold'>ADICIONAR MÓDULO<i class='material-icons left'>add</i></div></a></center><br>
 
     <br> 
     <br>
@@ -157,7 +157,7 @@
     <?php
     
         //obtenção dos consumidores associados ao curso
-        $sql_2 = "SELECT email, data_relacao FROM relacao_usuario_curso WHERE id_curso=$id_curso AND tipo_relacao='consumidor'";
+        $sql_2 = "SELECT * FROM relacao_usuario_curso WHERE id_curso=$id_curso AND tipo_relacao='consumidor'";
         $resultado_2 = mysqli_query($conexao,$sql_2); 
 
         while($linha_2 = mysqli_fetch_assoc($resultado_2))
@@ -176,8 +176,8 @@
                 $d[$h]= date('d/m/Y',strtotime($data_relacao[$h]));
 
                 echo "<big>- ".$email_consumidor[$h] . " desde " . $d[$h] . " </big>";
-                echo "<a href='1____form_altera_associacao_usuario.php?email=".$email_consumidor[$h]."&id_curso=$id_curso'class='link-curso'><i class='material-icons'>edit</i></a>
-                      <a href='1____excluir_associacao_usuario.php?email=".$email_consumidor[$h]."&id_curso=$id_curso'class='link-curso'><i class='material-icons'>delete</i></a><br>";
+                echo "<a href='../../______relacao_usuario_curso/__U1_form_altera_associacao_usuario.php?email=".$email_consumidor[$h]."&id_curso=$id_curso'class='link-curso'><i class='material-icons'>edit</i></a>
+                      <a href='../../______relacao_usuario_curso/_D1_excluir_associacao_usuario.php?email=".$email_consumidor[$h]."&id_curso=$id_curso'class='link-curso'><i class='material-icons'>delete</i></a><br>";
 
             }
 
@@ -190,7 +190,7 @@
     ?>
     <br>
 
-    <a href="1____form_associacao_usuario.php?id_curso=<?php echo $id_curso;?>"class='white-text'><div class='waves-effect waves-light btn bold'>ASSOCIAR USUÁRIO<i class='material-icons left'>add</i></div></a>
+    <a href="../../______relacao_usuario_curso/____C1_form_insere_associacao_usuario.php?id_curso=<?php echo $id_curso;?>"class='white-text'><div class='waves-effect waves-light btn bold'>ASSOCIAR USUÁRIO<i class='material-icons left'>add</i></div></a>
 
     <br>
     <br>
@@ -199,11 +199,11 @@
     <br>
     <br>
 
-    <center><a href='1_____home_produtor.php?email=<?php echo $email_produtor; ?>'class='white-text'><div class='waves-effect waves-light btn bold'>Voltar<i class='material-icons left'>keyboard_backspace</i></div></a></center><br><br> 
+    <center><a href='PROD____home_produtor.php?email=<?php echo $email_produtor; ?>'class='white-text'><div class='waves-effect waves-light btn bold'>Voltar<i class='material-icons left'>keyboard_backspace</i></div></a></center><br><br> 
 
     <!--Import jQuery before materialize.js-->
-    <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="../../_.materialize/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="../../_.materialize/js/materialize.min.js"></script>
     
 </body>
 

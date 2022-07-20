@@ -3,11 +3,11 @@ session_start();
 
 if (!isset($_SESSION['id_usuario'])) {
     $_SESSION['mensagem'] = "Você deve primeiro realizar o login!";
-    header("Location: 00___entrada.php");
+    header("Location: ../index/entrada.php");
 }
 
-require_once "funcoes.php";
-require_once ".conexao_bd.php";
+require_once "../_______necessarios/.funcoes.php";
+require_once "../_______necessarios/.conexao_bd.php";
 
 $paginaCorrente = basename($_SERVER['SCRIPT_NAME']);
 
@@ -30,7 +30,7 @@ $linha = mysqli_fetch_assoc($resultado);
 
     <main>
 
-        <form action="00__altera_usuario.php" method="post" enctype="multipart/form-data">
+        <form action="__U2_altera_usuario.php" method="post" enctype="multipart/form-data">
 
             <br>
 

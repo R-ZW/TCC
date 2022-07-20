@@ -1,7 +1,7 @@
 <?php
     echo '<meta charset="UTF-8">';
 
-    include ".conexao_bd.php";
+    include "../_______necessarios/.conexao_bd.php";
 
     $id_material = $_POST['id_material'];
     $id_aula = $_POST['id_aula'];
@@ -13,14 +13,14 @@
 
         $ext = strrchr($_FILES['endereco_material']['name'], '.');
         $nome = md5(time()).$ext;
-        $dir = "arquivos/materiais/";
+        $dir = "materiais/";
     
         move_uploaded_file($_FILES['endereco_material']['tmp_name'], $dir.$nome);
     
     } 
     if($ext != ""){
 
-        $endereco_material = $dir.$nome;
+        $endereco_material = "../../__materiais/".$dir.$nome;
 
     } else {
     
@@ -36,7 +36,7 @@
 
     if($resultado){
 
-        header("Location: 1__modificacao_aula.php?id_aula=$id_aula");
+        header("Location: ../index/produtor/PROD__tela_aula_produtor.php?id_aula=$id_aula");
 
     }
 ?>

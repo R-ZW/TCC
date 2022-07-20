@@ -1,6 +1,6 @@
 <?php
 session_start();
-    require_once ".conexao_bd.php";
+    require_once "../_______necessarios/.conexao_bd.php";
 
     $id_usuario = $_SESSION['id_usuario'];
 
@@ -11,14 +11,14 @@ session_start();
 
         $ext = strrchr($_FILES['endereco_imagem_usuario']['name'], '.');
         $nome = md5(time()).$ext;
-        $dir = "arquivos/__imgs_aula/";
+        $dir = "imgs_usuarios/";
     
         move_uploaded_file($_FILES['endereco_imagem_usuario']['tmp_name'], $dir.$nome);
     
     }
     if($ext != ""){
     
-        $endereco_imagem_usuario = $dir.$nome;
+        $endereco_imagem_usuario = "../../______usuarios/".$dir.$nome;
     
     } else {
     
@@ -51,7 +51,7 @@ session_start();
 
                 $_SESSION['mensagem'] = 'A senha antiga submetida está incorreta!';
             
-                header("Location: 00__form_altera_usuario.php");
+                header("Location: __U1_form_altera_usuario.php");
 
                 die;
 
@@ -61,7 +61,7 @@ session_start();
 
             $_SESSION['mensagem'] = 'Não houve confirmação da nova senha!';
         
-            header("Location: 00__form_altera_usuario.php");
+            header("Location: __U1_form_altera_usuario.php");
 
             die;
         }
@@ -75,7 +75,7 @@ session_start();
 
     if($resultado){
 
-        header("Location: 0___home_consumidor.php");
+        header("Location: ../index/consumidor/CONS____home_consumidor.php");
 
     }
 ?>

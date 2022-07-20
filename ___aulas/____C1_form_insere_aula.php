@@ -12,13 +12,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="../_.materialize/css/materialize.min.css"  media="screen,projection"/>
 
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <!--Link with configs-->
-    <link rel="stylesheet" type="text/css" href="materialize/css/configs.css">
+    <link rel="stylesheet" type="text/css" href="../_.materialize/css/configs.css">
     
 </head>
 
@@ -26,7 +26,7 @@
 
     <?php
     
-    require_once ".conexao_bd.php";
+    require_once "../_______necessarios/.conexao_bd.php";
     
     $id_modulo = $_GET['id_modulo'];
 
@@ -44,7 +44,7 @@
 
     <br>
 
-    <form action="1__insere_aula.php" method="post" enctype="multipart/form-data">
+    <form action="____C2_insere_aula.php" method="post" enctype="multipart/form-data">
 
         <big>Nome da aula:</big> <input type="text" name="nome_aula" required><br>
 
@@ -64,14 +64,14 @@
         <center>
         <button type="submit" class="waves-effect waves-light btn bold">ENVIAR<i class="material-icons right">check</i></button>
         <button type="reset" class="waves-effect waves-light btn bold">REDEFINIR<i class="material-icons right">refresh</i></button>   
-        <a href="1____modificacao_curso.php?id_curso=<?php echo $id_curso; ?>" class='waves-effect waves-light btn bold'> Cancelar <i class='material-icons right'>close</i></a>
+        <a href="../index/produtor/PROD___tela_curso_produtor.php?id_curso=<?php echo $id_curso; ?>" class='waves-effect waves-light btn bold'> Cancelar <i class='material-icons right'>close</i></a>
         </center>
  
     </form>
 
     <!--Import jQuery before materialize.js-->
-    <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="../_.materialize/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="../_.materialize/js/materialize.min.js"></script>
     
 </body>
 

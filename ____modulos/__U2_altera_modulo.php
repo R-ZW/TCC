@@ -1,7 +1,7 @@
 <?php
     echo '<meta charset="UTF-8">';
 
-    include ".conexao_bd.php";
+    include "../_______necessarios/.conexao_bd.php";
 
     $id_modulo = $_POST['id_modulo'];
     $endereco_imagem_modulo_pre_alteracao = $_POST['endereco_imagem_modulo_pre_alteracao'];
@@ -13,14 +13,14 @@
 
         $ext = strrchr($_FILES['endereco_imagem_modulo']['name'], '.');
         $nome = md5(time()).$ext;
-        $dir = "arquivos/___imgs_modulo/";
+        $dir = "imgs_modulo/";
     
         move_uploaded_file($_FILES['endereco_imagem_modulo']['tmp_name'], $dir.$nome);
     
     }
     if($ext != ""){
     
-        $endereco_imagem_modulo = $dir.$nome;
+        $endereco_imagem_modulo = "../../____modulos/".$dir.$nome;
     
     } else {
     
@@ -42,7 +42,7 @@
 
     if($resultado){
 
-        header("Location: 1____modificacao_curso.php?id_curso=$id_curso");
+        header("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
 
     }
 ?>

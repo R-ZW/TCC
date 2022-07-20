@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="pt">
 
@@ -12,13 +15,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="../../_.materialize/css/materialize.min.css"  media="screen,projection"/>
 
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <!--Link with configs-->
-    <link rel="stylesheet" type="text/css" href="materialize/css/configs.css">
+    <link rel="stylesheet" type="text/css" href="../../_.materialize/css/configs.css">
     
 </head>
 
@@ -26,10 +29,10 @@
     
     <?php
     
-        include_once ".conexao_bd.php";
+        include_once "../../_______necessarios/.conexao_bd.php";
 
         $id_aula= $_GET['id_aula'];
-        $email= $_GET['email'];
+        $email = $_SESSION['email'];
 
         
         //obtenção do id_modulo
@@ -49,7 +52,7 @@
 
 
         //obtenção dos dados da aula
-        $sql = "SELECT nome_aula, descricao_aula, endereco_imagem_aula FROM aulas WHERE id_aula=$id_aula";
+        $sql = "SELECT * FROM aulas WHERE id_aula=$id_aula";
         $resultado = mysqli_query($conexao,$sql); 
 
         while($linha = mysqli_fetch_assoc($resultado))
@@ -64,7 +67,7 @@
 
 
         //obtenção dos dados dos materiais
-        $sql_1 = "SELECT id_material, nome_material, endereco_material FROM materiais WHERE id_aula=$id_aula";
+        $sql_1 = "SELECT * FROM materiais WHERE id_aula=$id_aula";
         $resultado_1 = mysqli_query($conexao,$sql_1); 
 
         while($linha_1 = mysqli_fetch_assoc($resultado_1))
@@ -107,12 +110,12 @@
 
         }
 
-        echo "<br><center><a href='0__tela_curso.php?email=$email&id_curso=$id_curso'class='white-text'><div class='waves-effect waves-light btn bold'>Voltar<i class='material-icons left'>keyboard_backspace</i></div></a></center><br><br>";
+        echo "<br><center><a href='CONS___tela_curso.php?id_curso=$id_curso'class='white-text'><div class='waves-effect waves-light btn bold'>Voltar<i class='material-icons left'>keyboard_backspace</i></div></a></center><br><br>";
     ?>
     
     <!--Import jQuery before materialize.js-->
-    <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="../../_.materialize/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="../../_.materialize/js/materialize.min.js"></script>
     
 </body>
 

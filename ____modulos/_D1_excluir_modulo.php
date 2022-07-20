@@ -9,7 +9,7 @@
 
     <?php
     
-    include ".conexao_bd.php";
+    include "../_______necessarios/.conexao_bd.php";
 
     $id_modulo = $_GET['id_modulo'];
 
@@ -64,7 +64,7 @@
 
     if($resultado and $resultado_1 and $resultado_3){
 
-        header("Location: 1____modificacao_curso.php?id_curso=$id_curso");
+        header("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
 
     }
 

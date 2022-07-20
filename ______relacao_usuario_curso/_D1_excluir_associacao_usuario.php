@@ -9,7 +9,7 @@
 
     <?php
     
-    include ".conexao_bd.php";
+    include "../_______necessarios/.conexao_bd.php";
 
     $email = $_GET['email'];
     $id_curso = $_GET['id_curso'];
@@ -21,7 +21,7 @@
 
     if($resultado){
 
-        header("Location: 1____modificacao_curso.php?id_curso=$id_curso");
+        header("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
 
     }
 

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once ".conexao_bd.php";
+require_once "../_______necessarios/.conexao_bd.php";
 
 $id_usuario= $_SESSION['id_usuario'];
 
@@ -24,7 +24,7 @@ if($p>0){
 
     $_SESSION['mensagem'] = "Você possui $p cursos associados à sua conta como produtor. Para ser possível encerrar a conta, é necessário que não haja nenhum curso associado à ela como produtor.";
 
-    header("Location: 1_____home_produtor.php");
+    header("Location: ../index/produtor/PROD____home_produtor.php");
 
     die;
 
@@ -39,7 +39,7 @@ if($p>0){
     mysqli_close($conexao);
     
     if($resultado){
-        header("Location: 00___entrada.php");
+        header("Location: ../index/entrada.php");
     }
 
     session_destroy();

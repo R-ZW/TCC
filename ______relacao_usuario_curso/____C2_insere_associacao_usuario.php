@@ -1,6 +1,6 @@
 <?php
 
-    include_once ".conexao_bd.php";
+    include_once "../_______necessarios/.conexao_bd.php";
 
     $email= $_POST['email'];
 
@@ -17,7 +17,7 @@
 
     if(isset($linha)){
 
-        header("Location: 1____modificacao_curso.php?id_curso=$id_curso");
+        header("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
 
     } else {
 
@@ -34,7 +34,7 @@
 
     if($resultado)
     {
-	    header("Location:1____modificacao_curso.php?id_curso=$id_curso");
+	    header("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
     }
 
 ?>

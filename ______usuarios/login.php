@@ -5,7 +5,7 @@ session_start();
     $senha = $_POST['senha'];
     $senhaMD5 = md5($senha);
 
-    require_once ".conexao_bd.php";
+    require_once "../_______necessarios/.conexao_bd.php";
 
     $sql = "SELECT * FROM usuarios WHERE email='$email'";
     $resultado = mysqli_query($conexao, $sql);
@@ -15,18 +15,18 @@ session_start();
     if (is_null($usuario)) {
 
         $_SESSION['mensagem'] = "Usuário informado não existe";
-        header("Location: 00___entrada.php");
+        header("Location: ../index/entrada.php");
 
     } else if ($senhaMD5 == $usuario['senha']) {
 
         $_SESSION['id_usuario'] = $usuario['id_usuario'];
         $_SESSION['email'] = $email;
-        header("Location: 0___home_consumidor.php");
+        header("Location: ../index/consumidor/CONS____home_consumidor.php");
 
     } else {
 
         $_SESSION['mensagem'] = "Senha inválida!";
-        header("Location: 00___entrada.php");      
+        header("Location: ../index/entrada.php");      
     }
 
 ?>

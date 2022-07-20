@@ -9,7 +9,7 @@
 
     <?php
     
-    include ".conexao_bd.php";
+    include "../_______necessarios/.conexao_bd.php";
 
     $id_curso = $_GET['id_curso'];
 
@@ -30,7 +30,7 @@
 
     if(isset($li)){
 
-        header("Location: 1____modificacao_curso.php?id_curso=$id_curso");
+        header("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
 
     } else {
         
@@ -117,7 +117,7 @@
 
         if($resultado and $resultado_1 and $resultado_2 and $resultado_3){
 
-            header("Location: 1_____home_produtor.php?email=$email");
+            header("Location: ../index/produtor/PROD____home_produtor.php");
 
         }
     }

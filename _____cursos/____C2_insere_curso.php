@@ -1,6 +1,9 @@
 <?php
+    session_start();
+    
+    echo '<meta charset="UTF-8">';
 
-    include_once ".conexao_bd.php";
+    include_once "../_______necessarios/.conexao_bd.php";
 
     $email = $_POST['email'];
 
@@ -11,18 +14,18 @@
 
         $ext = strrchr($_FILES['endereco_imagem_curso']['name'], '.');
         $nome = md5(time()).$ext;
-        $dir = "arquivos/____imgs_curso/";
+        $dir = "imgs_curso/";
     
         move_uploaded_file($_FILES['endereco_imagem_curso']['tmp_name'], $dir.$nome);
     
     }
     if($ext != ""){
     
-        $endereco_imagem_curso = $dir.$nome;
+        $endereco_imagem_curso = "../../_____cursos/".$dir.$nome;
     
     }else{
     
-        $endereco_imagem_curso = "arquivos/_imgs_default/sem_imagem.png";
+        $endereco_imagem_curso = "../../_.imgs_default/sem_imagem.png";
     
     }
 
@@ -39,7 +42,7 @@
 
 
     //selecionando o id_curso do curso que possua o mesmo nome, descrição e data de criação do cadastrado (ou seja, o curso cadastrado)-
-    $sql_1 = "SELECT id_curso FROM cursos WHERE nome_curso=" . '"' . $nome_curso . '"' . "AND descricao_curso=" . '"' . $descricao_curso . '"' . "AND data_criacao_curso=" . '"' . $data . '"';
+    $sql_1 = "SELECT id_curso FROM cursos WHERE nome_curso='$nome_curso'AND descricao_curso='$descricao_curso' AND data_criacao_curso='$data'";
     $resultado_1 = mysqli_query($conexao,$sql_1);
     $linha_1 = mysqli_fetch_assoc($resultado_1);
 
@@ -58,7 +61,7 @@
 
     if($resultado and $resultado_1 and $resultado_2)
     {
-        header("Location:1____modificacao_curso.php?id_curso=$id_curso");
+        header("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
     }
 
 ?>

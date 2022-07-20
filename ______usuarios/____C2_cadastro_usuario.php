@@ -1,24 +1,24 @@
 <?php
 session_start();
-    require_once ".conexao_bd.php";
+    require_once "../_______necessarios/.conexao_bd.php";
 
     $nome_usuario = $_POST['nome_usuario'];
     if(isset($_FILES['endereco_imagem_usuario'])){
 
         $ext = strrchr($_FILES['endereco_imagem_usuario']['name'], '.');
         $nome = md5(time()).$ext;
-        $dir = "arquivos/imgs_usuarios/";
+        $dir = "imgs_usuarios/";
     
         move_uploaded_file($_FILES['endereco_imagem_usuario']['tmp_name'], $dir.$nome);
     
     }
     if($ext != ""){
     
-        $endereco_imagem_usuario= $dir.$nome;
+        $endereco_imagem_usuario= "../../______usuarios/".$dir.$nome;
     
     }else{
     
-        $endereco_imagem_usuario= "arquivos/_imgs_default/sem_imagem_usuario.png";
+        $endereco_imagem_usuario= "../../_.imgs_default/sem_imagem_usuario.png";
     
     }
 
@@ -35,7 +35,7 @@ session_start();
 
         $_SESSION['mensagem'] = 'Este email já está cadastrado no sistema!';
         
-        header("Location: 00___entrada.php");
+        header("Location: ../index/entrada.php");
 
     } else {
 
@@ -52,13 +52,13 @@ session_start();
             $_SESSION['email'] = $email;
 
             // redirecionar o usuário
-            header("Location: 0___home_consumidor.php");
+            header("Location: ../index/consumidor/CONS____home_consumidor.php");
 
         } else {
 
             $_SESSION['mensagem'] = 'Erro ao salvar o usuário no banco de dados! '.mysqli_errno($conexao) . ": " . mysqli_error($conexao);
             
-            header("Location: 00__form_cadastro_usuario.php");
+            header("Location: ____C1_form_cadastro_usuario.php");
 
         }
     }

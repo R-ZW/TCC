@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "funcoes.php";
+require_once "../_______necessarios/.funcoes.php";
 ?>
 
 <!DOCTYPE html>
@@ -17,10 +17,10 @@ require_once "funcoes.php";
 
     <main class="container">
 
-        <form action="00__cadastro_usuario.php" method="post" enctype="multipart/form-data">
+        <form action="____C2_cadastro_usuario.php" method="post" enctype="multipart/form-data">
 
             <?php if (isset($_SESSION['mensagem'])) {
-                echo "<div class='red-text'>" . exibeMensagens() . "</div>";
+                echo "<div class='red'>" . exibeMensagens() . "</div>";
             } ?><br>
 
             Nome de Usuário:<input id="nome_usuario" name="nome_usuario" type="text" class="validate" required><br>
@@ -45,7 +45,7 @@ require_once "funcoes.php";
             <br>
 
             <input type="submit" value="Criar Conta">
-            <a href="00___entrada.php">Cancelar</a>
+            <a href="../index/entrada.php">Cancelar</a>
 
         </form>
 

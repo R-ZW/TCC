@@ -1,6 +1,6 @@
 <?php
 
-    include_once ".conexao_bd.php";
+    include_once "../_______necessarios/.conexao_bd.php";
 
     $id_modulo = $_POST['id_modulo'];
 
@@ -11,18 +11,18 @@
 
         $ext = strrchr($_FILES['endereco_imagem_aula']['name'], '.');
         $nome = md5(time()).$ext;
-        $dir = "arquivos/__imgs_aula/";
+        $dir = "imgs_aula/";
     
         move_uploaded_file($_FILES['endereco_imagem_aula']['tmp_name'], $dir.$nome);
     
     }
     if($ext != ""){
     
-        $endereco_imagem_aula = $dir.$nome;
+        $endereco_imagem_aula = "../../___aulas/".$dir.$nome;
     
     }else{
     
-        $endereco_imagem_aula = "arquivos/_imgs_default/sem_imagem.png";
+        $endereco_imagem_aula = "../../_.imgs_default/sem_imagem.png";
     
     }
 
@@ -51,7 +51,7 @@
 
     if($resultado and $resultado_1)
     {
-	    header("Location:1__modificacao_aula.php?id_aula=$id_aula");
+	    header("Location: ../index/produtor/PROD__tela_aula_produtor.php?id_aula=$id_aula");
     }
 
 ?>

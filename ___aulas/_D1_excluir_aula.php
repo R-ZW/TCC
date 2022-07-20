@@ -9,7 +9,7 @@
 
     <?php
     
-    include ".conexao_bd.php";
+    include "../_______necessarios/.conexao_bd.php";
 
     $id_aula = $_GET['id_aula'];
 
@@ -36,6 +36,7 @@
     $resultado_2 = mysqli_query($conexao,$sql_2);
     //delatados os materiais
 
+    
     //deletando a aula
     $sql_3 = "DELETE FROM aulas WHERE id_aula=$id_aula";
     $resultado_3 = mysqli_query($conexao,$sql_3);
@@ -45,7 +46,7 @@
 
     if($resultado and $resultado_1 and $resultado_2 and $resultado_3){
 
-        header("Location: 1____modificacao_curso.php?id_curso=$id_curso");
+        header("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
 
     }
 

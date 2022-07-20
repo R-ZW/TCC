@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "funcoes.php";
+require_once "../_______necessarios/.funcoes.php";
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +19,7 @@ require_once "funcoes.php";
         
         <br>
 
-        <form action="00_login.php" method="POST" class="col s12 l5 card-panel">
+        <form action="../______usuarios/login.php" method="POST" class="col s12 l5 card-panel">
 
             <?php if (isset($_SESSION['mensagem'])) {
                 echo "<div class='red-text'>" . exibeMensagens() . "</div>";
@@ -35,7 +35,7 @@ require_once "funcoes.php";
             <br>
 
             <input type="submit" value="Entrar">
-            <a href="00__form_cadastro_usuario.php">Criar Conta</a><br>
+            <a href="../______usuarios/____C1_form_cadastro_usuario.php">Criar Conta</a><br>
 
             <br>
 
