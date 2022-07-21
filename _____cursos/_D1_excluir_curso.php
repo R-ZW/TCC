@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html lang="pt">
+<?php
 
-<head>
-    <meta charset="UTF-8">
-</head>
-
-<body>
-
-    <?php
-    
     include "../_______necessarios/.conexao_bd.php";
 
     $id_curso = $_GET['id_curso'];
@@ -48,16 +39,17 @@
 
 
         //obtendo os id_aula
-        if(isset($linha_1) or isset($id_modulo)){
+        if(isset($id_modulo) or isset($linha_1)){
 
-            for($i=0 ; $i<count($id_modulo) ; $i++){
+            for($a=0 ; $a<count($id_modulo) ; $a++){
 
-                $sqli[$i]= "SELECT id_aula FROM aulas WHERE id_modulo=".$id_modulo[$i];
-                $resultadoi[$i] = mysqli_query($conexao,$sqli[$i]);
+                $sqla[$a]= "SELECT id_aula FROM aulas WHERE id_modulo=".$id_modulo[$a];
+                $resultadoa[$a] = mysqli_query($conexao,$sqla[$a]);
 
-                while($linhai = mysqli_fetch_assoc($resultadoi[$i])){
+                while($linhaa = mysqli_fetch_assoc($resultadoa[$a]))
+                {
 
-                    $id_aula[] = $linhai['id_aula'];
+                    $id_aula[] = $linhaa['id_aula'];
 
                 }
 
@@ -67,13 +59,95 @@
         //obtidos os id_aula
 
 
+        //obtendo os questionarios
+        if(isset($id_aula) or isset($linhaa)){
+
+            for($b=0 ; $b<count($id_aula) ; $b++){
+                
+                $sqlb[$b] = "SELECT id_questionario FROM questionarios WHERE id_aula=".$id_aula[$b];
+                $resultadob[$b] = mysqli_query($conexao, $sqlb[$b]);
+
+                while ($linhab = mysqli_fetch_assoc($resultadob[$b]))
+                {
+
+                    $id_questionario[] = $linhab['id_questionario'];
+
+                }
+
+            }
+
+        }
+        //obtidos os questionarios
+
+
+        //obtendo as questões
+        if(isset($id_questionario) or isset($linhab)){
+
+            for($c=0 ; $c<count($id_questionario) ; $c++){
+
+                $sqlc[$c] = "SELECT id_questao FROM questoes WHERE id_questionario=".$id_questionario[$c];
+                $resultadoc[$c] = mysqli_query($conexao, $sqlc[$c]);
+
+                while ($linhac = mysqli_fetch_assoc($resultadoc[$c]))
+                {
+                    $id_questao[] = $linhac['id_questao'];
+                }
+
+            }
+
+        }
+        //obtidas as questões
+
+
+        //deletando as alternativas
+        if(isset($id_questao) or isset($linhac)){
+
+            for($d=0 ; $d<count($id_questao) ; $d++){
+
+                $sqld[$d] = "DELETE FROM alternativas WHERE id_questao=".$id_questao[$d];
+                $resultadod[$d] = mysqli_query($conexao, $sqld[$d]);
+
+            }
+
+        }
+        //deletadas as alternativas
+
+
+        //deletando as questões
+        if(isset($id_questionario) or isset($linhab)){
+
+            for($e=0 ; $e<count($id_questionario) ; $e++){
+
+                $sqle[$e] = "DELETE FROM questoes WHERE id_questionario=".$id_questionario[$e];
+                $resultadoe[$e] = mysqli_query($conexao, $sqle[$e]);
+
+            }
+
+        }
+        //deletadas as questões
+
+
+        //deletando os questionários
+        if(isset($id_aula) or isset($linhaa)){
+
+            for($f=0 ; $f<count($id_aula) ; $f++){
+
+                $sqlf[$f] = "DELETE FROM questionarios WHERE id_aula=".$id_aula[$f];
+                $resultadof[$f] = mysqli_query($conexao,$sqlf[$f]);
+
+            }
+
+        }
+        //deletados os questionários
+
+
         //deletando os materiais
-        if(isset($linhai) or isset($id_aula)){
+        if(isset($id_aula) or isset($linhaa)){
 
-            for($j=0 ; $j<count($id_aula) ; $j++){
+            for($g=0 ; $g<count($id_aula) ; $g++){
 
-                $sqlj[$j] = "DELETE FROM materiais WHERE id_aula=".$id_aula[$j];
-                $resultadoj[$j] = mysqli_query($conexao,$sqlj[$j]);
+                $sqlg[$g] = "DELETE FROM materiais WHERE id_aula=".$id_aula[$g];
+                $resultadog[$g] = mysqli_query($conexao,$sqlg[$g]);
 
             }
 
@@ -82,7 +156,7 @@
 
 
         //deletando as aulas
-        if(isset($linha_1) or isset($id_modulo)){
+        if(isset($id_modulo) or isset($linha_1)){
 
             for($k=0 ; $k<count($id_modulo) ; $k++){
 

@@ -61,8 +61,8 @@
         //fim da obtenção dos dados da aula
 
 
-        //obtenção dos dados dos materiais
-        $sql_1 = "SELECT id_material, nome_material, endereco_material FROM materiais WHERE id_aula=$id_aula";
+        //obtenção dos materiais
+        $sql_1 = "SELECT * FROM materiais WHERE id_aula=$id_aula";
         $resultado_1 = mysqli_query($conexao,$sql_1); 
 
         while($linha_1 = mysqli_fetch_assoc($resultado_1))
@@ -73,6 +73,21 @@
             $endereco_material[] = $linha_1['endereco_material'];
 
         }
+        //fim da obtenção dos materiais
+
+
+        //obtenção dos questionários
+        $sql_2 = "SELECT * FROM questionarios WHERE id_aula=$id_aula";
+        $resultado_2 = mysqli_query($conexao,$sql_2);
+
+        while($linha_2 = mysqli_fetch_assoc($resultado_2))
+        {
+
+            $id_questionario[] = $linha_2['id_questionario'];
+            $nome_questionario[] = $linha_2['nome_questionario'];
+
+        }
+        //fim da obtenção dos questionários
 
         echo "<h2 class='center-align bold'>$nome_aula
               <a href='../../___aulas/__U1_form_altera_aula.php?id_aula=$id_aula&i=1'><i class='material-icons link-curso small'>edit</i></a>
@@ -81,7 +96,10 @@
         echo "<center><img src='$endereco_imagem_aula' class='materialboxed'></center><br><br>";
         echo "<h5>$descricao_aula</h5><br><br>";
 
+        echo "<big>Materiais:</big><br><br>";
+
         if(isset($id_material)){
+
             for($i=0 ; $i<count($id_material) ; $i++){
 
                 $arq= explode(".",$endereco_material[$i]);
@@ -112,15 +130,39 @@
                 }
 
             }
+
         } else {
 
             echo "Não existem materiais cadastrados nesta aula.<br><br>";
 
         }
 
+        echo "<a href='../../__materiais/____C1_form_insere_material.php?id_aula=$id_aula' class='white-text'><div class='waves-effect waves-light btn bold'>ADICIONAR MATERIAL<i class='material-icons left'>add</i></div></a><br><br><br>";
+
+
+        echo "<big>Questionários:</big><br><br>";
+        if(isset($id_questionario)){
+
+            for($i=0 ; $i<count($id_questionario) ; $i++){
+
+                echo "<a href='PROD_tela_questionario_produtor.php?id_questionario=" . $id_questionario[$i] . "'>" . $nome_questionario[$i] . "</a>";
+                echo " <a href='../../__questionarios/__U1_form_altera_questionario.php?id_questionario=" . $id_questionario[$i] . "&i=0' class='link-curso'><i class='material-icons tiny'>edit</i></a>
+                       <a href='../../__questionarios/_D1_excluir_questionario.php?&id_questionario=" . $id_questionario[$i] . "' class='link-curso'><i class='material-icons tiny'>delete</i></a></center></h3><br><br>";
+                
+
+            }
+
+        } else {
+
+            echo "Não existem questionários associados à esta aula.<br><br>";
+
+        }
+
+        echo "<a href='../../__questionarios/____C1_form_insere_questionario.php?id_aula=$id_aula' class='white-text'><div class='waves-effect waves-light btn bold'>ADICIONAR QUESTIONÁRIO<i class='material-icons left'>add</i></div></a>";
+
+
     ?>
 
-    <a href='../../__materiais/____C1_form_insere_material.php?id_aula=<?php echo $id_aula;?>' class="white-text"><div class='waves-effect waves-light btn bold'>ADICIONAR MATERIAL<i class='material-icons left'>add</i></div></a>
 
     <br>
     <br>

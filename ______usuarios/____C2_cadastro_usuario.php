@@ -44,7 +44,7 @@ session_start();
 
         if ($resultado) {
 
-             // pegar o id gerado
+            // pegar o id gerado
             $id_usuario = mysqli_insert_id($conexao);
 
             // colocar na sessão

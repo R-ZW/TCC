@@ -66,6 +66,8 @@
         <a href='../index/produtor/PROD__tela_aula_produtor.php?id_aula=<?php echo $id_aula; ?>' class='waves-effect waves-light btn bold'>Cancelar<i class='material-icons right'>close</i></a>
         </center>
 
+    </form>
+
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="../_.materialize/js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="../_.materialize/js/materialize.min.js"></script>
