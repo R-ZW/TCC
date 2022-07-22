@@ -15,17 +15,49 @@
         $validade_alternativa = "incorreta";
 
     }
+    
+
+    //obtendo as alternativas da questão-
+    $sql = "SELECT * FROM alternativas WHERE id_questao=$id_questao";
+    $resultado = mysqli_query($conexao, $sql);
+
+    while ($linha = mysqli_fetch_assoc($resultado))
+    {
+
+        $validade_alternativa1[] = $linha['validade_alternativa'];
+
+    }
+    //-
+
+
+    //verificando se há outra alternativa correta cadastrada no sistema
+    if(isset($validade_alternativa1) or isset($linha)){
+
+        for($a=0 ; $a<count($validade_alternativa1) ; $a++){
+
+            if($validade_alternativa1[$a] == $validade_alternativa and $validade_alternativa=="correta"){
+
+                header("Location: ../index/produtor/PROD_tela_questionario_produtor.php?id_questionario=$id_questionario");
+
+                die;
+
+            }
+
+        }
+
+    }
+    //-
 
 
     //inserindo os dados da alternativa-
-    $sql = "INSERT INTO alternativas(id_questao, desenvolvimento_alternativa, validade_alternativa) 
+    $sql_1 = "INSERT INTO alternativas(id_questao, desenvolvimento_alternativa, validade_alternativa) 
     VALUES ('$id_questao', '$desenvolvimento_alternativa', '$validade_alternativa')";
 
-    $resultado = mysqli_query($conexao,$sql);
-    // -
+    $resultado_1 = mysqli_query($conexao,$sql_1);
+    //-
 
 
-    if($resultado)
+    if($resultado and $resultado_1)
     {
 
 	    header("Location: ../index/produtor/PROD_tela_questionario_produtor.php?id_questionario=$id_questionario");

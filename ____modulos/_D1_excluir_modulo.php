@@ -80,27 +80,37 @@
     //deletadas as alternativas
 
 
-    //deletando as questões
     if(isset($id_questionario) or isset($linhaa)){
 
+        //deletando as questões-
         for($d=0 ; $d<count($id_questionario) ; $d++){
 
             $sqld[$d] = "DELETE FROM questoes WHERE id_questionario=".$id_questionario[$d];
             $resultadod[$d] = mysqli_query($conexao, $sqld[$d]);
 
         }
+        //-
+
+
+        //deletando as relações de usuários com os questionários-
+        for($e=0 ; $e<count($id_questionario) ; $e++){
+
+            $sqle[$e] = "DELETE FROM relacao_usuario_questionario WHERE id_questionario=".$id_questionario[$e];
+            $resultadoe[$e] = mysqli_query($conexao, $sqle[$e]);
+
+        }
+        //-
 
     }
-    //deletadas as questões
 
 
     //deletando os questionários
     if(isset($id_aula) or isset($linha_1)){
 
-        for($e=0 ; $e<count($id_aula) ; $e++){
+        for($f=0 ; $f<count($id_aula) ; $f++){
 
-            $sqle[$e] = "DELETE FROM questionarios WHERE id_aula=".$id_aula[$e];
-            $resultadoe[$e] = mysqli_query($conexao,$sqle[$e]);
+            $sqlf[$f] = "DELETE FROM questionarios WHERE id_aula=".$id_aula[$f];
+            $resultadof[$f] = mysqli_query($conexao,$sqlf[$f]);
 
         }
 
@@ -111,10 +121,10 @@
     //deletando os materiais da aula
     if(isset($id_aula) or isset($linha_1)){
 
-        for($f=0 ; $f<count($id_aula) ; $f++){
+        for($g=0 ; $g<count($id_aula) ; $g++){
 
-            $sqlf[$f] = "DELETE FROM materiais WHERE id_aula=".$id_aula[$f];
-            $resultadof[$f] = mysqli_query($conexao,$sqlf[$f]);
+            $sqlg[$g] = "DELETE FROM materiais WHERE id_aula=".$id_aula[$g];
+            $resultadog[$g] = mysqli_query($conexao,$sqlg[$g]);
 
         }
 

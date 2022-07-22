@@ -113,7 +113,7 @@ session_start();
 
                         for($j=0 ; $j<count($id_aula[$i]) ; $j++){
 
-                            echo "<big>- <a href='CONS__tela_aula.php?id_aula=".$id_aula[$i][$j]."&email=$email'>".$nome_aula[$i][$j]."</a> </big><br>";
+                            echo "<big>- <a href='CONS__tela_aula_consumidor.php?id_aula=".$id_aula[$i][$j]."&email=$email'>".$nome_aula[$i][$j]."</a> </big><br>";
 
                         }
 
@@ -133,7 +133,7 @@ session_start();
 
         }
 
-        echo "<br><br><center><a href='CONS____home_consumidor' class='white-text'><div class='waves-effect waves-light btn bold'>Voltar<i class='material-icons left'>keyboard_backspace</i></div></a></center><br><br>";
+        echo "<br><br><center><a href='CONS____home_consumidor.php' class='white-text'><div class='waves-effect waves-light btn bold'>Voltar<i class='material-icons left'>keyboard_backspace</i></div></a></center><br><br>";
 
     ?>
 

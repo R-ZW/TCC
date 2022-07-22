@@ -71,14 +71,24 @@
 
     if(isset($id_questionario) or isset($linha_2)){
 
-        //deletando as questões
+        //deletando as questões-
         for($c=0 ; $c<count($id_questionario) ; $c++){
 
             $sqlc[$c] = "DELETE FROM questoes WHERE id_questionario=".$id_questionario[$c];
             $resultadoc[$c] = mysqli_query($conexao, $sqlc[$c]);
 
         }
-        //deletadas as questões
+        //-
+
+
+        //deletando as relações de usuários com os questionários-
+        for($d=0 ; $d<count($id_questionario) ; $d++){
+
+            $sqld[$d] = "DELETE FROM relacao_usuario_questionario WHERE id_questionario=".$id_questionario[$d];
+            $resultadod[$d] = mysqli_query($conexao, $sqld[$d]);
+
+        }
+        //-
 
     }
 

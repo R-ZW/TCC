@@ -25,8 +25,16 @@
 
         } else {
 
-            $sql_1 = "UPDATE relacao_usuario_curso SET email='$email_novo' WHERE email='$email_antigo' AND tipo_relacao='consumidor'"; 
+            //editando a relação do usuário com o curso-
+            $sql_1 = "UPDATE relacao_usuario_curso SET email='$email_novo' WHERE email='$email_antigo' AND id_curso='$id_curso' AND tipo_relacao='consumidor'"; 
             $resultado_1 = mysqli_query($conexao,$sql_1);
+            //-
+
+
+            //editando a relação do usuário com os questionários-
+            $sql_2 = "UPDATE relacao_usuario_questionario SET email='$email_novo' WHERE email='$email_antigo' AND id_curso='$id_curso'"; 
+            $resultado_2 = mysqli_query($conexao,$sql_2);
+            //-
 
             header("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
 

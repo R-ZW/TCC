@@ -83,7 +83,7 @@ session_start();
             for($i=0 ; $i<count($id_curso) ; $i++){
 
                 echo "
-                    <a href='CONS___tela_curso.php?id_curso=" . $id_curso[$i] . "&email=$email' class='link-curso'>
+                    <a href='CONS___tela_curso_consumidor.php?id_curso=" . $id_curso[$i] . "&email=$email' class='link-curso'>
                         <div class='card-panel hoverable'>
                             <div class='row '>
                                 <div class='col s4 m4 l4 flow-text'>
