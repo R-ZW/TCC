@@ -7,7 +7,7 @@
     $id_curso = $_POST['id_curso'];
 
     date_default_timezone_set('America/Sao_Paulo');
-    $data = date("Y-m-d H:i:s");
+    $data = new DateTime();
 
     //obtendo id_relacao_usuario_curso_usuario_curso
     $sq = "SELECT id_relacao_usuario_curso FROM relacao_usuario_curso WHERE email='$email' AND id_curso=$id_curso AND tipo_relacao='consumidor'";
@@ -88,8 +88,8 @@
 
             for($c=0 ; $c<count($id_questionario) ; $c++){
 
-                $sqlc[$c] = "INSERT INTO relacao_usuario_questionario(email, id_questionario, id_curso, nota_usuario) 
-                VALUES ('$email', '".$id_questionario[$c]."', '$id_curso', 'não-realizado')";
+                $sqlc[$c] = "INSERT INTO relacao_usuario_questionario(email, id_questionario, id_curso, nota_usuario, data_proxima_realizacao) 
+                VALUES ('$email', '".$id_questionario[$c]."', '$id_curso', 'não-realizado', '$data')";
                 
                 $resultadoc[$c] = mysqli_query($conexao, $sqlc[$c]);
 

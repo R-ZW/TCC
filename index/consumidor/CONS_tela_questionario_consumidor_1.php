@@ -28,9 +28,12 @@
     
     <?php
 
+            date_default_timezone_set('America/Sao_Paulo');
+
         include_once "../../_______necessarios/.conexao_bd.php";
 
         $id_questionario = $_GET['id_questionario'];
+        $id_aula = $_GET['id_aula'];
         $email = $_SESSION['email'];
 
 
@@ -119,55 +122,77 @@
             }
             //-
 
+
+            //obtendo as informações da relação do usuário com o questionário-
+            $sql_1 = "SELECT * FROM relacao_usuario_questionario WHERE id_questionario=$id_questionario AND email='$email'";
+            $resultado_1 = mysqli_query($conexao, $sql_1);
+
+            $linha_1 = mysqli_fetch_assoc($resultado_1);
         }
         //----------------------
 
-        echo "<h3><center>$nome_questionario</center></h3><br>";
 
-        echo "<form action='CONS_tela_questionario_consumidor_2.php' method='post'>";
-
-
-        if($distribuicao_questoes == "aleatoria"){
-
-            shuffle($questoes);
-
-        } 
+        $data_hoje= new DateTime();
+        $data_proxima_realizacao = new DateTime($linha_1['data_proxima_realizacao']);
 
 
-        for($f=0 ; $f<count($questoes) ; $f++){
+        if($data_proxima_realizacao > $data_hoje){
 
-            echo "<big>" . $questoes[$f]['desenvolvimento_questao'] . "</big><br><br>";
+            header("Location: CONS__tela_aula_consumidor.php?id_aula=$id_aula");  
+            
+            die;
+        
+        } else {
+
+            echo "<h3><center>$nome_questionario</center></h3><br>";
+
+            echo "<form action='CONS_tela_questionario_consumidor_2.php' method='post'>";
 
 
-            if($questoes[$f]['distribuicao_alternativas'] == "aleatoria"){
+            if($distribuicao_questoes == "aleatoria"){
 
-                shuffle($questoes[$f]['alternativas']);
+                shuffle($questoes);
 
+            } 
+
+
+            for($f=0 ; $f<count($questoes) ; $f++){
+
+                echo "<big>" . $questoes[$f]['desenvolvimento_questao'] . "</big><br><br>";
+
+
+                if($questoes[$f]['distribuicao_alternativas'] == "aleatoria"){
+
+                    shuffle($questoes[$f]['alternativas']);
+
+                }
+
+
+                for($g=0 ; $g<count($questoes[$f]['alternativas']) ; $g++){
+
+
+                echo "<input type='radio'
+                    id='" .$questoes[$f]['alternativas'][$g]['id_alternativa']. "'
+                    name='" . $questoes[$f]['id_questao'] . "'
+                    value='" . $questoes[$f]['alternativas'][$g]['validade_alternativa'] . "'
+                    required>
+                    <label for='" .$questoes[$f]['alternativas'][$g]['id_alternativa']. "'>"
+                    . $questoes[$f]['alternativas'][$g]['desenvolvimento_alternativa'] . "
+                    </label><br>";
+
+                }
+                echo "<br><br>";
             }
 
 
-            for($g=0 ; $g<count($questoes[$f]['alternativas']) ; $g++){
+            echo "<input type='hidden' name='id_questionario' value='$id_questionario'>
+                <input type='submit' value='ENVIAR'>
+                <input type='reset' value='REDEFINIR'>  
+                </form>";
 
+            $_SESSION['questoes'] = $questoes;
 
-            echo "<input type='radio'
-                        id='" .$questoes[$f]['alternativas'][$g]['id_alternativa']. "'
-                        name='" . $questoes[$f]['id_questao'] . "'
-                        value='" . $questoes[$f]['alternativas'][$g]['validade_alternativa'] . "'
-                        required>
-                        <label for='" .$questoes[$f]['alternativas'][$g]['id_alternativa']. "'>"
-                            . $questoes[$f]['alternativas'][$g]['desenvolvimento_alternativa'] . "
-                        </label><br>";
-
-            }
-            echo "<br><br>";
         }
-
-
-        echo "<input type='submit' value='ENVIAR'>
-              <input type='reset' value='REDEFINIR'>  
-              </form>";
-
-        $_SESSION['questoes'] = $questoes;
 
     ?>
 </body>

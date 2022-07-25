@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="../_.materialize/css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="**../_.materialize/css/materialize.min.css"  media="screen,projection"/>
 
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -35,14 +35,19 @@
         $i= $_GET['i'];
 
 
-        //obtenção dos dados do material
+        //obtenção dos dados do questionário-
         $sql = "SELECT * FROM questionarios WHERE id_questionario=$id_questionario";
         $resultado = mysqli_query($conexao,$sql);
 
         $linha = mysqli_fetch_array($resultado);
 
         $id_aula = $linha['id_aula'];
-        //obtidos os dados do material
+        //-
+
+        $tempo = explode("-",$linha['tempo_proxima_realizacao']);
+        
+        $tempo_numero = $tempo[0];
+        $tempo_unidade = $tempo[1];
 
     ?>
 
@@ -80,6 +85,46 @@
             </label>
             
         </div>
+
+        <br>
+
+        <big>Tempo de espera para nova realização:</big><br>
+
+        <input type="number" name="tempo_numero" value="<?php echo $tempo_numero?>">
+        
+            <select name="tempo_unidade">
+                <?php
+                
+                    if($tempo_unidade == "M"){
+
+                        echo "<option value='M' selected>minutos</option>
+                              <option value='H'>horas</option>
+                              <option value='D'>dias</option>";
+
+                    }
+
+                    if($tempo_unidade == "H"){
+
+                        echo "<option value='M'>minutos</option>
+                              <option value='H' selected>horas</option>
+                              <option value='D'>dias</option>";
+
+                    }
+
+                    if($tempo_unidade == "D"){
+
+                        echo "<option value='M'>minutos</option>
+                              <option value='H'>horas</option>
+                              <option value='D' selected>dias</option>";
+
+                    }
+                
+                
+                ?>
+                
+            </select>
+
+        <br>
 
         <br>
         <br>

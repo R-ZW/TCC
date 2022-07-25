@@ -242,7 +242,7 @@ session_start();
 
             for($f=0 ; $f<count($id_questionario_valido) ; $f++){
 
-                echo "<a href='CONS_tela_questionario_consumidor_1.php?id_questionario=".$id_questionario_valido[$f]."'>".$nome_questionario[$f]."</a><br>";
+                echo "<a href='CONS_tela_questionario_consumidor_1.php?id_questionario=".$id_questionario_valido[$f]."&id_aula=$id_aula'>".$nome_questionario[$f]."</a><br>";
 
             }
 

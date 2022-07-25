@@ -12,13 +12,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="../_.materialize/css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="**../_.materialize/css/materialize.min.css"  media="screen,projection"/>
 
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <!--Link with configs-->
     <link rel="stylesheet" type="text/css" href="../_.materialize/css/configs.css">
+
+    <script>
+        $(document).ready(function(){
+        $('select').formSelect();
+        });
+    </script>
     
 </head>
 
@@ -58,6 +64,17 @@
             </label>
         </div>
         
+        <br>
+
+        <big>Tempo de espera para nova realização:</big><br>
+
+        <input type="number" name="tempo_numero">
+        
+            <select name="tempo_unidade">
+                <option value="M">minutos</option>
+                <option value="H">horas</option>
+                <option value="D">dias</option>
+            </select>
 
         <br>
         <br>

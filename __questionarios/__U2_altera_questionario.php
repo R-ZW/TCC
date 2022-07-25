@@ -18,8 +18,13 @@
 
     }
 
+    $tempo_numero = $_POST['tempo_numero'];
+    $tempo_unidade = $_POST['tempo_unidade'];
 
-    $sql = "UPDATE questionarios SET nome_questionario='$nome_questionario', distribuicao_questoes='$distribuicao_questoes' WHERE id_questionario=$id_questionario"; 
+    $tempo_proxima_realizacao = $tempo_numero."-".$tempo_unidade;
+
+
+    $sql = "UPDATE questionarios SET nome_questionario='$nome_questionario', distribuicao_questoes='$distribuicao_questoes', tempo_proxima_realizacao='$tempo_proxima_realizacao' WHERE id_questionario=$id_questionario"; 
     $resultado = mysqli_query($conexao,$sql);
 
     mysqli_close($conexao);

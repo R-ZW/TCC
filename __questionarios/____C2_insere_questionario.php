@@ -14,10 +14,11 @@
         $distribuicao_questoes = "padronizada";
 
     }
-    
 
-    date_default_timezone_set('America/Sao_Paulo');
-    $data = date("Y-m-d H:i:s");
+    $tempo_numero = $_POST['tempo_numero'];
+    $tempo_unidade = $_POST['tempo_unidade'];
+
+    $tempo_proxima_realizacao = $tempo_numero."-".$tempo_unidade;
 
 
     //obtendo o id_modulo-
@@ -52,8 +53,8 @@
 
 
     //inserindo os dados do questionario-
-    $sql_3 = "INSERT INTO questionarios(id_aula, nome_questionario, distribuicao_questoes, data_criacao_questionario) 
-    VALUES ('$id_aula', '$nome_questionario', '$distribuicao_questoes', '$data')";
+    $sql_3 = "INSERT INTO questionarios(id_aula, nome_questionario, distribuicao_questoes, tempo_proxima_realizacao) 
+    VALUES ('$id_aula', '$nome_questionario', '$distribuicao_questoes', '$tempo_proxima_realizacao')";
 
     $resultado_3 = mysqli_query($conexao,$sql_3);
     //-
@@ -69,8 +70,8 @@
 
         for($a=0 ; $a<count($email) ; $a++){
 
-            $sqla[$a] = "INSERT INTO relacao_usuario_questionario(email, id_questionario, id_curso, nota_usuario) 
-            VALUES ('". $email[$a] ."', '$id_questionario', '$id_curso', 'não-realizado')";
+            $sqla[$a] = "INSERT INTO relacao_usuario_questionario(email, id_questionario, id_curso, nota_usuario, data_proxima_realizacao) 
+            VALUES ('". $email[$a] ."', '$id_questionario', '$id_curso', 'não-realizado', '$data')";
 
             $resultadoa[$a] = mysqli_query($conexao, $sqla[$a]);
 
