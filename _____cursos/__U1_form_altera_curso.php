@@ -48,7 +48,7 @@
 
 
         //obtenção dos dados do curso
-        $sql = "SELECT nome_curso, descricao_curso, endereco_imagem_curso FROM cursos WHERE id_curso=$id_curso";
+        $sql = "SELECT * FROM cursos WHERE id_curso=$id_curso";
         $resultado = mysqli_query($conexao,$sql);
 
         $linha = mysqli_fetch_array($resultado);
@@ -70,9 +70,14 @@
         <big>Imagem do curso:</big><br><br><input type="file" name="endereco_imagem_curso" accept="image/*"><br>
 
         <br>
+
+        <big>Certificado de conclusão do curso (só disponível caso haja questionários válidos):</big><br><br><input type="file" name="endereco_certificado_curso" accept="image/*,.pdf"><br>
+
+        <br>
         <br>
 
         <input type="hidden" name="endereco_imagem_curso_pre_alteracao" value="<?php echo $linha['endereco_imagem_curso'];?>">
+        <input type="hidden" name="endereco_certificado_curso_pre_alteracao" value="<?php echo $linha['endereco_certificado_curso'];?>">
         <input type="hidden" name="id_curso" value="<?php echo $id_curso;?>">
         <input type="hidden" name="i" value="<?php echo $i;?>">
         <input type="hidden" name="email" value="<?php echo $email;?>">

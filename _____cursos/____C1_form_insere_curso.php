@@ -49,6 +49,10 @@
         <big>Imagem do curso:</big><br><br><input type="file" name="endereco_imagem_curso" accept="image/*"><br>
 
         <br>
+
+        <big>Certificado de conclusão do curso (só disponível caso haja questionários válidos):</big><br><br><input type="file" name="endereco_certificado_curso" accept="image/*,.pdf"><br>
+
+        <br>
         <br>
 
         <input type="hidden" name="email" value="<?php echo $email; ?>">

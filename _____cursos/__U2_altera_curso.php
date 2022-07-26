@@ -7,6 +7,7 @@
 
     $id_curso = $_POST['id_curso'];
     $endereco_imagem_curso_pre_alteracao = $_POST['endereco_imagem_curso_pre_alteracao'];
+    $endereco_certificado_curso_pre_alteracao = $_POST['endereco_certificado_curso_pre_alteracao'];
     $i = $_POST['i'];
     $email = $_POST['email'];
 
@@ -32,8 +33,27 @@
     
     }
 
+    if(isset($_FILES['endereco_certificado_curso'])){
 
-    $sql = "UPDATE cursos SET nome_curso='$nome_curso', descricao_curso='$descricao_curso', endereco_imagem_curso='$endereco_imagem_curso' WHERE id_curso=$id_curso"; 
+        $ext_1 = strrchr($_FILES['endereco_certificado_curso']['name'], '.');
+        $nome_1 = md5(time()).$ext_1;
+        $dir_1 = "certificados_curso/";
+    
+        move_uploaded_file($_FILES['endereco_certificado_curso']['tmp_name'], $dir_1.$nome_1);
+    
+    }
+    if($ext_1 != ""){
+    
+        $endereco_certificado_curso = "../../_____cursos/".$dir_1.$nome_1;
+    
+    } else {
+    
+        $endereco_certificado_curso = $endereco_certificado_curso_pre_alteracao;
+    
+    }
+
+
+    $sql = "UPDATE cursos SET nome_curso='$nome_curso', descricao_curso='$descricao_curso', endereco_imagem_curso='$endereco_imagem_curso', endereco_certificado_curso='$endereco_certificado_curso' WHERE id_curso=$id_curso"; 
     $resultado = mysqli_query($conexao,$sql);
 
     mysqli_close($conexao);

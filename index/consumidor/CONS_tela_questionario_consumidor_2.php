@@ -31,6 +31,7 @@
         include_once "../../_______necessarios/.conexao_bd.php";
 
         $id_questionario = $_POST['id_questionario'];
+        $id_aula = $_POST['id_aula'];
         $questoes = $_SESSION['questoes'];
         $email = $_SESSION['email'];
 
@@ -116,6 +117,8 @@
 
             echo "Parabéns! Sua nota foi de $nota_usuario%! <br><br>";
 
+            echo "<big><center>Gabarito</center></big>";
+
             for($b=0 ; $b<count($questoes) ; $b++){
 
                 echo "<big>" . $questoes[$b]['desenvolvimento_questao'] . "</big><br><br>";
@@ -156,5 +159,7 @@
 
         }
     ?>
+
+    <a href="CONS__tela_aula_consumidor.php?id_aula=<?php echo $id_aula;?>">Voltar</a>
 </body>
 </html>

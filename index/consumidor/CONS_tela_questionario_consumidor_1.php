@@ -186,9 +186,10 @@
 
 
             echo "<input type='hidden' name='id_questionario' value='$id_questionario'>
-                <input type='submit' value='ENVIAR'>
-                <input type='reset' value='REDEFINIR'>  
-                </form>";
+                  <input type='hidden' name='id_aula' value='$id_aula'>
+                  <input type='submit' value='ENVIAR'>
+                  <input type='reset' value='REDEFINIR'>  
+                  </form>";
 
             $_SESSION['questoes'] = $questoes;
 

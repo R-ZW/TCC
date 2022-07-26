@@ -22,7 +22,7 @@ session_start();
     
     }
 
-    $email = $_POST['email'];
+    $email = strtolower($_POST['email']);
     $senha = $_POST['senha'];
 
     $senhaMD5 = md5($senha);

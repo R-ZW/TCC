@@ -4,7 +4,7 @@
     include "../_______necessarios/.conexao_bd.php";
 
     $email_antigo = $_POST['email_antigo'];
-    $email_novo = $_POST['email_novo'];
+    $email_novo = strtolower($_POST['email_novo']);
     $id_curso = $_POST['id_curso'];
 
     if($email_antigo == $email_novo){

@@ -23,9 +23,28 @@
     
         $endereco_imagem_curso = "../../_____cursos/".$dir.$nome;
     
-    }else{
+    } else {
     
         $endereco_imagem_curso = "../../_.imgs_default/sem_imagem.png";
+    
+    }
+
+    if(isset($_FILES['endereco_certificado_curso'])){
+
+        $ext_1 = strrchr($_FILES['endereco_certificado_curso']['name'], '.');
+        $nome_1 = md5(time()).$ext_1;
+        $dir_1 = "certificados_curso/";
+    
+        move_uploaded_file($_FILES['endereco_certificado_curso']['tmp_name'], $dir_1.$nome_1);
+    
+    }
+    if($ext_1 != ""){
+    
+        $endereco_certificado_curso = "../../_____cursos/".$dir_1.$nome_1;
+    
+    } else {
+    
+        $endereco_certificado_curso = "sem-certificado";
     
     }
 
@@ -34,8 +53,8 @@
 
 
     //inserindo os dados do curso-
-    $sql = "INSERT INTO cursos(nome_curso, descricao_curso, endereco_imagem_curso, data_criacao_curso) 
-    VALUES ('$nome_curso', '$descricao_curso', '$endereco_imagem_curso', '$data')";
+    $sql = "INSERT INTO cursos(nome_curso, descricao_curso, endereco_imagem_curso, endereco_certificado_curso, data_criacao_curso) 
+    VALUES ('$nome_curso', '$descricao_curso', '$endereco_imagem_curso', '$endereco_certificado_curso', '$data')";
 
     $resultado = mysqli_query($conexao,$sql);
     // -

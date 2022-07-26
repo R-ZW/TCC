@@ -2,12 +2,12 @@
 
     include_once "../_______necessarios/.conexao_bd.php";
 
-    $email= $_POST['email'];
+    $email= strtolower($_POST['email']);
 
     $id_curso = $_POST['id_curso'];
 
     date_default_timezone_set('America/Sao_Paulo');
-    $data = new DateTime();
+    $data = date("Y-m-d H:i:s");
 
     //obtendo id_relacao_usuario_curso_usuario_curso
     $sq = "SELECT id_relacao_usuario_curso FROM relacao_usuario_curso WHERE email='$email' AND id_curso=$id_curso AND tipo_relacao='consumidor'";

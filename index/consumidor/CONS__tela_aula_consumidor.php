@@ -144,8 +144,6 @@ session_start();
                 
                 $id_questao_valida[] = $linhac['id_questao'];
 
-                
-
             }
 
         }
@@ -163,23 +161,13 @@ session_start();
                 $resultadod[$d] = mysqli_query($conexao, $sqld[$d]);
                 $linhad = mysqli_fetch_assoc($resultadod[$d]);
 
-                $valido[$d] = $linhad['id_questionario'];
-
-                
-                if($d == 0){
-
-                    $id_questionario_valido[$x] = $valido[$d];
-
-                } elseif($id_questionario_valido[$x] != $valido[$d]) {
-
-                    $x++;
-
-                    $id_questionario_valido[$x] = $valido[$d];
-
-                }
-
+                $id_questionario_valido1[] = $linhad['id_questionario'];
 
             }
+
+            $id_questionario_valido = array_unique($id_questionario_valido1);
+
+            sort($id_questionario_valido);
 
         }
         //-
