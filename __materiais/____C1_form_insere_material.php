@@ -47,6 +47,27 @@
         <br>
         <br>
 
+        <big>Visibilidade do material:</big><br><br>
+        
+        <div class="switch">
+            
+            <label>
+
+            <big>Visível</big>
+
+            <input type="checkbox" id="visibilidade_material" name="visibilidade_material" value="1">
+
+            <span class="lever"></span>
+
+            <big>Não visível</big>
+
+            </label>
+            
+        </div>
+
+        <br>
+        <br>
+
         <input type="hidden" name="id_aula" value="<?php echo $id_aula; ?>">
 
         <center>

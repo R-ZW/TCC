@@ -67,7 +67,7 @@ session_start();
 
 
         //obtenção dos dados dos materiais-
-        $sql_1 = "SELECT * FROM materiais WHERE id_aula=$id_aula";
+        $sql_1 = "SELECT * FROM materiais WHERE visibilidade_material='visível' AND id_aula=$id_aula";
         $resultado_1 = mysqli_query($conexao,$sql_1); 
 
         while($linha_1 = mysqli_fetch_assoc($resultado_1))
@@ -82,7 +82,7 @@ session_start();
 
 
         //obtendo os questionários da aula-
-        $sql_2 = "SELECT id_questionario FROM questionarios WHERE id_aula=$id_aula";
+        $sql_2 = "SELECT id_questionario FROM questionarios WHERE visibilidade_questionario='visível' AND id_aula=$id_aula";
         $resultado_2 = mysqli_query($conexao, $sql_2);
         while ($linha_2 = mysqli_fetch_assoc($resultado_2))
         {

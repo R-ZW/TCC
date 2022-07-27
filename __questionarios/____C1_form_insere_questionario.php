@@ -51,6 +51,7 @@
         <big>Distribuição das questões:</big><br><br>
         
         <div class="switch">
+
             <label>
 
             <big>Padronizada</big>
@@ -62,6 +63,7 @@
             <big>Aleatória</big>
 
             </label>
+
         </div>
         
         <br>
@@ -75,6 +77,27 @@
                 <option value="H">horas</option>
                 <option value="D">dias</option>
             </select>
+
+        <br>
+        <br>
+
+        <big>Visibilidade do questionário:</big><br><br>
+        
+        <div class="switch">
+            
+            <label>
+
+            <big>Visível</big>
+
+            <input type="checkbox" id="visibilidade_questionario" name="visibilidade_questionario" value="1">
+
+            <span class="lever"></span>
+
+            <big>Não visível</big>
+
+            </label>
+            
+        </div>
 
         <br>
         <br>

@@ -54,7 +54,7 @@
 
 
         //obtenção dos dados da aula
-        $sql_2 = "SELECT nome_aula, descricao_aula, endereco_imagem_aula FROM aulas WHERE id_aula=$id_aula";
+        $sql_2 = "SELECT * FROM aulas WHERE id_aula=$id_aula";
         $resultado_2 = mysqli_query($conexao,$sql_2);
 
         $linha_2 = mysqli_fetch_array($resultado_2);
@@ -74,6 +74,39 @@
         <br>
 
         <big>Imagem da aula:</big><br><br><input type="file" name="endereco_imagem_aula" accept="image/*"><br>
+
+        <br>
+        <br>
+
+        <big>Visibilidade da aula:</big><br><br>
+        
+        <div class="switch">
+            
+            <label>
+
+            <big>Visível</big>
+
+            <?php
+            
+                if($linha_2['visibilidade_aula'] == "visível"){
+
+                    echo "<input type='checkbox' id='visibilidade_aula' name='visibilidade_aula' value='1'>";
+
+                } else {
+
+                    echo "<input type='checkbox' id='visibilidade_aula' name='visibilidade_aula' value='1' checked>";
+
+                }
+            
+            ?>
+
+            <span class="lever"></span>
+
+            <big>Não visível</big>
+
+            </label>
+            
+        </div>
 
         <br>
         <br>

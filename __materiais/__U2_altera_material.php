@@ -28,8 +28,18 @@
     
     }
 
+    if(isset($_POST['visibilidade_material'])){
 
-    $sql = "UPDATE materiais SET nome_material='$nome_material', endereco_material='$endereco_material' WHERE id_material=$id_material"; 
+        $visibilidade_material = "não-visível";
+
+    } else {
+
+        $visibilidade_material = "visível";
+
+    }
+
+
+    $sql = "UPDATE materiais SET nome_material='$nome_material', endereco_material='$endereco_material', visibilidade_material='$visibilidade_material' WHERE id_material=$id_material"; 
     $resultado = mysqli_query($conexao,$sql);
 
     mysqli_close($conexao);

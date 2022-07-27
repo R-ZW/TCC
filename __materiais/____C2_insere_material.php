@@ -18,13 +18,23 @@
     
     }
 
+    if(isset($_POST['visibilidade_material'])){
+
+        $visibilidade_material = "não-visível";
+
+    } else {
+
+        $visibilidade_material = "visível";
+
+    }
+
     date_default_timezone_set('America/Sao_Paulo');
     $data = date("Y-m-d H:i:s");
 
 
     //inserindo os dados do material-
-    $sql = "INSERT INTO materiais(id_aula, nome_material, endereco_material, data_criacao_material) 
-    VALUES ('$id_aula', '$nome_material', '$endereco_material', '$data')";
+    $sql = "INSERT INTO materiais(id_aula, nome_material, endereco_material, visibilidade_material, data_criacao_material) 
+    VALUES ('$id_aula', '$nome_material', '$endereco_material', '$visibilidade_material', '$data')";
 
     $resultado = mysqli_query($conexao,$sql);
     // -

@@ -55,6 +55,26 @@
         <br>
         <br>
 
+        <big>Visibilidade do curso:</big><br><br>
+        
+        <div class="switch">
+            
+            <label>
+
+            <big>Visível</big>
+
+            <input type="checkbox" id="visibilidade_curso" name="visibilidade_curso" value="1">
+
+            <span class="lever"></span>
+
+            <big>Não visível</big>
+
+            </label>
+        </div>
+        
+        <br>
+        <br>
+
         <input type="hidden" name="email" value="<?php echo $email; ?>">
 
         <center>

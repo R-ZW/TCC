@@ -56,6 +56,39 @@
         <br>
         <br>
 
+        <big>Visibilidade do material:</big><br><br>
+        
+        <div class="switch">
+            
+            <label>
+
+            <big>Visível</big>
+
+            <?php
+            
+                if($linha['visibilidade_material'] == "visível"){
+
+                    echo "<input type='checkbox' id='visibilidade_material' name='visibilidade_material' value='1'>";
+
+                } else {
+
+                    echo "<input type='checkbox' id='visibilidade_material' name='visibilidade_material' value='1' checked>";
+
+                }
+            
+            ?>
+
+            <span class="lever"></span>
+
+            <big>Não visível</big>
+
+            </label>
+            
+        </div>
+
+        <br>
+        <br>
+
         <input type="hidden" name="id_material" value="<?php echo $id_material;?>">
         <input type="hidden" name="id_aula" value="<?php echo $id_aula;?>">
         <input type="hidden" name="endereco_material_pre_alteracao" value="<?php echo $linha['endereco_material'];?>">

@@ -28,8 +28,17 @@
     
     }
 
+    if(isset($_POST['visibilidade_modulo'])){
 
-    $sql = "UPDATE modulos SET nome_modulo='$nome_modulo', descricao_modulo='$descricao_modulo', endereco_imagem_modulo='$endereco_imagem_modulo' WHERE id_modulo=$id_modulo"; 
+        $visibilidade_modulo = "não-visível";
+
+    } else {
+
+        $visibilidade_modulo = "visível";
+
+    }
+
+    $sql = "UPDATE modulos SET nome_modulo='$nome_modulo', descricao_modulo='$descricao_modulo', endereco_imagem_modulo='$endereco_imagem_modulo', visibilidade_modulo='$visibilidade_modulo' WHERE id_modulo=$id_modulo"; 
     $resultado = mysqli_query($conexao,$sql);
 
     $sql_1 = "SELECT id_curso FROM modulos WHERE id_modulo=$id_modulo";

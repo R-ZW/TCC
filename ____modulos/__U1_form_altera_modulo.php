@@ -68,6 +68,39 @@
         <br>
         <br>
 
+        <big>Visibilidade do módulo:</big><br><br>
+        
+        <div class="switch">
+            
+            <label>
+
+            <big>Visível</big>
+
+            <?php
+            
+                if($linha['visibilidade_modulo'] == "visível"){
+
+                    echo "<input type='checkbox' id='visibilidade_modulo' name='visibilidade_modulo' value='1'>";
+
+                } else {
+
+                    echo "<input type='checkbox' id='visibilidade_modulo' name='visibilidade_modulo' value='1' checked>";
+
+                }
+            
+            ?>
+
+            <span class="lever"></span>
+
+            <big>Não visível</big>
+
+            </label>
+            
+        </div>
+
+        <br>
+        <br>
+
         <input type="hidden" name="endereco_imagem_modulo_pre_alteracao" value="<?php echo $linha['endereco_imagem_modulo'];?>">
         <input type="hidden" name="id_modulo" value="<?php echo $id_modulo;?>">
 

@@ -47,8 +47,18 @@
     
     }
 
+    if(isset($_POST['visibilidade_aula'])){
 
-    $sql_2 = "UPDATE aulas SET nome_aula='$nome_aula', descricao_aula='$descricao_aula', endereco_imagem_aula='$endereco_imagem_aula' WHERE id_aula=$id_aula"; 
+        $visibilidade_aula = "não-visível";
+
+    } else {
+
+        $visibilidade_aula = "visível";
+
+    }
+
+
+    $sql_2 = "UPDATE aulas SET nome_aula='$nome_aula', descricao_aula='$descricao_aula', endereco_imagem_aula='$endereco_imagem_aula', visibilidade_aula='$visibilidade_aula' WHERE id_aula=$id_aula"; 
     $resultado_2 = mysqli_query($conexao,$sql_2);
 
     mysqli_close($conexao);

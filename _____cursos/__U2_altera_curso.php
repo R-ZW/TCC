@@ -52,8 +52,17 @@
     
     }
 
+    if(isset($_POST['visibilidade_curso'])){
 
-    $sql = "UPDATE cursos SET nome_curso='$nome_curso', descricao_curso='$descricao_curso', endereco_imagem_curso='$endereco_imagem_curso', endereco_certificado_curso='$endereco_certificado_curso' WHERE id_curso=$id_curso"; 
+        $visibilidade_curso = "não-visível";
+
+    } else {
+
+        $visibilidade_curso = "visível";
+
+    }
+
+    $sql = "UPDATE cursos SET nome_curso='$nome_curso', descricao_curso='$descricao_curso', endereco_imagem_curso='$endereco_imagem_curso', endereco_certificado_curso='$endereco_certificado_curso', visibilidade_curso='$visibilidade_curso' WHERE id_curso=$id_curso"; 
     $resultado = mysqli_query($conexao,$sql);
 
     mysqli_close($conexao);

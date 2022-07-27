@@ -47,43 +47,53 @@ session_start();
         }
         //fim da obtenção dos cursos associados a um usuário 
 
+
         if(isset($id_curso)){
             //obtenção dos dados dos cursos
             $b=0;
             while($b<count($id_curso)){
 
-                $sqlb[$b]= "SELECT nome_curso, descricao_curso, endereco_imagem_curso FROM cursos WHERE id_curso=".$id_curso[$b];
+                $sqlb[$b]= "SELECT * FROM cursos WHERE visibilidade_curso='visível' AND id_curso=".$id_curso[$b];
                 $resultadob[$b] = mysqli_query($conexao,$sqlb[$b]); 
 
-                while($linhab[$b] = mysqli_fetch_assoc($resultadob[$b]))
-                {
-                    $nome_curso[$b]= $linhab[$b]['nome_curso'];
-	                $descricao_curso[$b]= $linhab[$b]['descricao_curso'];
-	                $endereco_imagem_curso[$b]= $linhab[$b]['endereco_imagem_curso'];
+                if(isset($resultadob[$b])){
+                    
+                    while($linhab[$b] = mysqli_fetch_assoc($resultadob[$b]))
+                    {
+                        $id_cursov[] = $linhab[$b]['id_curso'];
+                        $nome_curso[] = $linhab[$b]['nome_curso'];
+                        $descricao_curso[]= $linhab[$b]['descricao_curso'];
+                        $endereco_imagem_curso[]= $linhab[$b]['endereco_imagem_curso'];
 
-                } 
+                    } 
+                    
+                    /*
+                    if(strlen($linhab[$b]['descricao_curso'])>=950){
 
-                if(strlen($descricao_curso[$b])>=950){
+                        $str = $linhab[$b]['descricao_curso'];
 
-                    $str = $descricao_curso[$b];
+                        $p1 = substr("$str", 0, 950);
+                        $p2 = "$p1"."...";
 
-                    $p1 = substr("$str", 0, 950);
-                    $p2 = "$p1"."...";
+                        $descricao_curso[]= $p2;
 
-                    $descricao_curso[$b]= $p2;
-
+                    }
+                    */
+                    
                 }
 
                 $b++;
 
             }
             //fim da obtenção dos dados dos cursos
+        }
 
-
-            for($i=0 ; $i<count($id_curso) ; $i++){
+        if(isset($id_cursov)){
+            
+            for($i=0 ; $i<count($id_cursov) ; $i++){
 
                 echo "
-                    <a href='CONS___tela_curso_consumidor.php?id_curso=" . $id_curso[$i] . "&email=$email' class='link-curso'>
+                    <a href='CONS___tela_curso_consumidor.php?id_curso=" . $id_cursov[$i] . "&email=$email' class='link-curso'>
                         <div class='card-panel hoverable'>
                             <div class='row '>
                                 <div class='col s4 m4 l4 flow-text'>
@@ -102,7 +112,7 @@ session_start();
                     <br>
                 ";
 
-            }
+            } 
 
         } else {
 

@@ -53,7 +53,7 @@ session_start();
 
 
         //obtenção dos dados dos módulos-
-        $sql_1 = "SELECT * FROM modulos WHERE id_curso=$id_curso";
+        $sql_1 = "SELECT * FROM modulos WHERE visibilidade_modulo='visível' AND id_curso=$id_curso";
         $resultado_1 = mysqli_query($conexao,$sql_1); 
 
         while($linha_1 = mysqli_fetch_assoc($resultado_1))
@@ -74,7 +74,7 @@ session_start();
             $i=0;
             while($i<count($id_modulo)){
 
-                $sqli[$i] = "SELECT * FROM aulas WHERE id_modulo=$id_modulo[$i]";
+                $sqli[$i] = "SELECT * FROM aulas WHERE visibilidade_aula='visível' AND id_modulo=$id_modulo[$i]";
                 $resultadoi[$i] = mysqli_query($conexao,$sqli[$i]);
     
                 while($linhai[$i] = mysqli_fetch_assoc($resultadoi[$i])){
@@ -98,7 +98,7 @@ session_start();
 
             for($a=0 ; $a<count($id_aula_alt) ; $a++){
 
-                $sqla[$a] = "SELECT id_questionario FROM questionarios WHERE id_aula=".$id_aula_alt[$a];
+                $sqla[$a] = "SELECT id_questionario FROM questionarios WHERE visibilidade_questionario='visível' AND id_aula=".$id_aula_alt[$a];
                 $resultadoa[$a] = mysqli_query($conexao, $sqla[$a]);
 
                 while ($linhaa = mysqli_fetch_assoc($resultadoa[$a]))
@@ -239,15 +239,19 @@ session_start();
             }
 
         }
-        
-        if($qtd_media == count($id_questionario_valido)){
 
-            $validade = "baixável";
+        if(isset($id_questionario_valido)){
 
-        } else {
+            if($qtd_media == count($id_questionario_valido)){
 
-            $validade = "não-baixável";
+                $validade = "baixável";
 
+            } else {
+
+                $validade = "não-baixável";
+
+            }
+            
         }
         //----------------------
 

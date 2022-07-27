@@ -26,13 +26,23 @@
     
     }
 
+    if(isset($_POST['visibilidade_aula'])){
+
+        $visibilidade_aula = "não-visível";
+
+    } else {
+
+        $visibilidade_aula = "visível";
+
+    }
+
     date_default_timezone_set('America/Sao_Paulo');
     $data = date("Y-m-d H:i:s");
 
 
     //inserindo os dados da aula-
-    $sql = "INSERT INTO aulas(id_modulo, nome_aula, descricao_aula, endereco_imagem_aula, data_criacao_aula) 
-    VALUES ('$id_modulo', '$nome_aula', '$descricao_aula', '$endereco_imagem_aula', '$data')";
+    $sql = "INSERT INTO aulas(id_modulo, nome_aula, descricao_aula, endereco_imagem_aula, visibilidade_aula, data_criacao_aula) 
+    VALUES ('$id_modulo', '$nome_aula', '$descricao_aula', '$endereco_imagem_aula', '$visibilidade_aula', '$data')";
 
     $resultado = mysqli_query($conexao,$sql);
     // -

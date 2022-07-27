@@ -60,6 +60,7 @@
         <big>Distribuição das questões:</big><br><br>
 
         <div class="switch">
+            
             <label>
 
             <big>Padronizada</big>
@@ -125,6 +126,37 @@
             </select>
 
         <br>
+        <br>
+
+        <big>Visibilidade do questionário:</big><br><br>
+        
+        <div class="switch">
+            
+            <label>
+
+            <big>Visível</big>
+
+            <?php
+            
+                if($linha['visibilidade_questionario'] == "visível"){
+
+                    echo "<input type='checkbox' id='visibilidade_questionario' name='visibilidade_questionario' value='1'>";
+
+                } else {
+
+                    echo "<input type='checkbox' id='visibilidade_questionario' name='visibilidade_questionario' value='1' checked>";
+
+                }
+            
+            ?>
+
+            <span class="lever"></span>
+
+            <big>Não visível</big>
+
+            </label>
+            
+        </div>
 
         <br>
         <br>

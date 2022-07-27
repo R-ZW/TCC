@@ -15,10 +15,22 @@
 
     }
 
+    
     $tempo_numero = $_POST['tempo_numero'];
     $tempo_unidade = $_POST['tempo_unidade'];
 
     $tempo_proxima_realizacao = $tempo_numero."-".$tempo_unidade;
+
+
+    if(isset($_POST['visibilidade_questionario'])){
+
+        $visibilidade_questionario = "não-visível";
+
+    } else {
+
+        $visibilidade_questionario = "visível";
+
+    }
 
 
     //obtendo o id_modulo-
@@ -53,8 +65,8 @@
 
 
     //inserindo os dados do questionario-
-    $sql_3 = "INSERT INTO questionarios(id_aula, nome_questionario, distribuicao_questoes, tempo_proxima_realizacao) 
-    VALUES ('$id_aula', '$nome_questionario', '$distribuicao_questoes', '$tempo_proxima_realizacao')";
+    $sql_3 = "INSERT INTO questionarios(id_aula, nome_questionario, distribuicao_questoes, tempo_proxima_realizacao, visibilidade_questionario) 
+    VALUES ('$id_aula', '$nome_questionario', '$distribuicao_questoes', '$tempo_proxima_realizacao', '$visibilidade_questionario')";
 
     $resultado_3 = mysqli_query($conexao,$sql_3);
     //-
