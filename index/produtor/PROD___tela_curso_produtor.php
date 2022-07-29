@@ -46,6 +46,7 @@
 	        $descricao_curso = $linha['descricao_curso'];
 	        $endereco_imagem_curso = $linha['endereco_imagem_curso'];
             $endereco_certificado_curso = $linha['endereco_certificado_curso'];
+            $visibilidade_curso = $linha['visibilidade_curso'];
 
         } 
         //-
@@ -62,6 +63,7 @@
             $nome_modulo[]= $linha_1['nome_modulo'];
             $descricao_modulo[]= $linha_1['descricao_modulo'];
             $endereco_imagem_modulo[]= $linha_1['endereco_imagem_modulo'];
+            $visibilidade_modulo[] = $linha_1['visibilidade_modulo'];
 
         }
         //-
@@ -84,6 +86,7 @@
                     $nome_aula[$i][]= $linhai[$i]['nome_aula'];
                     $descricao_aula[$i][]= $linhai[$i]['descricao_aula'];
                     $endereco_imagem_aula[$i][]= $linhai[$i]['endereco_imagem_aula'];
+                    $visibilidade_aula[$i][]= $linhai[$i]['visibilidade_aula'];
 
                 }
             $i++;
@@ -154,12 +157,26 @@
             //----------------------
 
 
-            echo "<h2 class='center-align bold'>$nome_curso
+            echo "<h3 class='center-align bold'>$nome_curso
             <a href='../../_____cursos/__U1_form_altera_curso.php?id_curso=$id_curso&i=1' class='link-curso'><i class='material-icons small'>edit</i></a>
             <a href='../../_____cursos/_D1_excluir_curso.php?id_curso=$id_curso' class='link-curso'><i class='material-icons small'>delete</i></a>
-            </h2><br>";
+            ";
+
+            if($visibilidade_curso == "visível"){
+
+                echo "<a href='../../_____cursos/inversao_situacao_visibilidade_curso.php?id_curso=$id_curso&i=1' class='link-curso'><i class='fa fa-eye'></i></a>";
+
+            } else {
+
+                echo "<a href='../../_____cursos/inversao_situacao_visibilidade_curso.php?id_curso=$id_curso&i=1' class='link-curso'><i class='fa fa-eye-slash'></i></a>";
+                
+            }
+            
+
+            echo "</h3><br>";
             echo "<center><img src=$endereco_imagem_curso class='materialboxed' width='50%'></center><br><br>";
             echo "<h5 class='justify'>$descricao_curso</h4><br>";
+
 
             if(!isset($id_alternativa_valida) and $endereco_certificado_curso=="sem-certificado"){
 
@@ -178,6 +195,7 @@
                 echo "<a href='$endereco_certificado_curso' download class='white-text'><div class='waves-effect waves-light btn bold'>BAIXAR CERTIFICADO<i class='material-icons right'>download</i></div></a></h5><br>";
 
             }
+
             
             echo "<br><br>";
         
@@ -190,7 +208,19 @@
                         <div class='row'>
                             <h4 class='bold center-align'>" . $nome_modulo[$i] . " 
                             <a href='../../____modulos/__U1_form_altera_modulo.php?id_modulo=".$id_modulo[$i]."' class='link-curso'> <i class='material-icons small'>edit</i></a>
-                            <a href='../../____modulos/_D1_excluir_modulo.php?id_modulo=".$id_modulo[$i]."' class='link-curso'><i class='material-icons small'>delete</i></a>
+                            <a href='../../____modulos/_D1_excluir_modulo.php?id_modulo=".$id_modulo[$i]."' class='link-curso'><i class='material-icons small'>delete</i></a> ";
+
+                            if($visibilidade_modulo[$i] == "visível"){
+
+                                echo "<a href='../../____modulos/inversao_situacao_visibilidade_modulo.php?id_curso=$id_curso&id_modulo=".$id_modulo[$i]."' class='link-curso'><i class='fa fa-eye'></i></a>";
+                
+                            } else {
+                
+                                echo "<a href='../../____modulos/inversao_situacao_visibilidade_modulo.php?id_curso=$id_curso&id_modulo=".$id_modulo[$i]."' class='link-curso'><i class='fa fa-eye-slash'></i></a>";
+                                
+                            }
+
+echo"                            
                             </h4><br><br>
                                 <div class='col s4 m4 l4 flow-text'>
                                 
@@ -209,7 +239,17 @@
 
                             echo "<big>- <a href='PROD__tela_aula_produtor.php?id_aula=".$id_aula[$i][$j]."'>".$nome_aula[$i][$j]."</a> </big> 
                             <a href='../../___aulas/__U1_form_altera_aula.php?id_aula=".$id_aula[$i][$j]."&i=0'class='link-curso'><i class='material-icons'>edit</i></a>
-                            <a href='../../___aulas/_D1_excluir_aula.php?id_aula=".$id_aula[$i][$j]."'class='link-curso'><i class='material-icons'>delete</i></a><br>";
+                            <a href='../../___aulas/_D1_excluir_aula.php?id_aula=".$id_aula[$i][$j]."'class='link-curso'><i class='material-icons'>delete</i></a> ";
+
+                            if($visibilidade_aula[$i][$j] == "visível"){
+
+                                echo "<a href='../../___aulas/inversao_situacao_visibilidade_aula.php?id_curso=$id_curso&id_aula=".$id_aula[$i][$j]."&i=0' class='link-curso'><i class='fa fa-eye fa-2x'></i></a><br>";
+                
+                            } else {
+                
+                                echo "<a href='../../___aulas/inversao_situacao_visibilidade_aula.php?id_curso=$id_curso&id_aula=".$id_aula[$i][$j]."&i=0' class='link-curso'><i class='fa fa-eye-slash fa-2x'></i></a><br>";
+                                
+                            }
 
                         }
 

@@ -35,6 +35,15 @@ if($p>0){
 
     $sql_1 = "DELETE FROM relacao_usuario_curso WHERE email='$email' AND tipo_relacao='consumidor'";
     $resultado_1 = mysqli_query($conexao,$sql_1);
+
+    $sql_2 = "DELETE FROM favoritos_curso WHERE email='$email'";
+    $resultado_2 = mysqli_query($conexao,$sql_2);
+
+    $sql_3 = "DELETE FROM favoritos_modulo WHERE email='$email'";
+    $resultado_3 = mysqli_query($conexao,$sql_3);
+
+    $sql_4 = "DELETE FROM favoritos_aula WHERE email='$email'";
+    $resultado_4 = mysqli_query($conexao,$sql_4);
     
     mysqli_close($conexao);
     
@@ -47,5 +56,3 @@ if($p>0){
 }
 
 ?>
-</body>
-</html>

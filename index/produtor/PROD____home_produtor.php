@@ -57,7 +57,7 @@ echo exibeMensagens();
             $b=0;
             while($b<count($id_curso)){
 
-                $sqlb[$b]= "SELECT nome_curso, descricao_curso, endereco_imagem_curso FROM cursos WHERE id_curso=".$id_curso[$b];
+                $sqlb[$b]= "SELECT * FROM cursos WHERE id_curso=".$id_curso[$b];
                 $resultadob[$b] = mysqli_query($conexao,$sqlb[$b]); 
 
                 while($linhab[$b] = mysqli_fetch_assoc($resultadob[$b]))
@@ -65,6 +65,7 @@ echo exibeMensagens();
                     $nome_curso[$b]= $linhab[$b]['nome_curso'];
 	                $descricao_curso[$b]= $linhab[$b]['descricao_curso'];
 	                $endereco_imagem_curso[$b]= $linhab[$b]['endereco_imagem_curso'];
+                    $visibilidade_curso[$b]= $linhab[$b]['visibilidade_curso'];
 
                 }
                 
@@ -109,8 +110,22 @@ echo exibeMensagens();
                                 </div> 
 
                             </div>
-                            <div class='center-align'><a href='../../_____cursos/__U1_form_altera_curso.php?id_curso=" . $id_curso[$i] . "&i=0' class='edita-exclui'><i class='material-icons small'>edit</i></a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                                <a href='../../_____cursos/_D1_excluir_curso.php?id_curso=" . $id_curso[$i] . "' class='edita-exclui'><i class='material-icons small'>delete</i></a></div>
+                            <div class='center-align'>
+
+                                <a href='../../_____cursos/__U1_form_altera_curso.php?id_curso=" . $id_curso[$i] . "&i=0' class='edita-exclui'><i class='material-icons small'>edit</i></a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                <a href='../../_____cursos/_D1_excluir_curso.php?id_curso=" . $id_curso[$i] . "' class='edita-exclui'><i class='material-icons small'>delete</i></a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+                            
+                                if($visibilidade_curso[$i] == "visível"){
+
+                                    echo "<a href='../../_____cursos/inversao_situacao_visibilidade_curso.php?id_curso=".$id_curso[$i]."&i=0' class='edita-exclui'><i class='fa fa-eye fa-2x'></i></a>";
+                    
+                                } else {
+                    
+                                    echo "<a href='../../_____cursos/inversao_situacao_visibilidade_curso.php?id_curso=".$id_curso[$i]."&i=0' class='edita-exclui'><i class='fa fa-eye-slash fa-2x'></i></a>";
+                                    
+                                }
+echo"    
+                            </div>
                             
                         </div>
                     

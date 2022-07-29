@@ -42,6 +42,7 @@
             $id_aula = $linha['id_aula'];
             $nome_questionario = $linha['nome_questionario'];
             $distribuicao_questoes = $linha['distribuicao_questoes'];
+            $visibilidade_questionario = $linha['visibilidade_questionario'];
             //obtido o questionario
 
 
@@ -60,7 +61,20 @@
 
             echo "<center><h3> $nome_questionario";
             echo " <a href='../../__questionarios/__U1_form_altera_questionario.php?id_questionario=$id_questionario&i=1' class='link-curso'><i class='material-icons small'>edit</i></a>
-                   <a href='../../__questionarios/_D1_excluir_questionario.php?&id_questionario=$id_questionario' class='link-curso'><i class='material-icons small'>delete</i></a></center></h3><br><br><br><br>";
+                   <a href='../../__questionarios/_D1_excluir_questionario.php?&id_questionario=$id_questionario' class='link-curso'><i class='material-icons small'>delete</i></a> ";
+                   
+            if($visibilidade_questionario == "visível"){
+
+                echo "<a href='../../__questionarios/inversao_situacao_visibilidade_questionario.php?id_aula=$id_aula&id_questionario=$id_questionario&i=1' class='link-curso'><i class='fa fa-eye'></i></a><br>";
+
+            } else {
+
+                echo "<a href='../../__questionarios/inversao_situacao_visibilidade_questionario.php?id_aula=$id_aula&id_questionario=$id_questionario&i=1' class='link-curso'><i class='fa fa-eye-slash'></i></a><br>";
+                
+            } 
+                   
+echo "
+                   </center></h3><br><br><br><br>";
             
 
             if(isset($id_questao)){

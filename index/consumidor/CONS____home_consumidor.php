@@ -93,9 +93,10 @@ session_start();
             for($i=0 ; $i<count($id_cursov) ; $i++){
 
                 echo "
-                    <a href='CONS___tela_curso_consumidor.php?id_curso=" . $id_cursov[$i] . "&email=$email' class='link-curso'>
+                    <a href='CONS___tela_curso_consumidor.php?id_curso=" . $id_cursov[$i] . "' class='link-curso'>
                         <div class='card-panel hoverable'>
-                            <div class='row '>
+
+                            <div class='row'>
                                 <div class='col s4 m4 l4 flow-text'>
                                 
                                     <img src=" . $endereco_imagem_curso[$i] ." class='img-curso'>
@@ -106,7 +107,41 @@ session_start();
                                     <h4 class='bold'>" . $nome_curso[$i] . "</h4>
                                     <h6 class='descricao-curso'>" . $descricao_curso[$i] . "<br><br>
                                 </div>
-                            </div>
+                            </div>";
+
+                            $sqli[$i] = "SELECT * FROM favoritos_curso WHERE email='$email' AND id_curso=".$id_cursov[$i];
+                            $resultadoi[$i] = mysqli_query($conexao, $sqli[$i]);
+
+                            if($resultadoi[$i] == true){
+
+                                if($linhai[$i] = mysqli_fetch_assoc($resultadoi[$i])){
+
+                                    $situacao_favorito_curso[$i] = $linhai[$i]['situacao_favorito_curso'];
+
+                                }
+
+                            }
+
+                            if(isset($situacao_favorito_curso[$i])){
+
+                                if($situacao_favorito_curso[$i] == "favorito"){
+
+                                    echo "<center><a href='../../_____cursos/favorito_curso.php?id_curso=".$id_cursov[$i]."&i=0' class='edita-exclui'><i class='fa fa-star fa-2x'></i></a></center>";
+
+                                } else {
+
+                                    echo "<center><a href='../../_____cursos/favorito_curso.php?id_curso=".$id_cursov[$i]."&i=0' class='edita-exclui'><i class='fa fa-star-o fa-2x'></i></a></center>";
+
+                                }
+
+                            } else {
+
+                                echo "<center><a href='../../_____cursos/favorito_curso.php?id_curso=".$id_cursov[$i]."&i=0' class='edita-exclui'><i class='fa fa-star-o fa-2x'></i></a></center>";
+
+                            }
+
+echo "
+
                         </div>
                     </a>
                     <br>

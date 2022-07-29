@@ -38,7 +38,7 @@
 
     <form action="__U2_altera_associacao_usuario.php" method="post">
 
-        <big>Email do Usuário</big>: <input type="text" name="email_novo" value="<?php echo $email_antigo?>" required><br>
+        <big>Email do Usuário</big>: <input type="email" name="email_novo" value="<?php echo $email_antigo?>" required><br>
 
         <input type="hidden" name="email_antigo" value="<?php echo $email_antigo?>"> 
         <input type="hidden" name="id_curso" value="<?php echo $id_curso?>"> 

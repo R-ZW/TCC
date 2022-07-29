@@ -4,16 +4,17 @@
 
     $id_modulo = $_GET['id_modulo'];
 
-    //obtendo o id_curso
+
+    //obtendo o id_curso-
     $sql = "SELECT id_curso FROM modulos WHERE id_modulo=$id_modulo";
     $resultado = mysqli_query($conexao,$sql);
     $linha = mysqli_fetch_assoc($resultado);
 
     $id_curso = $linha['id_curso'];
-    //obtido o id_curso
+    //-
 
 
-    //obtendo o id_aula
+    //obtendo o id_aula-
     $sql_1 = "SELECT id_aula FROM aulas WHERE id_modulo=$id_modulo";
     $resultado_1 = mysqli_query($conexao,$sql_1);
 
@@ -23,10 +24,10 @@
         $id_aula[]= $linha_1['id_aula']; 
 
     }
-    //obtido o id_aula
+    //-
     
 
-    //obtendo os questionarios
+    //obtendo os questionarios-
     if(isset($id_aula) or isset($linha_1)){
 
         for($a=0 ; $a<count($id_aula) ; $a++){
@@ -44,10 +45,10 @@
         }
 
     }
-    //obtidos os questionarios
+    //-
 
 
-    //obtendo as questões
+    //obtendo as questões-
     if(isset($id_questionario) or isset($linhaa)){
 
         for($b=0 ; $b<count($id_questionario) ; $b++){
@@ -63,10 +64,10 @@
         }
 
     }
-    //obtidas as questões
+    //-
 
 
-    //deletando as alternativas
+    //deletando as alternativas-
     if(isset($id_questao) or isset($linhab)){
 
         for($c=0 ; $c<count($id_questao) ; $c++){
@@ -77,7 +78,7 @@
         }
 
     }
-    //deletadas as alternativas
+    //-
 
 
     if(isset($id_questionario) or isset($linhaa)){
@@ -104,7 +105,7 @@
     }
 
 
-    //deletando os questionários
+    //deletando os questionários-
     if(isset($id_aula) or isset($linha_1)){
 
         for($f=0 ; $f<count($id_aula) ; $f++){
@@ -115,10 +116,10 @@
         }
 
     }
-    //deletados os questionários
+    //-
 
 
-    //deletando os materiais da aula
+    //deletando os materiais da aula-
     if(isset($id_aula) or isset($linha_1)){
 
         for($g=0 ; $g<count($id_aula) ; $g++){
@@ -129,19 +130,35 @@
         }
 
     }
-    //delatados os materiais
+    //-
 
 
-    //deletando a aula
+    //deletando a aula-
     $sql_2 = "DELETE FROM aulas WHERE id_modulo=$id_modulo";
     $resultado_2 = mysqli_query($conexao,$sql_2);
-    //delatada a aula
+    //-
 
     
-    //deletando o módulo
+    //deletando o módulo-
     $sql_3 = "DELETE FROM modulos WHERE id_modulo=$id_modulo";
     $resultado_3 = mysqli_query($conexao,$sql_3);
-    //delatada o módulo
+    //-
+
+
+    //excluindo os favoritos do módulo-
+    $sql_4 = "DELETE FROM favoritos_modulo WHERE id_modulo=$id_modulo";
+    $resultado_4 = mysqli_query($conexao,$sql_4);
+    //-
+
+
+    for($h=0 ; $h<count($id_aula) ; $h++){
+
+        //excluindo o favorito do usuário com as aulas do módulo-
+        $sqlh[$h] = "DELETE FROM favoritos_aula WHERE id_aula=".$id_aula[$h];
+        $resultadoh[$h] = mysqli_query($conexao, $sqlh[$h]);
+        //-
+
+    }
 
 
     mysqli_close($conexao);

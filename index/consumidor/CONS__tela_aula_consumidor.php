@@ -35,6 +35,7 @@ session_start();
         $email = $_SESSION['email'];
 
         
+        //----------------------
         //obtenção do id_modulo-
         $s = "SELECT id_modulo FROM aulas WHERE id_aula=$id_aula";
         $r = mysqli_query($conexao,$s);
@@ -190,7 +191,45 @@ session_start();
         //-
 
 
-        echo "<h2 class='center-align bold'>$nome_aula</h2><br>"; 
+        //obtendo os dados de favorito do curso para com o usuário-
+        $sql_3 = "SELECT * FROM favoritos_aula WHERE email='$email' AND id_aula=$id_aula";
+        $resultado_3 = mysqli_query($conexao, $sql_3);
+
+        if($resultado_3 == true){
+
+            if($linha_3 = mysqli_fetch_assoc($resultado_3)){
+
+                $situacao_favorito_aula = $linha_3['situacao_favorito_aula'];
+
+            }
+
+        }
+        //-
+        //----------------------
+
+
+        echo "<h3 class='center-align bold'>$nome_aula ";
+        
+        if(isset($situacao_favorito_aula)){
+
+            if($situacao_favorito_aula == "favorito"){
+
+                echo "<a href='../../___aulas/favorito_aula.php?id_aula=$id_aula' class='link-curso'><i class='fa fa-star'></i></a>";
+
+            } else {
+
+                echo "<a href='../../___aulas/favorito_aula.php?id_aula=$id_aula' class='link-curso'><i class='fa fa-star-o'></i></a>";
+
+            }
+
+        } else {
+
+            echo "<a href='../../___aulas/favorito_aula.php?id_aula=$id_aula' class='link-curso'><i class='fa fa-star-o'></i></a>";
+
+        }
+        
+echo "
+        </h3><br>"; 
         echo "<center><img  class='materialboxed' src='$endereco_imagem_aula'></center><br><br>";
         echo "<h5>$descricao_aula</h5><br><br>";
 

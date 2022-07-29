@@ -38,7 +38,7 @@
 
     <form action="____C2_insere_associacao_usuario.php" method="post" enctype="multipart/form-data">
 
-        <big>Email do usuário:</big> <input type="text" name="email" required><br>
+        <big>Email do usuário:</big> <input type="email" name="email" required><br>
 
         <br>
         <br>

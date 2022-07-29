@@ -110,6 +110,12 @@
     $resultado_5 = mysqli_query($conexao,$sql_5);
     //delatada a aula
 
+
+    //excluindo o favorito dessa aula-
+    $sql_6 = "DELETE FROM favoritos_aula WHERE id_aula=$id_aula";
+    $resultado_6 = mysqli_query($conexao, $sql_6);
+    //-
+
     mysqli_close($conexao);
 
     if($resultado and $resultado_1 and $resultado_2 and $resultado_3 and $resultado_4 and $resultado_5){

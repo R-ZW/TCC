@@ -253,10 +253,46 @@ session_start();
             }
             
         }
+
+        //obtendo os dados de favorito do curso para com o usuário-
+        $sql_3 = "SELECT * FROM favoritos_curso WHERE email='$email' AND id_curso=$id_curso";
+        $resultado_3 = mysqli_query($conexao, $sql_3);
+
+        if($resultado_3 == true){
+
+            if($linha_3 = mysqli_fetch_assoc($resultado_3)){
+
+                $situacao_favorito_curso = $linha_3['situacao_favorito_curso'];
+
+            }
+
+        }
+        //-
         //----------------------
 
 
-        echo "<h2 class='center-align bold'>$nome_curso</h2><br>";
+        echo "<h3 class='center-align bold'>$nome_curso ";
+        
+        if(isset($situacao_favorito_curso)){
+
+            if($situacao_favorito_curso == "favorito"){
+
+                echo "<a href='../../_____cursos/favorito_curso.php?id_curso=$id_curso&i=1' class='link-curso'><i class='fa fa-star'></i></a>";
+
+            } else {
+
+                echo "<a href='../../_____cursos/favorito_curso.php?id_curso=$id_curso&i=1' class='link-curso'><i class='fa fa-star-o'></i></a>";
+
+            }
+
+        } else {
+
+            echo "<a href='../../_____cursos/favorito_curso.php?id_curso=$id_curso&i=1' class='link-curso'><i class='fa fa-star-o'></i></a>";
+
+        }
+
+echo "
+        </h3><br>";
         echo "<center><img src=$endereco_imagem_curso class='materialboxed' width=50%></center><br><br>";
         echo "<h5 class='justify'>$descricao_curso</h4><br>";
 
@@ -291,7 +327,41 @@ session_start();
                 echo "<br>
                 <div class='card-panel'>
                     <div class='row'>
-                    <h4 class='bold center-align'>" . $nome_modulo[$i] . "</h4><br><br>
+                    <h4 class='bold center-align'>" . $nome_modulo[$i] . " ";
+                    
+                    $sqli_2[$i] = "SELECT * FROM favoritos_modulo WHERE email='$email' AND id_modulo=".$id_modulo[$i];
+                    $resultadoi_2[$i] = mysqli_query($conexao, $sqli_2[$i]);
+
+                    if($resultadoi_2[$i] == true){
+
+                        if($linhai_2[$i] = mysqli_fetch_assoc($resultadoi_2[$i])){
+
+                            $situacao_favorito_modulo[$i] = $linhai_2[$i]['situacao_favorito_modulo'];
+
+                        }
+
+                    }
+
+                    if(isset($situacao_favorito_modulo[$i])){
+
+                        if($situacao_favorito_modulo[$i] == "favorito"){
+
+                            echo "<a href='../../____modulos/favorito_modulo.php?id_curso=$id_curso&id_modulo=".$id_modulo[$i]."' class='link-curso'><i class='fa fa-star'></i></a>";
+
+                        } else {
+
+                            echo "<a href='../../____modulos/favorito_modulo.php?id_curso=$id_curso&id_modulo=".$id_modulo[$i]."' class='link-curso'><i class='fa fa-star-o'></i></a>";
+
+                        }
+
+                    } else {
+
+                        echo "<a href='../../____modulos/favorito_modulo.php?id_curso=$id_curso&id_modulo=".$id_modulo[$i]."' class='link-curso'><i class='fa fa-star-o'></i></a>";
+
+                    }
+
+echo "
+                    </h4><br><br>
                         <div class='col s4 m4 l4 flow-text'>
                         
                             <img src=" . $endereco_imagem_modulo[$i] ." class='img-curso'>
@@ -307,7 +377,33 @@ session_start();
 
                         for($j=0 ; $j<count($id_aula[$i]) ; $j++){
 
-                            echo "<big>- <a href='CONS__tela_aula_consumidor.php?id_aula=".$id_aula[$i][$j]."&email=$email'>".$nome_aula[$i][$j]."</a> </big><br>";
+                            echo "<big>- <a href='CONS__tela_aula_consumidor.php?id_aula=".$id_aula[$i][$j]."'>".$nome_aula[$i][$j]."</a> ";
+                            
+                            $sqlij[$i][$j] = "SELECT * FROM favoritos_aula WHERE email='$email' AND id_aula=".$id_aula[$i][$j];
+                            $resultadoij[$i][$j] = mysqli_query($conexao, $sqlij[$i][$j]);
+
+                            if($resultadoij[$i][$j] == true){
+
+                                if($linhaij[$i][$j] = mysqli_fetch_assoc($resultadoij[$i][$j])){
+
+                                    $situacao_favorito_aula[$i][$j] = $linhaij[$i][$j]['situacao_favorito_aula'];
+
+                                }
+
+                            }
+                        
+                            if(isset($situacao_favorito_aula[$i][$j])){
+
+                                if($situacao_favorito_aula[$i][$j] == "favorito"){
+        
+                                    echo "<i class='fa fa-star'></i>";
+        
+                                } 
+        
+                            }
+                            
+echo "
+                            </big><br>";
 
                         }
 

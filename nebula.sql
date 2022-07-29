@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 27-Jul-2022 às 02:52
+-- Tempo de geração: 29-Jul-2022 às 04:19
 -- Versão do servidor: 10.4.24-MariaDB
 -- versão do PHP: 7.4.29
 
@@ -34,14 +34,6 @@ CREATE TABLE `alternativas` (
   `validade_alternativa` varchar(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Extraindo dados da tabela `alternativas`
---
-
-INSERT INTO `alternativas` (`id_alternativa`, `id_questao`, `desenvolvimento_alternativa`, `validade_alternativa`) VALUES
-(1, 1, 'Alternativa 1 - Questão 1', 'correta'),
-(2, 1, 'Alternativa 2 - Questão 3', 'incorreta');
-
 -- --------------------------------------------------------
 
 --
@@ -57,13 +49,6 @@ CREATE TABLE `aulas` (
   `visibilidade_aula` varchar(11) NOT NULL,
   `data_criacao_aula` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Extraindo dados da tabela `aulas`
---
-
-INSERT INTO `aulas` (`id_aula`, `id_modulo`, `nome_aula`, `descricao_aula`, `endereco_imagem_aula`, `visibilidade_aula`, `data_criacao_aula`) VALUES
-(41, 36, 'Aula 01 - Módulo 1 ', '[*Descrição Aula 01 - Módulo 1*]', '../../_.imgs_default/sem_imagem.png', 'visível', '2022-07-26 20:37:03');
 
 -- --------------------------------------------------------
 
@@ -81,13 +66,44 @@ CREATE TABLE `cursos` (
   `data_criacao_curso` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Extraindo dados da tabela `cursos`
+-- Estrutura da tabela `favoritos_aula`
 --
 
-INSERT INTO `cursos` (`id_curso`, `nome_curso`, `descricao_curso`, `endereco_imagem_curso`, `endereco_certificado_curso`, `visibilidade_curso`, `data_criacao_curso`) VALUES
-(36, 'Curso 1 - Teste', '[*Descrição Curso 1*]', 'arquivos/____imgs_curso/51b175f2a6d44848f7c3719723a2660a.webp', '', '', '2022-07-10 14:14:28'),
-(40, 'Curso 1 - Teste123123', 'werewrerwewrreerer', '../../_____cursos/imgs_curso/35e9ba211a49152cd73201cedbe90300.png', '../../_____cursos/certificados_curso/35e9ba211a49152cd73201cedbe90300.pdf', 'visível', '2022-07-26 20:21:38');
+CREATE TABLE `favoritos_aula` (
+  `id_favoritos_aula` int(10) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `id_aula` int(10) NOT NULL,
+  `situacao_favorito_aula` varchar(12) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `favoritos_curso`
+--
+
+CREATE TABLE `favoritos_curso` (
+  `id_favoritos_curso` int(10) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `id_curso` int(10) NOT NULL,
+  `situacao_favorito_curso` varchar(12) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `favoritos_modulo`
+--
+
+CREATE TABLE `favoritos_modulo` (
+  `id_favoritos_modulo` int(10) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `id_modulo` int(10) NOT NULL,
+  `situacao_favorito_modulo` varchar(12) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -103,13 +119,6 @@ CREATE TABLE `materiais` (
   `visibilidade_material` varchar(11) NOT NULL,
   `data_criacao_material` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Extraindo dados da tabela `materiais`
---
-
-INSERT INTO `materiais` (`id_material`, `id_aula`, `nome_material`, `endereco_material`, `visibilidade_material`, `data_criacao_material`) VALUES
-(54, 41, 'Material 1 - Aula 12', '../../__materiais/materiais/fbaa69f73d54d0bbc89f926a05e802b3.png', 'visível', '2022-07-26 21:04:26');
 
 -- --------------------------------------------------------
 
@@ -127,14 +136,6 @@ CREATE TABLE `modulos` (
   `data_criacao_modulo` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Extraindo dados da tabela `modulos`
---
-
-INSERT INTO `modulos` (`id_modulo`, `id_curso`, `nome_modulo`, `descricao_modulo`, `endereco_imagem_modulo`, `visibilidade_modulo`, `data_criacao_modulo`) VALUES
-(35, 36, 'MÓDULO 1', '		Lorem ipsum convallis euismod mi laoreet vehicula ligula eget malesuada, nisl quisque rutrum quam tempor ante rutrum suspendisse, bibendum morbi felis facilisis ipsum rhoncus duis ad. semper nulla vel ad tempus ultrices quis luctus, dolor dictum auctor etiam rutrum lorem vel vivamus, justo nisl interdum vivamus nostra curabitur. sociosqu mattis vivamus massa nisl urna bibendum facilisis cras enim rutrum, justo mi primis lacinia scelerisque libero erat diam torquent, ornare erat diam sollicitudin sociosqu nunc consectetur mattis lectus. arcu lacinia molestie aliquam ligula dui pharetra suspendisse, cursus elit malesuada integer odio curabitur molestie nisi, amet lacinia senectus curabitur felis pellentesque. Lorem ipsum convallis euismod mi laoreet vehicula ligula eget malesuada, nisl quisque rutrum quam tempor ante rutrum suspendisse, bibendum morbi felis facilisis ipsum rhoncus duis ad. semper nulla vel ad tempus ultrices quis luctus, dolor dictum auctor etiam rutrum lorem vel vivamus, justo nisl interdum vivamus nostra curabitur. sociosqu mattis vivamus massa nisl urna bibendum facilisis cras enim rutrum, justo mi primis lacinia scelerisque libero erat diam torquent, ornare erat diam sollicitudin sociosqu nunc consectetur mattis lectus. arcu lacinia molestie aliquam ligula dui pharetra suspendisse, cursus elit malesuada integer odio curabitur molestie nisi, amet lacinia senectus curabitur felis pellentesque. ', 'arquivos/_imgs_default/sem_imagem.png', '', '2022-07-10 19:12:18'),
-(36, 40, 'módulo 1 - curso 1 - teste', '[*Descrição módulo 1 - exemplo*]', '../../____modulos/imgs_modulo/f9682a510600f0691de07da3479f8924.jpg', 'visível', '2022-07-26 20:24:44');
-
 -- --------------------------------------------------------
 
 --
@@ -150,13 +151,6 @@ CREATE TABLE `questionarios` (
   `visibilidade_questionario` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Extraindo dados da tabela `questionarios`
---
-
-INSERT INTO `questionarios` (`id_questionario`, `id_aula`, `nome_questionario`, `distribuicao_questoes`, `tempo_proxima_realizacao`, `visibilidade_questionario`) VALUES
-(1, 41, 'QUESTIONARIO FODA', 'aleatoria', '1-M', 'visível');
-
 -- --------------------------------------------------------
 
 --
@@ -169,13 +163,6 @@ CREATE TABLE `questoes` (
   `desenvolvimento_questao` varchar(255) NOT NULL,
   `distribuicao_alternativas` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Extraindo dados da tabela `questoes`
---
-
-INSERT INTO `questoes` (`id_questao`, `id_questionario`, `desenvolvimento_questao`, `distribuicao_alternativas`) VALUES
-(1, 1, 'Questão 1 - exemplo', 'aleatoria');
 
 -- --------------------------------------------------------
 
@@ -190,15 +177,6 @@ CREATE TABLE `relacao_usuario_curso` (
   `tipo_relacao` varchar(10) NOT NULL,
   `data_relacao` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Extraindo dados da tabela `relacao_usuario_curso`
---
-
-INSERT INTO `relacao_usuario_curso` (`id_relacao`, `email`, `id_curso`, `tipo_relacao`, `data_relacao`) VALUES
-(35, 'reinaldozimmerwendt@mail', 36, 'produtor', '2022-07-10 14:14:28'),
-(43, 'pedro@mail.com', 40, 'produtor', '2022-07-26 20:21:38'),
-(44, 'pedro@mail.com', 40, 'consumidor', '2022-07-26 20:22:36');
 
 -- --------------------------------------------------------
 
@@ -215,13 +193,6 @@ CREATE TABLE `relacao_usuario_questionario` (
   `data_proxima_realizacao` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Extraindo dados da tabela `relacao_usuario_questionario`
---
-
-INSERT INTO `relacao_usuario_questionario` (`id_relacao_usuario_questionario`, `email`, `id_questionario`, `id_curso`, `nota_usuario`, `data_proxima_realizacao`) VALUES
-(1, 'pedro@mail.com', 1, 40, '100', '2022-07-26 21:51:09');
-
 -- --------------------------------------------------------
 
 --
@@ -235,13 +206,6 @@ CREATE TABLE `usuarios` (
   `senha` varchar(255) NOT NULL,
   `endereco_imagem_usuario` varchar(100) DEFAULT 'arquivos/imagens/sem_imagem_usuario'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Extraindo dados da tabela `usuarios`
---
-
-INSERT INTO `usuarios` (`id_usuario`, `email`, `nome_usuario`, `senha`, `endereco_imagem_usuario`) VALUES
-(3, 'pedro@mail.com', 'PEDRO', '202cb962ac59075b964b07152d234b70', '../../______usuarios/imgs_usuarios/9927d320bbd4ed0b5530ec741deb12ff.jpg');
 
 --
 -- Índices para tabelas despejadas
@@ -266,6 +230,30 @@ ALTER TABLE `aulas`
 --
 ALTER TABLE `cursos`
   ADD PRIMARY KEY (`id_curso`);
+
+--
+-- Índices para tabela `favoritos_aula`
+--
+ALTER TABLE `favoritos_aula`
+  ADD PRIMARY KEY (`id_favoritos_aula`),
+  ADD KEY `fk_email` (`email`),
+  ADD KEY `fk_id_aula` (`id_aula`);
+
+--
+-- Índices para tabela `favoritos_curso`
+--
+ALTER TABLE `favoritos_curso`
+  ADD PRIMARY KEY (`id_favoritos_curso`),
+  ADD KEY `fk_email` (`email`),
+  ADD KEY `fk_id_curso` (`id_curso`);
+
+--
+-- Índices para tabela `favoritos_modulo`
+--
+ALTER TABLE `favoritos_modulo`
+  ADD PRIMARY KEY (`id_favoritos_modulo`),
+  ADD KEY `fk_email` (`email`),
+  ADD KEY `fk_id_modulo` (`id_modulo`);
 
 --
 -- Índices para tabela `materiais`
@@ -332,25 +320,43 @@ ALTER TABLE `alternativas`
 -- AUTO_INCREMENT de tabela `aulas`
 --
 ALTER TABLE `aulas`
-  MODIFY `id_aula` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id_aula` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT de tabela `cursos`
 --
 ALTER TABLE `cursos`
-  MODIFY `id_curso` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id_curso` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+
+--
+-- AUTO_INCREMENT de tabela `favoritos_aula`
+--
+ALTER TABLE `favoritos_aula`
+  MODIFY `id_favoritos_aula` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT de tabela `favoritos_curso`
+--
+ALTER TABLE `favoritos_curso`
+  MODIFY `id_favoritos_curso` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT de tabela `favoritos_modulo`
+--
+ALTER TABLE `favoritos_modulo`
+  MODIFY `id_favoritos_modulo` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de tabela `materiais`
 --
 ALTER TABLE `materiais`
-  MODIFY `id_material` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id_material` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT de tabela `modulos`
 --
 ALTER TABLE `modulos`
-  MODIFY `id_modulo` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id_modulo` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT de tabela `questionarios`
@@ -368,19 +374,19 @@ ALTER TABLE `questoes`
 -- AUTO_INCREMENT de tabela `relacao_usuario_curso`
 --
 ALTER TABLE `relacao_usuario_curso`
-  MODIFY `id_relacao` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id_relacao` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT de tabela `relacao_usuario_questionario`
 --
 ALTER TABLE `relacao_usuario_questionario`
-  MODIFY `id_relacao_usuario_questionario` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_relacao_usuario_questionario` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_usuario` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Restrições para despejos de tabelas
