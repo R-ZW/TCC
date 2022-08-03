@@ -42,7 +42,7 @@
 
         <br>
 
-        <big>Inserir Material:</big><br><br><input type="file" name="endereco_material" accept="image/*, video/*, audio/*, .pdf, .docx, .ppt, .odt., .odf, .txt"><br>
+        <big>Inserir Material:</big><br><br><input type="file" name="endereco_material" accept="image/*, video/*, audio/*, .pdf, .docx, .ppt, .odt., .odf, .txt" required><br>
 
         <br>
         <br>

@@ -5,6 +5,7 @@ session_start();
 <html lang="pt">
   
 <head>
+    
     <meta charset="UTF-8">
     <title>Home Consumidor</title>
 

@@ -294,7 +294,7 @@ session_start();
 echo "
         </h3><br>";
         echo "<center><img src=$endereco_imagem_curso class='materialboxed' width=50%></center><br><br>";
-        echo "<h5 class='justify'>$descricao_curso</h4><br>";
+        echo "<h5 class='justify'>$descricao_curso $validade</h4><br>";
 
         if(!isset($id_alternativa_valida) and $endereco_certificado_curso=="sem-certificado"){
 
