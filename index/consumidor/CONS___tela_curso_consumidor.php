@@ -294,7 +294,7 @@ session_start();
 echo "
         </h3><br>";
         echo "<center><img src=$endereco_imagem_curso class='materialboxed' width=50%></center><br><br>";
-        echo "<h5 class='justify'>$descricao_curso $validade</h4><br>";
+        echo "<h5 class='justify'>$descricao_curso</h4><br>";
 
         if(!isset($id_alternativa_valida) and $endereco_certificado_curso=="sem-certificado"){
 
@@ -310,7 +310,7 @@ echo "
 
         } elseif(isset($id_alternativa_valida) and $endereco_certificado_curso!="sem-certificado" and $validade=="não-baixável"){
 
-            echo "VOCÊ NÃO PODE BAIXAR O CERTIFICADO PQ VC É BURRO";
+            echo "VOCÊ NÃO PODE BAIXAR O CERTIFICADO POIS VOCÊ NÃO FEZ TODOS OS QUESTIONÁRIOS OU NÃO CONSEGUIU NOTA SUFICIENTE NELES.";
 
         } elseif(isset($id_alternativa_valida) and $endereco_certificado_curso!="sem-certificado" and $validade=="baixável"){
 
