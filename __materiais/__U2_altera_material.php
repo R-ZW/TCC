@@ -22,6 +22,11 @@
 
         $endereco_material = "../../__materiais/".$dir.$nome;
 
+        $endereco_m = explode("/", $endereco_material_pre_alteracao);
+        $endereco_ma = array_reverse($endereco_m);
+        $endereco_mat = $endereco_ma[1] ."/". $endereco_ma[0];
+        unlink($endereco_mat);
+
     } else {
     
         $endereco_material = $endereco_material_pre_alteracao;

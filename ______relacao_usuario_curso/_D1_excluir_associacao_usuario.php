@@ -34,35 +34,38 @@
     }
     //-
 
-    
-    for($a=0 ; $a<count($id_modulo) ; $a++){
+    if (!is_null($id_modulo)){
+        for($a=0 ; $a<count($id_modulo) ; $a++){
 
-        //excluindo o favorito do usuário com os módulos do curso-
-        $sqla[$a] = "DELETE FROM favoritos_modulo WHERE email='$email' AND id_modulo=".$id_modulo[$a];
-        $resultadoa[$a] = mysqli_query($conexao, $sqla[$a]);
-        //-
+            //excluindo o favorito do usuário com os módulos do curso-
+            $sqla[$a] = "DELETE FROM favoritos_modulo WHERE email='$email' AND id_modulo=".$id_modulo[$a];
+            $resultadoa[$a] = mysqli_query($conexao, $sqla[$a]);
+            //-
 
 
-        //selecionando as aulas dos módulos do curso-
-        $sqla_2[$a] = "SELECT id_aula FROM aulas WHERE id_modulo=".$id_modulo[$a];
-        $resultadoa_2[$a] = mysqli_query($conexao, $sqla_2[$a]);
+            //selecionando as aulas dos módulos do curso-
+            $sqla_2[$a] = "SELECT id_aula FROM aulas WHERE id_modulo=".$id_modulo[$a];
+            $resultadoa_2[$a] = mysqli_query($conexao, $sqla_2[$a]);
 
-        while ($linhaa_2 = mysqli_fetch_assoc($resultadoa_2[$a])){
+            while ($linhaa_2 = mysqli_fetch_assoc($resultadoa_2[$a])){
 
-            $id_aula[] = $linhaa_2['id_aula'];
+                $id_aula[] = $linhaa_2['id_aula'];
+
+            }
+            //-
 
         }
-        //-
-
     }
 
-    for($b=0 ; $b<count($id_aula) ; $b++){
+    if(!is_null($id_aula)){
+        for($b=0 ; $b<count($id_aula) ; $b++){
 
-        //excluindo o favorito do usuário com as aulas do curso-
-        $sqlb[$b] = "DELETE FROM favoritos_aula WHERE email='$email' AND id_aula=".$id_aula[$b];
-        $resultadob[$b] = mysqli_query($conexao, $sqlb[$b]);
-        //-
+            //excluindo o favorito do usuário com as aulas do curso-
+            $sqlb[$b] = "DELETE FROM favoritos_aula WHERE email='$email' AND id_aula=".$id_aula[$b];
+            $resultadob[$b] = mysqli_query($conexao, $sqlb[$b]);
+            //-
 
+        }
     }
 
     mysqli_close($conexao);

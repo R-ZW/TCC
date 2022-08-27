@@ -40,6 +40,11 @@
     if($ext != ""){
     
         $endereco_imagem_aula = "../../___aulas/".$dir.$nome;
+
+        $endereco_imagem_a = explode("/", $endereco_imagem_aula_pre_alteracao);
+        $endereco_imagem_au = array_reverse($endereco_imagem_a);
+        $endereco_imagem_aul = $endereco_imagem_au[1] ."/". $endereco_imagem_au[0];
+        unlink($endereco_imagem_aul);
     
     } else {
     

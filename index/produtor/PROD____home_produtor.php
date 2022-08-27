@@ -166,7 +166,7 @@ echo"
 
     <br>
 
-    <div class='center-align'><a href='../../_____cursos/____C1_form_insere_curso.php?email=<?php echo $email;?>' class='btn-floating btn-large waves-effect waves-light'><i class='material-icons'>add</i></a></div>
+    <div class='center-align'><a href='../../_____cursos/____C1_form_insere_curso.php' class='btn-floating btn-large waves-effect waves-light'><i class='material-icons'>add</i></a></div>
 
     <br> 
 

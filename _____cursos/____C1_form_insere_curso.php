@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="pt">
 
@@ -28,7 +31,7 @@
     
     require_once "../_______necessarios/.conexao_bd.php";
     
-    $email = $_GET['email'];
+    $email = $_SESSION['email'];
 
     ?>
 
