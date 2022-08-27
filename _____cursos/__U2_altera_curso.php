@@ -26,6 +26,11 @@
     if($ext != ""){
     
         $endereco_imagem_curso = "../../_____cursos/".$dir.$nome;
+
+        $endereco_imagem_c = explode("/", $endereco_imagem_curso_pre_alteracao);
+        $endereco_imagem_cur = array_reverse($endereco_imagem_c);
+        $endereco_imagem_curs = $endereco_imagem_cur[1] ."/". $endereco_imagem_cur[0];
+        unlink($endereco_imagem_curs);
     
     } else {
     
@@ -45,6 +50,11 @@
     if($ext_1 != ""){
     
         $endereco_certificado_curso = "../../_____cursos/".$dir_1.$nome_1;
+
+        $endereco_certificado_c = explode("/", $endereco_certificado_curso_pre_alteracao);
+        $endereco_certificado_cur = array_reverse($endereco_certificado_c);
+        $endereco_certificado_curs = $endereco_certificado_cur[1] ."/". $endereco_certificado_cur[0];
+        unlink($endereco_certificado_curs);
     
     } else {
     

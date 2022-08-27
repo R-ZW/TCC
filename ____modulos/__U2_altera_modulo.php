@@ -21,6 +21,11 @@
     if($ext != ""){
     
         $endereco_imagem_modulo = "../../____modulos/".$dir.$nome;
+
+        $endereco_imagem_m = explode("/", $endereco_imagem_modulo_pre_alteracao);
+        $endereco_imagem_mo = array_reverse($endereco_imagem_m);
+        $endereco_imagem_mod = $endereco_imagem_mo[1] ."/". $endereco_imagem_mo[0];
+        unlink($endereco_imagem_mod);
     
     } else {
     

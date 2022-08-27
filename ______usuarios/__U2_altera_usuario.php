@@ -19,6 +19,11 @@ session_start();
     if($ext != ""){
     
         $endereco_imagem_usuario = "../../______usuarios/".$dir.$nome;
+
+        $endereco_imagem_u = explode("/", $endereco_imagem_usuario_pre_alteracao);
+        $endereco_imagem_us = array_reverse($endereco_imagem_u);
+        $endereco_imagem_user = $endereco_imagem_us[1] ."/". $endereco_imagem_us[0];
+        unlink($endereco_imagem_user);
     
     } else {
     

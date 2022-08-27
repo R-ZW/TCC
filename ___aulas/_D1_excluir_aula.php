@@ -111,6 +111,8 @@
         $endereco_material[$e]= $endereco_ma[$e][0];
         unlink("../__materiais/materiais/".$endereco_material[$e]);
 
+        $e++;
+
     }
 
     $sql_5 = "DELETE FROM materiais WHERE id_aula=$id_aula";
@@ -124,11 +126,13 @@
     $linha_6 = mysqli_fetch_assoc($resultado_6);
 
     if(isset($linha_6)){
+
         $endereco_imagema= $linha_6['endereco_imagem_aula'];
         $endereco_imagem_a= explode("/", $endereco_imagema);
         $endereco_imagem_au= array_reverse($endereco_imagem_a);
         $endereco_imagem_aula= $endereco_imagem_au[1] ."/". $endereco_imagem_au[0];
         unlink($endereco_imagem_aula);
+
     }
 
     $sql_7 = "DELETE FROM aulas WHERE id_aula=$id_aula";

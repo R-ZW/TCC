@@ -6,22 +6,34 @@
 
 
     //obtendo o id_curso-
-    $sql = "SELECT id_curso FROM modulos WHERE id_modulo=$id_modulo";
+    $sql = "SELECT * FROM modulos WHERE id_modulo=$id_modulo";
     $resultado = mysqli_query($conexao,$sql);
     $linha = mysqli_fetch_assoc($resultado);
 
     $id_curso = $linha['id_curso'];
+    $endereco_imagemm= $linha['endereco_imagem_modulo'];
+    $endereco_imagem_m= explode("/", $endereco_imagemm);
+    $endereco_imagem_mo= array_reverse($endereco_imagem_m);
+    $endereco_imagem_modulo= $endereco_imagem_mo[1] ."/". $endereco_imagem_mo[0];
+    unlink($endereco_imagem_modulo);
     //-
 
 
     //obtendo o id_aula-
-    $sql_1 = "SELECT id_aula FROM aulas WHERE id_modulo=$id_modulo";
+    $sql_1 = "SELECT * FROM aulas WHERE id_modulo=$id_modulo";
     $resultado_1 = mysqli_query($conexao,$sql_1);
 
+    $ind=0;
     while($linha_1 = mysqli_fetch_assoc($resultado_1))
     {
 
         $id_aula[]= $linha_1['id_aula']; 
+
+        $endereco_imagema[$ind]= $linha_1['endereco_imagem_aula'];
+        $endereco_imagem_a[$ind]= explode("/", $endereco_imagema[$ind]);
+        $endereco_imagem_au[$ind]= array_reverse($endereco_imagem_a[$ind]);
+        $endereco_imagem_aula[$ind]= $endereco_imagem_au[$ind][0];
+        unlink("../___aulas/imgs_aula/".$endereco_imagem_aula[$ind]);
 
     }
     //-
@@ -124,8 +136,23 @@
 
         for($g=0 ; $g<count($id_aula) ; $g++){
 
-            $sqlg[$g] = "DELETE FROM materiais WHERE id_aula=".$id_aula[$g];
-            $resultadog[$g] = mysqli_query($conexao,$sqlg[$g]);
+            $sqlg_1[$g] = "SELECT * FROM materiais WHERE id_aula=".$id_aula[$g];
+            $resultadog_1[$g] = mysqli_query($conexao,$sqlg_1[$g]);
+            $i=0;
+            while($linhag = mysqli_fetch_assoc($resultadog_1[$g])){
+
+                $enderecom[$i]= $linhag['endereco_material'];
+                $endereco_m[$i]= explode("/", $enderecom[$i]);
+                $endereco_ma[$i]= array_reverse($endereco_m[$i]);
+                $endereco_material[$i]= $endereco_ma[$i][0];
+                unlink("../__materiais/materiais/".$endereco_material[$i]);
+
+                $i++;
+
+            }
+
+            $sqlg_2[$g] = "DELETE FROM materiais WHERE id_aula=".$id_aula[$g];
+            $resultadog_2[$g] = mysqli_query($conexao,$sqlg_2[$g]);
 
         }
 
