@@ -33,7 +33,7 @@
             $id_questionario= $_GET['id_questionario'];
 
 
-            //obtenção do questionario
+            //obtenção do questionario-
             $sql = "SELECT * FROM questionarios WHERE id_questionario=$id_questionario";
             $resultado = mysqli_query($conexao,$sql);
 
@@ -43,10 +43,10 @@
             $nome_questionario = $linha['nome_questionario'];
             $distribuicao_questoes = $linha['distribuicao_questoes'];
             $visibilidade_questionario = $linha['visibilidade_questionario'];
-            //obtido o questionario
+            //-
 
 
-            //obtenção das questões
+            //obtenção das questões-
             $sql_1 = "SELECT * FROM questoes WHERE id_questionario=$id_questionario";
             $resultado_1 = mysqli_query($conexao, $sql_1);
 
@@ -57,10 +57,57 @@
                 $desenvolvimento_questao[] = $linha_1['desenvolvimento_questao'];
 
             }
-            //obtidas as questões
+            //-
 
-            echo "<center><h3> $nome_questionario";
-            echo " <a href='../../__questionarios/__U1_form_altera_questionario.php?id_questionario=$id_questionario&i=1' class='link-curso'><i class='material-icons small'>edit</i></a>
+
+            //obtendo as alternativas válidas, para obter as questões válidas-
+            if(isset($id_questao)){
+
+                for($a=0 ; $a<count($id_questao) ; $a++){
+
+                    $sqla[$a] = "SELECT id_alternativa FROM alternativas WHERE validade_alternativa='correta' AND id_questao=".$id_questao[$a];
+                    $resultadoa[$a] = mysqli_query($conexao, $sqla[$a]);
+                    while ($linhaa = mysqli_fetch_assoc($resultadoa[$a]))
+                    {
+
+                        $id_alternativa_valida[] = $linhaa['id_alternativa'];
+
+                    }
+
+                }
+
+            }
+            //-
+
+            echo "
+            <div id='informacao' class='modal'>
+                <div class='modal-content'>
+                    <h4>Validade de Questionário</h4>
+                    <p>O questionário só é considerado válido quando há pelo menos uma questão válida, ou seja, uma questão que possua pelo menos uma resposta correta.</p>
+                    <br>
+                    <p><i class='material-icons left'>lens</i> Questionário Válido</p>
+                    <p><i class='material-icons left'>panorama_fish_eye</i> Questionário Inválido</p>
+                </div>
+                <div class='modal-footer'>
+                    <a href='#!' class='modal-close waves-effect waves-green btn-flat'>Ok</a>
+                </div>
+            </div>
+            <center><h3>
+            
+            <a class='waves-effect waves-light btn btn-floating modal-trigger' href='#informacao'><i class='fa fa-info'></i></a> ";
+
+            if(isset($id_alternativa_valida)){
+
+                echo "<i class='material-icons'>lens</i> ";
+
+            } else {
+
+                echo "<i class='material-icons'>panorama_fish_eye</i> ";
+
+            }
+
+            echo "$nome_questionario
+                   <a href='../../__questionarios/__U1_form_altera_questionario.php?id_questionario=$id_questionario&i=1' class='link-curso'><i class='material-icons small'>edit</i></a>
                    <a href='../../__questionarios/_D1_excluir_questionario.php?&id_questionario=$id_questionario' class='link-curso'><i class='material-icons small'>delete</i></a> ";
                    
             if($visibilidade_questionario == "visível"){
@@ -76,17 +123,10 @@
 echo "
                    </center></h3><br><br><br><br>";
             
-
+        
             if(isset($id_questao)){
 
                 for($i=0 ; $i<count($id_questao) ; $i++){
-
-                    $k=$i+1;
-
-                    echo "<big>$k) ".$desenvolvimento_questao[$i]."</big>";
-                    echo " <a href='../../_questoes/__U1_form_altera_questao.php?id_questao=" . $id_questao[$i] . "&id_questionario=$id_questionario' class='link-curso'><i class='material-icons'>edit</i></a>
-                           <a href='../../_questoes/_D1_excluir_questao.php?id_questao=" .$id_questao[$i] . "&id_questionario=$id_questionario' class='link-curso'><i class='material-icons'>delete</i></a><br><br>";
-
 
                     //obtenção das alternativas
                     $sqli[$i] = "SELECT * FROM alternativas WHERE id_questao=".$id_questao[$i];
@@ -102,7 +142,40 @@ echo "
                         $j++;
 
                     }
-                    //fim da obtenção das alternativas
+                    //-
+
+                    if(isset($id_alternativa[$i])){
+
+                        for($l=0 ; $l<count($id_alternativa[$i]) ; $l++){
+
+                            if($validade_alternativa[$i][$l] == "correta"){
+
+                                $validade_questao[$i] = 1;
+
+                            }
+
+                        }
+                    
+                    }
+
+                    if(isset($validade_questao[$i])){
+
+                        echo "<i class='material-icons left'>lens</i> ";
+        
+                    } else {
+        
+                        echo "<i class='material-icons left'>panorama_fish_eye</i> ";
+        
+                    }
+
+                    $k=$i+1;
+
+                    echo "<big>$k)";
+
+                    echo $desenvolvimento_questao[$i]."</big>".
+                         " <a href='../../_questoes/__U1_form_altera_questao.php?id_questao=" . $id_questao[$i] . "&id_questionario=$id_questionario' class='link-curso'><i class='material-icons'>edit</i></a>
+                           <a href='../../_questoes/_D1_excluir_questao.php?id_questao=" .$id_questao[$i] . "&id_questionario=$id_questionario' class='link-curso'><i class='material-icons'>delete</i></a><br><br>";
+
 
                     if(isset($id_alternativa[$i])){
 
@@ -142,6 +215,11 @@ echo "
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="../../_.materialize/js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="../../_.materialize/js/materialize.min.js"></script>
+    <script>
+    $(document).ready(function(){
+    $('.modal').modal();
+    });
+    </script>
     
 </body>
 

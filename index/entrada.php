@@ -23,6 +23,9 @@ require_once "../_______necessarios/.funcoes.php";
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
+    <!--Link with configs próprio-->
+    <link rel="stylesheet" type="text/css" href=".css_index/entrada.css">
+
     <!--Link with configs-->
     <link rel="stylesheet" type="text/css" href="../_.materialize/css/configs.css">
 
@@ -32,39 +35,37 @@ require_once "../_______necessarios/.funcoes.php";
 
     <main>
 
-        <div class="row">
+        <div class="container">
+            <div class="card-panel">
 
-       
+                <h3 class="indigo-text center-align">NEBULA</h3>
+                <div class="br-titulo-sub"><br></div>
+                <h5 class="indigo-text center-align">Formulário de Login</h5>
 
+                    <form action="../______usuarios/login.php" method="POST">
+
+                        <?php if (isset($_SESSION['mensagem'])) {
+                            echo "<div class='red-text'>" . exibeMensagens() . "</div>";
+                        } ?>
+
+                        Email:<input id="email" name="email" type="email" class="validate" required><br>
+
+                        <br>
+
+                        Senha: <input id="senha" name="senha" type="password" class="validate" required><br>
+
+                        <br>
+                        <br>
+
+                        <input type="submit" value="Entrar">
+                        <a href="../______usuarios/____C1_form_cadastro_usuario.php">Criar Conta</a><br>
+
+                        <br>
+
+                    </form>
+                </div>
+            </div>
         </div>
-
-
-        <div class="row">
-
-            <form action="../______usuarios/login.php" method="POST" class="col s12 l5 card-panel">
-
-                <?php if (isset($_SESSION['mensagem'])) {
-                    echo "<div class='red-text'>" . exibeMensagens() . "</div>";
-                } ?>
-
-                Email:<input id="email" name="email" type="email" class="validate" required><br>
-
-                <br>
-
-                Senha: <input id="senha" name="senha" type="password" class="validate" required><br>
-
-                <br>
-                <br>
-
-                <input type="submit" value="Entrar">
-                <a href="../______usuarios/____C1_form_cadastro_usuario.php">Criar Conta</a><br>
-
-                <br>
-
-            </form>
-
-        </div>
-
     </main>
 
     <br>

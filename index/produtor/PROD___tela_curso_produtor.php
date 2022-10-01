@@ -326,7 +326,7 @@ echo"
     <br>
     <br>
 
-    <center><a href='PROD____home_produtor.php?email=<?php echo $email_produtor; ?>'class='white-text'><div class='waves-effect waves-light btn bold'>Voltar<i class='material-icons left'>keyboard_backspace</i></div></a></center><br><br> 
+    <center><a href='PROD____home_produtor.php'class='white-text'><div class='waves-effect waves-light btn bold'>Voltar<i class='material-icons left'>keyboard_backspace</i></div></a></center><br><br> 
 
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="../../_.materialize/js/jquery-3.6.0.min.js"></script>

@@ -1,4 +1,0 @@
-Ideias:
-
-- para ser possível alterar visibilidade/favoritar sem ter que acessar a tela de edição, basta 
-criar um novo arquivo para colocar de hiperlink e inverter a situação. Caso 0 -> 1, caso 1 -> 0;

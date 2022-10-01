@@ -38,121 +38,218 @@ session_start();
         
         echo "<br><center><a href='../produtor/PROD____home_produtor.php' class='white-text'><div class='waves-effect waves-light btn bold'>PERMUTAR CONTA <i class='material-icons right'>sync</i></div></a></center><br><br>";
 
-        //obtenção dos cursos associados a um usuário
+        //obtenção dos cursos associados ao usuário como consumidor-
         $sql = "SELECT id_curso FROM relacao_usuario_curso WHERE email='$email' AND tipo_relacao='consumidor'";
         $resultado = mysqli_query($conexao,$sql);
 
         while($linha = mysqli_fetch_assoc($resultado))
         {
-            $id_curso[]= $linha['id_curso'];
+            $id_curso1[]= $linha['id_curso'];
         }
-        //fim da obtenção dos cursos associados a um usuário 
+        //-
+
+        if(isset($_GET['pesquisa'])){
+
+            $pesquisa = $_GET['pesquisa'];
+
+        } else {
+
+            $pesquisa = "";
+
+        }
 
 
-        if(isset($id_curso)){
+        if(isset($_GET['p'])){
+
+            $p = $_GET['p'];
+
+        } else {
+
+            $p = 1;
+            
+        }
+
+
+        if(isset($_GET['limite'])){
+
+            $limite = $_GET['limite'];
+            
+        } else {
+
+            $limite = 5;
+
+        }
+
+        $offset = $limite * ($p - 1);
+
+        echo "
+            <form action='' method='GET'>
+            <input type='text' name='pesquisa' size='75'><input type='submit' value='pesquisar'> ";
+
+            if($pesquisa != ""){
+
+                echo "<a href='CONS____home_consumidor.php?limite=$limite'>cancelar</a>";
+    
+            }
+            
+        echo "
+            </form>
+            <br>
+            Cursos por página:
+                <a href='CONS____home_consumidor.php?limite=5&p=1&pesquisa=$pesquisa'>5</a>
+                <a href='CONS____home_consumidor.php?limite=10&p=1&pesquisa=$pesquisa'>10</a>
+                <a href='CONS____home_consumidor.php?limite=15&p=1&pesquisa=$pesquisa'>15</a>
+            <br><br>
+        ";
+
+        if(isset($id_curso1)){
             //obtenção dos dados dos cursos
             $b=0;
-            while($b<count($id_curso)){
+            while($b<count($id_curso1)){
 
-                $sqlb[$b]= "SELECT * FROM cursos WHERE visibilidade_curso='visível' AND id_curso=".$id_curso[$b];
+                $sqlb[$b]= "SELECT * 
+                            FROM cursos 
+                            WHERE visibilidade_curso='vísivel'
+                            AND id_curso=".$id_curso1[$b]."
+                            AND nome_curso LIKE '%$pesquisa%'";
                 $resultadob[$b] = mysqli_query($conexao,$sqlb[$b]); 
 
-                if(isset($resultadob[$b])){
+                if($resultadob[$b]){
                     
                     while($linhab[$b] = mysqli_fetch_assoc($resultadob[$b]))
                     {
-                        $id_cursov[] = $linhab[$b]['id_curso'];
-                        $nome_curso[] = $linhab[$b]['nome_curso'];
+                        
+                        $id_curso[] = $linhab[$b]['id_curso'];
+                        $nome_curso[]= $linhab[$b]['nome_curso'];
                         $descricao_curso[]= $linhab[$b]['descricao_curso'];
                         $endereco_imagem_curso[]= $linhab[$b]['endereco_imagem_curso'];
 
                     } 
                     
-                    /*
-                    if(strlen($linhab[$b]['descricao_curso'])>=950){
+                    if(isset($descricao_curso[$b])){
 
-                        $str = $linhab[$b]['descricao_curso'];
+                        if(strlen($descricao_curso[$b])>=950){
 
-                        $p1 = substr("$str", 0, 950);
-                        $p2 = "$p1"."...";
-
-                        $descricao_curso[]= $p2;
+                            $str = $descricao_curso[$b];
+        
+                            $p1 = substr("$str", 0, 950);
+                            $p2 = "$p1"."...";
+        
+                            $descricao_curso[$b]= $p2;
+        
+                        }
 
                     }
-                    */
                     
                 }
 
                 $b++;
 
             }
-            //fim da obtenção dos dados dos cursos
-        }
 
-        if(isset($id_cursov)){
+     }
+        //-
+
+        if(isset($id_curso)){
+
+            $ultima_pagina = ceil(count($id_curso) / $limite);
+            $limitep = $limite * $p;
+
+            if($p*$limite > count($id_curso)+($limite-1)){
+
+                echo "Número de página inválido!";
+
+            } else {
             
-            for($i=0 ; $i<count($id_cursov) ; $i++){
+                for($i=$offset; $i<count($id_curso) and $i<$limitep; $i++){
 
-                echo "
-                    <a href='CONS___tela_curso_consumidor.php?id_curso=" . $id_cursov[$i] . "' class='link-curso'>
-                        <div class='card-panel hoverable'>
+                    echo "
+                    
+                        <a href='CONS___tela_curso_consumidor.php?id_curso=" . $id_curso[$i] . "' class='link-curso'>
 
-                            <div class='row'>
-                                <div class='col s4 m4 l4 flow-text'>
+                            <div class='card-panel hoverable'>
+
+                                <div class='row'>
+
+                                    <div class='col s4 m4 l4 flow-text'>
+                                    
+                                        <img src=" . $endereco_imagem_curso[$i] ." class='img-curso'>
                                 
-                                    <img src=" . $endereco_imagem_curso[$i] ." class='img-curso'>
-                            
-                                </div>
-                            
-                                <div class='center-align'>
-                                    <h4 class='bold'>" . $nome_curso[$i] . "</h4>
-                                    <h6 class='descricao-curso'>" . $descricao_curso[$i] . "<br><br>
-                                </div>
-                            </div>";
+                                    </div>
+                                
+                                    <div class='center-align'>
 
-                            $sqli[$i] = "SELECT * FROM favoritos_curso WHERE email='$email' AND id_curso=".$id_cursov[$i];
-                            $resultadoi[$i] = mysqli_query($conexao, $sqli[$i]);
+                                        <h4 class='bold'>" . $nome_curso[$i] . "</h4>
 
-                            if($resultadoi[$i] == true){
+                                        <h6 class='descricao-curso'>" . $descricao_curso[$i] . "<br><br>
 
-                                if($linhai[$i] = mysqli_fetch_assoc($resultadoi[$i])){
+                                    </div>
 
-                                    $situacao_favorito_curso[$i] = $linhai[$i]['situacao_favorito_curso'];
+                                </div>";
+
+                                $sqli[$i] = "SELECT * FROM favoritos_curso WHERE email='$email' AND id_curso=".$id_curso[$i];
+                                $resultadoi[$i] = mysqli_query($conexao, $sqli[$i]);
+
+                                if($resultadoi[$i] == true){
+
+                                    if($linhai[$i] = mysqli_fetch_assoc($resultadoi[$i])){
+
+                                        $situacao_favorito_curso[$i] = $linhai[$i]['situacao_favorito_curso'];
+
+                                    }
 
                                 }
 
-                            }
+                                if(isset($situacao_favorito_curso[$i])){
 
-                            if(isset($situacao_favorito_curso[$i])){
+                                    if($situacao_favorito_curso[$i] == "favorito"){
 
-                                if($situacao_favorito_curso[$i] == "favorito"){
+                                        echo "<center><a href='../../_____cursos/favorito_curso.php?id_curso=".$id_curso[$i]."&i=0' class='edita-exclui'><i class='fa fa-star fa-2x'></i></a></center>";
 
-                                    echo "<center><a href='../../_____cursos/favorito_curso.php?id_curso=".$id_cursov[$i]."&i=0' class='edita-exclui'><i class='fa fa-star fa-2x'></i></a></center>";
+                                    } else {
+
+                                        echo "<center><a href='../../_____cursos/favorito_curso.php?id_curso=".$id_curso[$i]."&i=0' class='edita-exclui'><i class='fa fa-star-o fa-2x'></i></a></center>";
+
+                                    }
 
                                 } else {
 
-                                    echo "<center><a href='../../_____cursos/favorito_curso.php?id_curso=".$id_cursov[$i]."&i=0' class='edita-exclui'><i class='fa fa-star-o fa-2x'></i></a></center>";
+                                    echo "<center><a href='../../_____cursos/favorito_curso.php?id_curso=".$id_curso[$i]."&i=0' class='edita-exclui'><i class='fa fa-star-o fa-2x'></i></a></center>";
 
                                 }
 
-                            } else {
+    echo "
 
-                                echo "<center><a href='../../_____cursos/favorito_curso.php?id_curso=".$id_cursov[$i]."&i=0' class='edita-exclui'><i class='fa fa-star-o fa-2x'></i></a></center>";
+                            </div>
+                        </a>
+                        <br>
+                    ";
 
-                            }
+                } 
 
-echo "
+            }
 
-                        </div>
-                    </a>
-                    <br>
-                ";
+            if($ultima_pagina > 1){
 
-            } 
+                echo "<center>";
+
+                for($i=1; $i<=$ultima_pagina; $i++){
+
+                    echo "<a href='CONS____home_consumidor.php?limite=$limite&p=$i&pesquisa=$pesquisa'>$i</a> ";
+
+                }
+
+                echo "</center>";
+
+            } else {
+
+                echo "<center>1</center>";
+                
+            }
 
         } else {
 
-            echo "<br><h4>Não existem cursos associados a esta conta.</h4>";
+            echo "<br><h4>Não foram encontrados cursos!</h4>";
 
         }
 
