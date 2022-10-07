@@ -274,8 +274,6 @@ session_start();
               <a href='../../______usuarios/_D1_excluir_usuario.php'>excluir</a>";
     ?>
 
-    
-
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="../../_.materialize/js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="../../_.materialize/js/materialize.min.js"></script>
