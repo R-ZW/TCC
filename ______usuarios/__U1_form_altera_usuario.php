@@ -1,69 +1,75 @@
 <?php
-session_start();
-
-if (!isset($_SESSION['id_usuario'])) {
-    $_SESSION['mensagem'] = "Você deve primeiro realizar o login!";
-    header("Location: ../index/entrada.php");
-}
-
-require_once "../_______necessarios/.funcoes.php";
-require_once "../_______necessarios/.conexao_bd.php";
-
-$paginaCorrente = basename($_SERVER['SCRIPT_NAME']);
 
 $sql = "SELECT * FROM usuarios WHERE id_usuario='" . $_SESSION['id_usuario']."'";
 $resultado = mysqli_query($conexao, $sql);
 $linha = mysqli_fetch_assoc($resultado);
+
 ?>
 
-<!DOCTYPE html>
-<html lang="pt-BR">
+        <form action="../../______usuarios/__U2_altera_usuario.php" method="post" enctype="multipart/form-data" id="edicao_usuario" onsubmit="return validarSenha();">
 
-<head>
+            <h4 class="center-align">Editar Conta</h4><br>
 
-    <meta charset="UTF-8">
-    <title>Alteração de Usuário</title>
+            Nome:<i class="material-icons right">person</i><input id="field" name="nome_usuario" type="text" value="<?php echo $linha['nome_usuario']; ?>" placeholder="insira seu nome" required><br>
 
-</head>
+            <br>
+            <br>
 
-<body>
+            <h6>Imagem de Perfil:<i class="material-icons right">image</i></h6>
 
-    <main>
+                <img src="<?=$endereco_imagem_usuario;?>" style="margin-left:38%; border-radius: 100%; width: 240px; height: 240px;">
 
-        <form action="__U2_altera_usuario.php" method="post" enctype="multipart/form-data">
+                <br>
+
+                <div class="file-field" style="margin-left:39%;">
+                    <div class="waves-effect waves-light btn grey darken-4">
+                        <span class="bold"><i class="material-icons left">upload</i> Selecionar Arquivo</span>
+                        <input name="endereco_imagem_usuario" type="file" style="text-align:center !important;" accept="image/*" form="edicao_usuario" onchange="previewImagem()">
+                    </div>
+                </div>
+            
+            <br>
+            <br>
+            <br>
+            <br>
+
+            Senha Antiga:<i class="material-icons right">vpn_key</i>
+            <input id="field" name="senha_antiga" type="password" placeholder="insira sua senha"><br>
 
             <br>
 
-            <?php if (isset($_SESSION['mensagem'])) {
-                echo "<div class='red-text'>" . exibeMensagens() . "</div><br>";
-            } ?><br>
-
-            Nome de Usuário:<input id="nome_usuario" name="nome_usuario" type="text" class="validate" value="<?php echo $linha['nome_usuario']; ?>" required><br>
+            Senha Nova:<i class="material-icons right">lock_outline</i>
+            <input id="senha" name="senha" type="password" placeholder="caso deseje, insira uma nova senha"><br>
 
             <br>
 
-            Imagem de Perfil:<input id="endereco_imagem_usuario" name="endereco_imagem_usuario" type="file" accept="image/*" class="validate"><br>
-
-            <br>
-
-            Senha Antiga:<input id="senha_antiga" name="senha_antiga" type="password" class="validate"><br>
-
-            <br>
-
-            Senha Nova:<input id="senha_nova" name="senha_nova" type="password" class="validate"><br>
-
-            <br>
-
-            Confirmar Senha Nova:<input id="confirmar_senha" name="confirmar_senha" type="password" onblur="validarSenha()" class="validate"><br>
+            Confirmar Senha Nova:<i class="material-icons right">lock_open</i>
+            <input id="confirmar_senha" name="confirmar_senha" type="password" onblur="validarSenha()" placeholder="confirme a nova senha"><br>
 
             <br>
             <br>
 
             <input type="hidden" name="endereco_imagem_usuario_pre_alteracao" value="<?php echo $linha['endereco_imagem_usuario'];?>">
 
+            <div class="left">
+                <a href="#excluir" class="modal-trigger waves-effect waves-light btn bold"
+                style="background-color: #e53935 !important;">DELETAR CONTA<i class="material-icons right">delete</i>
+                </a>
+            </div>
+            <div class="right">
 
-            <input type="submit" value="Enviar">
-            <a href="javascript:window.history.go(-1)">Cancelar</a>
+                <a href="#!" class="modal-close waves-effect waves-light btn bold"
+                style="background-color: #212121 !important;">Cancelar<i class="material-icons right">close</i>
+                </a>
+
+                <button type="submit" class="waves-effect waves-light btn bold"
+                style="background-color: #212121 !important;">ENVIAR<i class="material-icons right">check</i>
+                </button>
+
+            </div>
+
+            <br>
+            <br>
 
         </form>
 

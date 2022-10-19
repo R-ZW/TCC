@@ -1,18 +1,17 @@
 body {
-  height: 100%;
-  width: 100%;
-  padding: 0;
-  margin: 0;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
 }
-
 b{
     font-weight: 500;
 }
-
+main{
+    flex: 1 0 auto;
+}
 big{
     font-size: 1.5em;
 }
-
 hr {
     display: block;
     unicode-bidi: isolate;
@@ -25,40 +24,23 @@ hr {
     border-width: 0.01px;
 
 }
-
-.img-curso{
-    width: 83%;
-}
-
-.descricao-curso{
-    text-align: justify;
-    margin-left: 35%;
-    margin-top: 4vh;
-}
-
 .descricao-modulo{
     text-align: justify;
     font-size: 1.5em;
     margin-left: 20%;
     margin-top: 0vh;
 }
-
-.link-curso{
-    color:black;
-}
-
-.edita-exclui{
-    color:#26A69A;
-}
-
 .bold{
     font-weight: 500 !important;
 }
-
 .justify{
     text-align: justify;
 }
-
 .white-text{
     color: white !important;
+}
+#field:focus{
+    color: #212121 !important;
+    border-bottom: 1px solid #212121 !important;
+    box-shadow: 0 1px 0 0 #212121 !important;
 }

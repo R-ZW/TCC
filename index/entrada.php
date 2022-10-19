@@ -63,10 +63,10 @@ require_once "../_______necessarios/.funcoes.php";
             <form action="../______usuarios/login.php" method="POST">
 
                 <h6><i class="material-icons right">person</i>Email:</h6>
-                <input id="email" name="email" type="email" class="validate" placeholder="insira seu email aqui" required>
+                <input id="field" name="email" type="email" class="validate" placeholder="insira seu email aqui" required>
 
                 <h6><i class="material-icons right">vpn_key</i>Senha:</h6>
-                <input id="senha" name="senha" type="password" class="validate" placeholder="insira sua senha aqui" required>
+                <input id="field" name="senha" type="password" class="validate" placeholder="insira sua senha aqui" required>
         
                 <aside class="col">
                     <a href="../______usuarios/recuperar_senha_1.php?i=<?= $i;?>">Esqueceu a senha?</a>

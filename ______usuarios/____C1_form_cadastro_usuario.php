@@ -45,10 +45,10 @@ require_once "../_______necessarios/.funcoes.php";
                 echo "<div class='red-text'>" . exibeMensagens() . "</div>";
             } ?>
 
-            <form action="____C2_cadastro_usuario.php" method="POST" enctype="multipart/form-data" id="cadastro_usuario">
+            <form action="____C2_cadastro_usuario.php" method="POST" enctype="multipart/form-data" id="cadastro_usuario" onsubmit="return validarSenha();">
 
-                <h6><i class="material-icons right">person</i>Nome de usuário:</h6>
-                <input id="nome_usuario" name="nome_usuario" type="text" class="validate" placeholder="defina um nome de usuário" required>
+                <h6><i class="material-icons right">person</i>Nome:</h6>
+                <input id="field" name="nome_usuario" type="text" class="validate" placeholder="insira seu nome" required>
 
                 <h6><i class="material-icons right">image</i>Imagem de Perfil:</h6>
 
@@ -91,13 +91,13 @@ require_once "../_______necessarios/.funcoes.php";
                 </script>
 
                 <h6><i class="material-icons right">email</i>Email:</h6>
-                <input id="email" name="email" type="email" class="validate" placeholder="insira seu email" required>
+                <input id="field" name="email" type="email" class="validate" placeholder="insira seu email" required>
 
                 <h6><i class="material-icons right">lock_outline</i>Senha:</h6>
-                <input id="senha" name="senha" type="password" class="validate" placeholder="defina uma senha" required>
+                <input id="field" name="senha" type="password" class="validate" placeholder="defina uma senha" required>
 
                 <h6><i class="material-icons right">lock_open</i>Confirmar Senha:</h6>
-                <input id="confirmar_senha" name="confirmar_senha" type="password" placeholder="confirme sua senha" class="validate" required>
+                <input id="field" name="confirmar_senha" type="password" placeholder="confirme sua senha" class="validate" onblur="validarSenha()" required>
 
                 <br>
 
@@ -123,6 +123,29 @@ require_once "../_______necessarios/.funcoes.php";
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="../../_.materialize/js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="../../_.materialize/js/materialize.min.js"></script>
+
+    <script type="text/javascript">
+    function validarSenha() {
+        senha = document.getElementById("senha").value;
+        rs = document.getElementById("confirmar_senha");
+        repetirSenha = document.getElementById("confirmar_senha").value;
+
+        if (senha == repetirSenha) {
+            
+            rs.setCustomValidity('');
+            rs.checkValidity();
+            return true;
+
+        } else {
+
+            rs.setCustomValidity('As senhas não conferem');
+            rs.checkValidity();
+            rs.reportValidity();
+            return false;
+
+        }
+    }
+    </script>
 
 </body>
 

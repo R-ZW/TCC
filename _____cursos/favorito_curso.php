@@ -7,13 +7,11 @@
     $id_curso = $_GET['id_curso'];
     $i = $_GET['i'];
 
-
     $sql = "SELECT * FROM favoritos_curso WHERE email='$email' AND id_curso=$id_curso";
     $resultado = mysqli_query($conexao, $sql);
 
     $linha = mysqli_fetch_assoc($resultado);
     $situacao_favorito_curso = $linha['situacao_favorito_curso'];
-
 
     if(is_null($situacao_favorito_curso)){
 

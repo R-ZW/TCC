@@ -1,5 +1,21 @@
 <?php
 session_start();
+require_once "../../_______necessarios/.conexao_bd.php";
+require_once "../../_______necessarios/.funcoes.php";
+
+if (!isset($_SESSION['id_usuario'])) {
+    $_SESSION['mensagem'] = "Você deve primeiro realizar o login!";
+    header("Location: ../index/entrada.php");
+}
+
+$email= $_SESSION['email'];
+
+$sql_1 = "SELECT * FROM usuarios WHERE id_usuario='".$_SESSION['id_usuario']."'";
+$resultado_1 = mysqli_query($conexao, $sql_1);
+$linha_1 = mysqli_fetch_assoc($resultado_1);
+$nome_usuario = $linha_1['nome_usuario'];
+$endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
+
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -22,261 +38,549 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <!--Link with configs-->
+    <link rel="stylesheet" type="text/css" href="../.assets/css_home.css">
     <link rel="stylesheet" type="text/css" href="../../_.materialize/css/configs.css">
 
 </head>
 
-<body class="container">
-    
-    <h2 class="center-align bold">Home Consumidor</h2>	
+<body>
 
-    <?php 
-
-        include_once "../../_______necessarios/.conexao_bd.php";
-
-        $email= $_SESSION['email'];
+    <div id="configs" class="modal">
+        <div class="modal-content">
         
-        echo "<br><center><a href='../produtor/PROD____home_produtor.php' class='white-text'><div class='waves-effect waves-light btn bold'>PERMUTAR CONTA <i class='material-icons right'>sync</i></div></a></center><br><br>";
+            <?php include "../../______usuarios/__U1_form_altera_usuario.php";?>
 
-        //obtenção dos cursos associados ao usuário como consumidor-
-        $sql = "SELECT id_curso FROM relacao_usuario_curso WHERE email='$email' AND tipo_relacao='consumidor'";
-        $resultado = mysqli_query($conexao,$sql);
+        </div>
+    </div>
 
-        while($linha = mysqli_fetch_assoc($resultado))
-        {
-            $id_curso1[]= $linha['id_curso'];
-        }
-        //-
+    <div id="excluir" class="modal">
+        <div class="modal-content">
+        
+            <h5 class="center-align">Deseja realmente excluir sua conta?</h5>
+            <br><br><br>
 
-        if(isset($_GET['pesquisa'])){
+            <div class="center-align">
 
-            $pesquisa = $_GET['pesquisa'];
+                <a href="../../______usuarios/_D1_excluir_usuario.php" class="modal-trigger waves-effect waves-light btn bold"
+                style="background-color: #e53935 !important;">CONFIRMAR<i class="material-icons right">delete_forever</i>
+                </a>
 
-        } else {
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 
-            $pesquisa = "";
+                <a href="#!" class="modal-close waves-effect waves-light btn bold"
+                style="background-color: #212121 !important;">CANCELAR<i class="material-icons right">close</i>
+                </a>
 
-        }
+            </div>
+            <br>
 
+        </div>
+    </div>
 
-        if(isset($_GET['p'])){
+    <nav>
+        <div class="nav-wrapper grey darken-4">
 
-            $p = $_GET['p'];
+        <a href='../produtor/PROD____home_produtor.php' class='white-text' style='margin-left: 25px;'>
+            <div class='btn-floating btn-small waves-effect waves-light deep-purple'>
+                <i class='material-icons' style='line-height:33px; margin-right: 1px;'>sync</i>
+            </div>
+        </a>
 
-        } else {
+        <a href="#!" class="breadcrumb">HOME CONSUMIDOR</a>
 
-            $p = 1;
-            
-        }
+        <ul class="right valign-wrapper" style="height:90px;">
 
-
-        if(isset($_GET['limite'])){
-
-            $limite = $_GET['limite'];
-            
-        } else {
-
-            $limite = 5;
-
-        }
-
-        $offset = $limite * ($p - 1);
-
-        echo "
-            <form action='' method='GET'>
-            <input type='text' name='pesquisa' size='75'><input type='submit' value='pesquisar'> ";
-
-            if($pesquisa != ""){
-
-                echo "<a href='CONS____home_consumidor.php?limite=$limite'>cancelar</a>";
+            <a href="#" data-target="slide-out" class="sidenav-trigger" style="width:auto; height:90px;">
+                <i class="material-icons" style="margin-top:13.5px">chevron_left</i>
+                <div class="center-align" style="font-size:large; font-weight:500; margin-top:12px; width:auto;">
+                    <?=$nome_usuario;?>
+                </div>
+                <div class="right">
+                    <img style="border-radius: 100%; width: 50px; height: 50px; margin-top:19px; margin-left:13px;" src="<?= $endereco_imagem_usuario;?>">
+                </div>
+            </a>
     
+        </ul>
+        </div>
+    </nav>
+
+    <ul id="slide-out" class="sidenav">
+        <li>
+            <div class="user-view">
+
+              <div class="background">
+                <img src="../../_.imgs_default/nebulosas/1.png">
+              </div>
+
+              <a href="#user"><img class="circle" src="<?= $endereco_imagem_usuario;?>"></a>
+              <a href="#name"><span class="white-text name"><?= $nome_usuario;?></span></a>
+              <a href="#email"><span class="white-text email"><?= $_SESSION['email'];?></span></a>
+            
+            </div>
+        </li>
+        <li>
+            <a href="#configs" class="modal-trigger waves-effect">Configurações de Conta
+            <i class="material-icons right" style="margin:0px;">build</i></a>
+        </li>
+        <li>
+            <a href='../../______usuarios/logout.php' class="waves-effect">Fazer Logout
+            <i class="material-icons right" style="margin:0px;">exit_to_app</i></a>
+        </li>
+
+        <li><div class="divider"></div></li>
+
+        <br>
+        
+    </ul>
+
+    <main class="container">
+        <br>
+        <br>
+        <?php 
+
+            //obtenção dos cursos associados ao usuário como consumidor-
+            $sql = "SELECT id_curso FROM relacao_usuario_curso WHERE email='$email' AND tipo_relacao='consumidor'";
+            $resultado = mysqli_query($conexao,$sql);
+
+            while($linha = mysqli_fetch_assoc($resultado))
+            {
+                $id_curso1[]= $linha['id_curso'];
+            }
+            //-
+
+            if(isset($_GET['pesquisa'])){
+                $pesquisa = $_GET['pesquisa'];
+            } else {
+                $pesquisa = "";
+            }
+
+            if(isset($_GET['p'])){
+                $p = $_GET['p'];
+            } else {
+                $p = 1;
+            }
+
+            if(isset($_GET['limite'])){
+                $limite = $_GET['limite'];
+            } else {
+                $limite = 5;
+            }
+
+            if(isset($_GET['fav'])){
+                $fav = $_GET['fav'];
+            } else {
+                $fav = 0;
             }
             
-        echo "
-            </form>
-            <br>
-            Cursos por página:
-                <a href='CONS____home_consumidor.php?limite=5&p=1&pesquisa=$pesquisa'>5</a>
-                <a href='CONS____home_consumidor.php?limite=10&p=1&pesquisa=$pesquisa'>10</a>
-                <a href='CONS____home_consumidor.php?limite=15&p=1&pesquisa=$pesquisa'>15</a>
-            <br><br>
-        ";
 
-        if(isset($id_curso1)){
-            //obtenção dos dados dos cursos
-            $b=0;
-            while($b<count($id_curso1)){
+            $offset = $limite * ($p - 1);
 
-                $sqlb[$b]= "SELECT * 
-                            FROM cursos 
-                            WHERE visibilidade_curso='vísivel'
-                            AND id_curso=".$id_curso1[$b]."
-                            AND nome_curso LIKE '%$pesquisa%'";
-                $resultadob[$b] = mysqli_query($conexao,$sqlb[$b]); 
+            echo "
+                <div class='row'>
+                    <form action='' method='GET' class='col s12' style='padding:0px;'>
+                    <div class='input-field col s10'>";
+                    if($pesquisa != ""){
 
-                if($resultadob[$b]){
-                    
-                    while($linhab[$b] = mysqli_fetch_assoc($resultadob[$b]))
-                    {
+                        echo "<a href='CONS____home_consumidor.php?limite=$limite' style='color:#212121;'><i class='material-icons postfix'>clear</i></a>";
+            
+                    }
+            echo "  <i class='material-icons prefix' type='submit'>search</i></button>
+                    <input type='text' id='field' name='pesquisa' placeholder='Buscar'> ";
+                
+            echo "
+                    </div>
+                    <div class='col s2 center-align'>
+                        Cursos por página:
+                        <ul class='pagination'>";
+                        if($limite == 5){
+                            echo "
+                            <li class='active deep-purple lighten-2'><a href='CONS____home_consumidor.php?limite=5&p=1&pesquisa=$pesquisa'>5</a></li>
+                            <li class='waves-effect'><a href='CONS____home_consumidor.php?limite=10&pesquisa=$pesquisa&fav=$fav'>10</a></li>
+                            <li class='waves-effect'><a href='CONS____home_consumidor.php?limite=15&pesquisa=$pesquisa&fav=$fav'>15</a></li>
+                            ";
+                        }
+                        if($limite == 10){
+                            echo "
+                            <li class='waves-effect'><a href='CONS____home_consumidor.php?limite=5&pesquisa=$pesquisa&fav=$fav'>5</a></li>
+                            <li class='active deep-purple'><a href='CONS____home_consumidor.php?limite=10&pesquisa=$pesquisa&fav=$fav'>10</a></li>
+                            <li class='waves-effect'><a href='CONS____home_consumidor.php?limite=15&pesquisa=$pesquisa&fav=$fav'>15</a></li>
+                            ";
+                        }
+                        if($limite == 15){
+                            echo "
+                            <li class='waves-effect'><a href='CONS____home_consumidor.php?limite=5&pesquisa=$pesquisa&fav=$fav'>5</a></li>
+                            <li class='waves-effect'><a href='CONS____home_consumidor.php?limite=10&pesquisa=$pesquisa&fav=$fav'>10</a></li>
+                            <li class='active deep-purple darken-4'><a href='CONS____home_consumidor.php?limite=15&pesquisa=$pesquisa&fav=$fav'>15</a></li>
+                            ";
+                        }
+            echo "
+                        </ul>
+                </div>
+                </form>
+                </div>
+                <div class='center-align'>";
+            
+            if($fav==0){
+
+                echo "<a href='CONS____home_consumidor.php?limite=5&pesquisa=$pesquisa&fav=1' class='btn waves-effect waves-light white'>
+                        <div style='color: #673ab7;' class='bold valign-wrapper'>APENAS FAVORITOS &nbsp<i class='fa fa-star-o'></i></div>
+                      </a>";
+
+            } else {
+
+                echo "<a href='CONS____home_consumidor.php?limite=5&pesquisa=$pesquisa&fav=0' class='btn waves-effect waves-light deep-purple'>
+                        <div style='color: #FFFFFF;' class='bold valign-wrapper'>APENAS FAVORITOS &nbsp<i class='fa fa-star'></i></div>
+                      </a>";
+
+            }
+
+            echo "</div><br>";
+
+            if(isset($id_curso1)){
+                //obtenção dos dados dos cursos
+                $b=0;
+                if($fav==0){
+
+                    while($b<count($id_curso1)){
+
+                        $sqlb[$b]= "SELECT * 
+                                    FROM cursos 
+                                    WHERE visibilidade_curso='visível'
+                                    AND id_curso=".$id_curso1[$b]."
+                                    AND nome_curso LIKE '%$pesquisa%'";
+                        $resultadob[$b] = mysqli_query($conexao,$sqlb[$b]); 
+
+                        if($resultadob[$b]){
+                            
+                            while($linhab[$b] = mysqli_fetch_assoc($resultadob[$b]))
+                            {
+                                
+                                $id_curso[] = $linhab[$b]['id_curso'];
+                                $nome_curso[]= $linhab[$b]['nome_curso'];
+                                $descricao_curso[]= $linhab[$b]['descricao_curso'];
+                                $endereco_imagem_curso[]= $linhab[$b]['endereco_imagem_curso'];
+
+                            } 
+                            
+                            if(isset($descricao_curso[$b])){
+
+                                if(strlen($descricao_curso[$b])>=460){
+
+                                    $str = $descricao_curso[$b];
+                
+                                    $p1 = substr("$str", 0, 460);
+                                    $p2 = "$p1"."...";
+                
+                                    $descricao_curso[$b]= $p2;
+                
+                                }
+
+                            }
+                            
+                        }
+
+                        $b++;
+
+                    }
+                
+                } elseif($fav==1){
+
+                    for($var=0; $var<count($id_curso1); $var++){
+
+                        $sql_[$var]= "SELECT id_curso FROM favoritos_curso WHERE email='$email' AND id_curso=".$id_curso1[$var]." AND situacao_favorito_curso='favorito'";
+
+                        $resultado_[$var] = mysqli_query($conexao, $sql_[$var]);  
+
+                        if($resultado_[$var]){
+                            while($linha_[$var] = mysqli_fetch_assoc($resultado_[$var]))
+                            {
+                                
+                                $id_curso_favorito[] = $linha_[$var]['id_curso'];
+
+                            }
+                        }
+                    }
+
+                    if(isset($id_curso_favorito)){
                         
-                        $id_curso[] = $linhab[$b]['id_curso'];
-                        $nome_curso[]= $linhab[$b]['nome_curso'];
-                        $descricao_curso[]= $linhab[$b]['descricao_curso'];
-                        $endereco_imagem_curso[]= $linhab[$b]['endereco_imagem_curso'];
+                        while($b<count($id_curso_favorito)){
 
-                    } 
+                            $sqlb[$b]= "SELECT * 
+                                        FROM cursos 
+                                        WHERE visibilidade_curso='visível'
+                                        AND id_curso=".$id_curso_favorito[$b]."
+                                        AND nome_curso LIKE '%$pesquisa%'";
+                            $resultadob[$b] = mysqli_query($conexao,$sqlb[$b]); 
+
+                            if($resultadob[$b]){
+                                
+                                while($linhab[$b] = mysqli_fetch_assoc($resultadob[$b]))
+                                {
+                                    
+                                    $id_curso[] = $linhab[$b]['id_curso'];
+                                    $nome_curso[]= $linhab[$b]['nome_curso'];
+                                    $descricao_curso[]= $linhab[$b]['descricao_curso'];
+                                    $endereco_imagem_curso[]= $linhab[$b]['endereco_imagem_curso'];
+
+                                } 
+                                
+                                if(isset($descricao_curso[$b])){
+
+                                    if(strlen($descricao_curso[$b])>=460){
+
+                                        $str = $descricao_curso[$b];
                     
-                    if(isset($descricao_curso[$b])){
+                                        $p1 = substr("$str", 0, 460);
+                                        $p2 = "$p1"."...";
+                    
+                                        $descricao_curso[$b]= $p2;
+                    
+                                    }
 
-                        if(strlen($descricao_curso[$b])>=950){
-
-                            $str = $descricao_curso[$b];
-        
-                            $p1 = substr("$str", 0, 950);
-                            $p2 = "$p1"."...";
-        
-                            $descricao_curso[$b]= $p2;
-        
+                                }
+                                
+                            }
+ 
+                            $b++;
+                                
                         }
 
                     }
-                    
+
                 }
 
-                $b++;
-
             }
+            //-
 
-     }
-        //-
+            if(isset($id_curso)){
 
-        if(isset($id_curso)){
+                $ultima_pagina = ceil(count($id_curso) / $limite);
+                $limitep = $limite * $p;
 
-            $ultima_pagina = ceil(count($id_curso) / $limite);
-            $limitep = $limite * $p;
+                if($p*$limite > count($id_curso)+($limite-1)){
 
-            if($p*$limite > count($id_curso)+($limite-1)){
+                    echo "Número de página inválido!";
 
-                echo "Número de página inválido!";
+                } else {
+                
+                    for($i=$offset; $i<count($id_curso) and $i<$limitep; $i++){
 
-            } else {
-            
-                for($i=$offset; $i<count($id_curso) and $i<$limitep; $i++){
+                        echo "
+                        
+                            <a href='CONS___tela_curso_consumidor.php?id_curso=" . $id_curso[$i] . "' style='color:black;'>
 
-                    echo "
-                    
-                        <a href='CONS___tela_curso_consumidor.php?id_curso=" . $id_curso[$i] . "' class='link-curso'>
+                                <div class='card-panel hoverable'>
+                                    <div class='row'>
+                                        <div class='col s5'>
 
-                            <div class='card-panel hoverable'>
-
-                                <div class='row'>
-
-                                    <div class='col s4 m4 l4 flow-text'>
+                                            <br>
+                                            <img src=" . $endereco_imagem_curso[$i] ." width='400em' height='225em'>
                                     
-                                        <img src=" . $endereco_imagem_curso[$i] ." class='img-curso'>
-                                
-                                    </div>
-                                
-                                    <div class='center-align'>
+                                        </div>
+                                    
+                                        <div class='col s7'>
 
-                                        <h4 class='bold'>" . $nome_curso[$i] . "</h4>
+                                            <h4 class='bold center-align'>" . $nome_curso[$i] . "</h4>
+                                            <br>
+                                            <h6 style='text-align:justify; font-size:1.3em;'>" . $descricao_curso[$i] . "</h6>
 
-                                        <h6 class='descricao-curso'>" . $descricao_curso[$i] . "<br><br>
+                                        </div>
 
-                                    </div>
+                                    </div>";
 
-                                </div>";
+                                    $sqli[$i] = "SELECT * FROM favoritos_curso WHERE email='$email' AND id_curso=".$id_curso[$i];
+                                    $resultadoi[$i] = mysqli_query($conexao, $sqli[$i]);
 
-                                $sqli[$i] = "SELECT * FROM favoritos_curso WHERE email='$email' AND id_curso=".$id_curso[$i];
-                                $resultadoi[$i] = mysqli_query($conexao, $sqli[$i]);
+                                    if($resultadoi[$i] == true){
 
-                                if($resultadoi[$i] == true){
+                                        if($linhai[$i] = mysqli_fetch_assoc($resultadoi[$i])){
 
-                                    if($linhai[$i] = mysqli_fetch_assoc($resultadoi[$i])){
+                                            $situacao_favorito_curso[$i] = $linhai[$i]['situacao_favorito_curso'];
 
-                                        $situacao_favorito_curso[$i] = $linhai[$i]['situacao_favorito_curso'];
+                                        }
 
                                     }
 
-                                }
+                                    if(isset($situacao_favorito_curso[$i])){
 
-                                if(isset($situacao_favorito_curso[$i])){
+                                        if($situacao_favorito_curso[$i] == "favorito"){
 
-                                    if($situacao_favorito_curso[$i] == "favorito"){
+                                            echo "<center><a href='../../_____cursos/favorito_curso.php?id_curso=".$id_curso[$i]."&i=0' style='color:#673ab7;'><i class='fa fa-star fa-2x'></i></a></center>";
 
-                                        echo "<center><a href='../../_____cursos/favorito_curso.php?id_curso=".$id_curso[$i]."&i=0' class='edita-exclui'><i class='fa fa-star fa-2x'></i></a></center>";
+                                        } else {
+
+                                            echo "<center><a href='../../_____cursos/favorito_curso.php?id_curso=".$id_curso[$i]."&i=0' style='color:#673ab7;'><i class='fa fa-star-o fa-2x'></i></a></center>";
+
+                                        }
 
                                     } else {
 
-                                        echo "<center><a href='../../_____cursos/favorito_curso.php?id_curso=".$id_curso[$i]."&i=0' class='edita-exclui'><i class='fa fa-star-o fa-2x'></i></a></center>";
+                                        echo "<center><a href='../../_____cursos/favorito_curso.php?id_curso=".$id_curso[$i]."&i=0' style='color:#673ab7;'><i class='fa fa-star-o fa-2x'></i></a></center>";
 
                                     }
 
-                                } else {
+        echo "
 
-                                    echo "<center><a href='../../_____cursos/favorito_curso.php?id_curso=".$id_curso[$i]."&i=0' class='edita-exclui'><i class='fa fa-star-o fa-2x'></i></a></center>";
+                                </div>
+                            </a>
+                            <br>
+                        ";
 
-                                }
-
-    echo "
-
-                            </div>
-                        </a>
-                        <br>
-                    ";
-
-                } 
-
-            }
-
-            if($ultima_pagina > 1){
-
-                echo "<center>";
-
-                for($i=1; $i<=$ultima_pagina; $i++){
-
-                    echo "<a href='CONS____home_consumidor.php?limite=$limite&p=$i&pesquisa=$pesquisa'>$i</a> ";
+                    } 
 
                 }
 
-                echo "</center>";
+                echo "<ul class='pagination center-align'>";
+
+                if($p==1){
+
+                    echo "<li class='disabled'><a href='#!'><i class='material-icons'>chevron_left</i></a></li>";
+                
+                } else {
+
+                    $pAntecessora = $p-1;
+
+                    echo "<li class='waves-effect'>
+                            <a href='CONS____home_consumidor.php?limite=$limite&p=$pAntecessora&pesquisa=$pesquisa'>
+                                <i class='material-icons'>chevron_left</i>
+                            </a>
+                          </li>";
+
+                }
+
+                    if($ultima_pagina > 1){
+
+                        for($i=1; $i<=$ultima_pagina; $i++){
+
+                            if($i==$p){
+
+                              echo "<li class='active deep-purple'><a href='#!'>$i</a></li>";  
+
+                            } else {
+
+                                echo "<li class='waves-effect'><a href='CONS____home_consumidor.php?limite=$limite&p=$i&pesquisa=$pesquisa'>$i</a></li>";
+
+                            }
+                             
+                        }
+
+                    } else {
+
+                        echo "<li class='active deep-purple'><a href='#!'>1</a></li>";
+                        
+                    }
+
+                if($p==$ultima_pagina){
+
+                    echo "<li class='disabled'><a href='#!'><i class='material-icons'>chevron_right</i></a></li>";
+                
+                } else {
+
+                    $pSucessora = $p+1;
+                    
+                    echo "<li class='waves-effect'>
+                            <a href='CONS____home_consumidor.php?limite=$limite&p=$pSucessora&pesquisa=$pesquisa'>
+                                <i class='material-icons'>chevron_right</i>
+                            </a>
+                            </li>";
+
+                }
+
+                echo "</ul>";
 
             } else {
 
-                echo "<center>1</center>";
-                
+                echo "<br><h4>Não foram encontrados cursos!</h4>";
+
             }
-
-        } else {
-
-            echo "<br><h4>Não foram encontrados cursos!</h4>";
-
-        }
-
-        $sql_1 = "SELECT * FROM usuarios WHERE id_usuario='".$_SESSION['id_usuario']."'";
-        $resultado_1 = mysqli_query($conexao, $sql_1);
-
-        $linha_1 = mysqli_fetch_assoc($resultado_1);
-
-        $nome_usuario = $linha_1['nome_usuario'];
-        $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
-
-        echo "<br>
-        
-              <img src='$endereco_imagem_usuario' width='5%'> 
-              
-              $nome_usuario
-
-              <a href='../../______usuarios/logout.php'>logout</a>
-              
-              <a href='../../______usuarios/__U1_form_altera_usuario.php'>editar</a>
-              
-              <a href='../../______usuarios/_D1_excluir_usuario.php'>excluir</a>";
-    ?>
+        ?>
+    </main>
+    <br>
+    <br>
+    <footer class="page-footer transparent" style="padding-top:10px;">
+        <div class="container">
+        <div class="row" style="margin-bottom:0px;">
+            <div class="col s11">
+            <h5 class="black-text">TRABALHO DE CONCLUSÃO DE CURSO</h5>
+            <p class="grey-text text-darken-1" style="font-size:1.4em;">Sistema de acesso e manutenção de cursos online.</p>
+            </div>
+            <div class="col s1">
+            <ul class="right-align">
+                <li style="padding-bottom:7px;"><img src="../../_.imgs_default/logo_iffar.png" width="65px" height="115px"></li>
+            </ul>
+            </div>
+        </div>
+        </div>
+        <div class="footer-copyright grey darken-4">
+        <div class="container">
+        © 2022 NEBULA
+        <div class="grey-text text-lighten-4 right right-align" href="#!">Todos os direitos reservados</div>
+        </div>
+        </div>
+    </footer>
 
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="../../_.materialize/js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="../../_.materialize/js/materialize.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+        $('.sidenav').sidenav({
+            edge: 'right'
+        });
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+        $('.modal').modal();
+        });
+    </script>
+    <script type="text/javascript">
+    function validarSenha() {
+        senha = document.getElementById("senha").value;
+        rs = document.getElementById("confirmar_senha");
+        repetirSenha = document.getElementById("confirmar_senha").value;
+
+        if (senha == repetirSenha) {
+            
+            rs.setCustomValidity('');
+            rs.checkValidity();
+            return true;
+
+        } else {
+
+            rs.setCustomValidity('As senhas não conferem');
+            rs.checkValidity();
+            rs.reportValidity();
+            return false;
+
+        }
+    }
+    </script>
+    <script>
+        function previewImagem(){
+            let imagem = document.querySelector('input[name=endereco_imagem_usuario]').files[0];
+            let preview = document.querySelector('img');
+
+            let reader = new FileReader();
+
+            reader.onloadend = function(){
+
+                preview.src=reader.result;
+
+            }
+
+            if(imagem){
+
+                reader.readAsDataURL(imagem);
+
+            } else {
+
+                preview.src="";
+
+            }
+        }
+    </script>
     
 </body>
 

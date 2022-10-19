@@ -153,7 +153,7 @@ if(!is_null($reset)) {
 
         }
     }
-</script>
+    </script>
 </body>
 
 </html>

@@ -1,0 +1,71 @@
+nav{
+    height: 90px;
+    line-height: 90px;
+}
+  
+nav i, nav[class^="mdi-"], nav[class*="mdi-"], nav i.material-icons{
+    height: 90px;
+    line-height: 90px;
+}
+
+b{
+    font-weight: 500;
+}
+
+big{
+    font-size: 1.5em;
+}
+
+hr {
+    display: block;
+    unicode-bidi: isolate;
+    margin-block-start: 0em;
+    margin-block-end:0em;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
+    overflow: hidden;
+    border-style: inset;
+    border-width: 0.01px;
+
+}
+
+.descricao-modulo{
+    text-align: justify;
+    font-size: 1.5em;
+    margin-left: 20%;
+    margin-top: 0vh;
+}
+
+.bold{
+    font-weight: 500 !important;
+}
+
+.justify{
+    text-align: justify;
+}
+
+.white-text{
+    color: white !important;
+}
+nav a.sidenav-trigger {
+    display: flex; 
+}
+.input-field .postfix ~ input { width: 80%; width:calc(100% - 3rem);  margin-left:0px; margin-right: 3rem!important; }
+.input-field .postfix {
+    position: absolute;
+    width: 3rem;
+    right: 0px;
+    font-size: 2rem;
+    -webkit-transition: color .2s;
+    transition: color .2s;
+    top: 0.5rem;
+}
+.input-field .postfix.active {
+    color: #212121;
+}
+.input-field .prefix{
+    color: #9e9e9e;
+}
+.input-field .prefix.active {
+    color: #212121;
+  }
