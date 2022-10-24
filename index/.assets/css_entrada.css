@@ -1,6 +1,6 @@
 html,
 body {
-  height: 100%;
+  height: 100% !important;
   width: 100%;
   padding: 0;
   margin: 0;
@@ -49,33 +49,6 @@ div#wapper div.panel-auth form div {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
-}
-div#wapper div.panel-auth form div i {
-  font-size: 14pt !important;
-  color: #ddd;
-  border-radius: 40px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-div#wapper div.panel-auth form div input {
-  outline: none;
-  border: 1px solid #ddd;
-  border-radius: 40px;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  background-color: transparent;
-  padding: 5px 12px 5px 6px;
-  height: 50px;
-  font-size: 11pt;
-  width: 100%;
-}
-div#wapper div.panel-auth form button {
-  color: #f0f0f0;
-  background-color: #40739e;
-  border: 0;
-  cursor: pointer;
-  height: 40px;
-  margin-top: 2pc;
 }
 div#wapper div.content {
   flex: 3;
@@ -148,4 +121,22 @@ i.right {
   color: #212121 !important;
   border-bottom: 1px solid #212121 !important;
   box-shadow: 0 1px 0 0 #212121 !important;
+}
+.field:focus{
+  color: #212121 !important;
+  border-bottom: 1px solid #212121 !important;
+  box-shadow: 0 1px 0 0 #212121 !important;
+}
+.input-field .postfix ~ input { width: 80%; width:calc(100% - 3rem);  margin-left:0px; margin-right: 3rem!important; }
+.input-field .postfix {
+    position: absolute;
+    width: 3rem;
+    right: 0px;
+    font-size: 2rem;
+    -webkit-transition: color .2s;
+    transition: color .2s;
+    top: 0.5rem;
+}
+.input-field .postfix.active {
+    color: #212121;
 }

@@ -63,11 +63,14 @@ require_once "../_______necessarios/.funcoes.php";
             <form action="../______usuarios/login.php" method="POST">
 
                 <h6><i class="material-icons right">person</i>Email:</h6>
-                <input id="field" name="email" type="email" class="validate" placeholder="insira seu email aqui" required>
-
+                <input id="email" name="email" type="email" class="field" placeholder="insira seu email aqui" required>
+                
                 <h6><i class="material-icons right">vpn_key</i>Senha:</h6>
-                <input id="field" name="senha" type="password" class="validate" placeholder="insira sua senha aqui" required>
-        
+                <div class="input-field col s6">
+                    <div class="text-align: -webkit-center"><i class="material-icons postfix right-align" style="font-size:1.4rem; margin-top:6px;" onclick="mostrar()">remove_red_eye</i></div>
+                    <input id="senha" name="senha" type="password" class="field" placeholder="insira sua senha aqui" required>
+                </div>
+                
                 <aside class="col">
                     <a href="../______usuarios/recuperar_senha_1.php?i=<?= $i;?>">Esqueceu a senha?</a>
                 </aside>
@@ -77,13 +80,16 @@ require_once "../_______necessarios/.funcoes.php";
                 <br>
                 <br>
                 <br>
+                <br>
 
                 <h5>Não possui conta?</h5>
                 <a href="../______usuarios/____C1_form_cadastro_usuario.php?i=<?= $i;?>" class="waves-effect waves-light btn btn_a center-align"><i class="material-icons right">person_add</i>Criar conta</a>
 
                 
             </form>
+            <br>
         </div>
+        
 
         <div class="content">
             <article class="message">
@@ -96,6 +102,16 @@ require_once "../_______necessarios/.funcoes.php";
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="../../_.materialize/js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="../../_.materialize/js/materialize.min.js"></script>
+    <script>
+        function mostrar() {
+            var senha = document.getElementById("senha");
+            if (senha.type === "password") {
+                senha.type = "text";
+            } else {
+                senha.type = "password";
+            }
+        }
+    </script>
 
 </body>
 

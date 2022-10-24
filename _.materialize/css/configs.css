@@ -44,3 +44,30 @@ hr {
     border-bottom: 1px solid #212121 !important;
     box-shadow: 0 1px 0 0 #212121 !important;
 }
+.field:focus{
+    color: #212121 !important;
+    border-bottom: 1px solid #212121 !important;
+    box-shadow: 0 1px 0 0 #212121 !important;
+}
+.input-field .postfix ~ input { width: 80%; width:calc(100% - 3rem);  margin-left:0px; margin-right: 3rem!important; }
+.input-field .postfix {
+    position: absolute;
+    width: 3rem;
+    right: 0px;
+    font-size: 2rem;
+    -webkit-transition: color .2s;
+    transition: color .2s;
+    top: 0.5rem;
+}
+.input-field .postfix.active {
+    color: #212121;
+}
+.switch label input[type=checkbox]:checked+.lever {
+    background-color: #b39ddb ;
+}
+.switch label input[type=checkbox]:checked+.lever:after {
+    background-color: #673ab7;
+}
+.switch label .lever:before{
+    background-color: rgba(104, 58, 183, 0.236) !important;
+}

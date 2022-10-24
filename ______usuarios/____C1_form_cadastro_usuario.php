@@ -33,9 +33,9 @@ require_once "../_______necessarios/.funcoes.php";
 
     <div id="wapper">
         <div class="auth-background" style="<?php $i = $_GET['i']; echo "background: url(../_.imgs_default/nebulosas/$i.png);"?>"></div>
-        <div class="panel-auth">
+        <div class="panel-auth" style="padding-top: 40px">
 
-            <h2 style="text-align:center;">Nebula</h2>
+            <h2 style="text-align:center; margin-top: 0">Nebula</h2>
 
             <h5 style="text-align:center; margin-top: 0">Criar Conta</h5>
 
@@ -50,15 +50,15 @@ require_once "../_______necessarios/.funcoes.php";
                 <h6><i class="material-icons right">person</i>Nome:</h6>
                 <input id="field" name="nome_usuario" type="text" class="validate" placeholder="insira seu nome" required>
 
-                <h6><i class="material-icons right">image</i>Imagem de Perfil:</h6>
+                <h6><i class="material-icons right">image</i>Imagem de Perfil (1x1):</h6>
 
-                <img src="../_.imgs_default/sem_imagem_usuario.png" style="margin-left:40%; border-radius: 100%; width: 100px; height: 100px;">
+                <center><img src="../_.imgs_default/sem_imagem_usuario.png" style="border-radius: 100%; width: 100px; height: 100px;"></center>
 
                 <script src="https://ajax.googleapis.com/ajax/libs/3.3.1/jquery.min.js"></script>
                 
                 <br>
 
-                <div class="file-field" style="margin-left:25%;">
+                <div class="file-field" style="margin-left:23%;">
                     <div class="waves-effect waves-light btn btn_b center-align">
                         <i class="material-icons left">upload</i> 
                         Selecionar Arquivo <input name="endereco_imagem_usuario" type="file" accept="image/*" class="waves-effect waves-light btn center-align" form="cadastro_usuario" onchange="previewImagem()">
@@ -94,11 +94,16 @@ require_once "../_______necessarios/.funcoes.php";
                 <input id="field" name="email" type="email" class="validate" placeholder="insira seu email" required>
 
                 <h6><i class="material-icons right">lock_outline</i>Senha:</h6>
-                <input id="field" name="senha" type="password" class="validate" placeholder="defina uma senha" required>
+                <div class="input-field col s6">
+                    <div class="text-align: -webkit-center"><i class="material-icons postfix right-align" style="font-size:1.3rem; margin-top:6px;" onclick="mostrar()">remove_red_eye</i></div>
+                    <input id="senha" name="senha" type="password" class="field" placeholder="defina uma senha" required>
+                </div>
 
                 <h6><i class="material-icons right">lock_open</i>Confirmar Senha:</h6>
-                <input id="field" name="confirmar_senha" type="password" placeholder="confirme sua senha" class="validate" onblur="validarSenha()" required>
-
+                <div class="input-field col s6">
+                    <div class="text-align: -webkit-center"><i class="material-icons postfix right-align" style="font-size:1.3rem; margin-top:6px;" onclick="mostrar_confirmacao()">remove_red_eye</i></div>
+                    <input id="confirmar_senha" name="confirmar_senha" type="password" placeholder="confirme sua senha" class="field" onblur="validarSenha()" required>
+                </div>
                 <br>
 
                 <button type="submit" class="waves-effect waves-light btn btn_a center-align">Confirmar <i class="material-icons right">check</i></button>
@@ -108,6 +113,7 @@ require_once "../_______necessarios/.funcoes.php";
                 <a href="../index/entrada.php" class="waves-effect waves-light btn btn_a center-align">Cancelar <i class="material-icons right">close</i></a>
                 
             </form>
+
         </div>
 
         <div class="content">
@@ -123,7 +129,6 @@ require_once "../_______necessarios/.funcoes.php";
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="../../_.materialize/js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="../../_.materialize/js/materialize.min.js"></script>
-
     <script type="text/javascript">
     function validarSenha() {
         senha = document.getElementById("senha").value;
@@ -145,6 +150,24 @@ require_once "../_______necessarios/.funcoes.php";
 
         }
     }
+    </script>
+    <script>
+        function mostrar() {
+            var senha = document.getElementById("senha");
+            if (senha.type === "password") {
+                senha.type = "text";
+            } else {
+                senha.type = "password";
+            }
+        }
+        function mostrar_confirmacao() {
+            var senha = document.getElementById("confirmar_senha");
+            if (senha.type === "password") {
+                senha.type = "text";
+            } else {
+                senha.type = "password";
+            }
+        }
     </script>
 
 </body>

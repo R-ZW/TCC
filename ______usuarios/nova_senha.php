@@ -101,11 +101,16 @@ if(!is_null($reset)) {
                 <input type="hidden" name="token" value="<?= $token ?>">
 
                 <h6><i class="material-icons right">lock_outline</i>Senha:</h6>
-                <input id="senha" name="senha" type="password" class="validate" placeholder="defina uma senha" required>
+                <div class="input-field col s6">
+                    <div class="text-align: -webkit-center"><i class="material-icons postfix right-align" style="font-size:1.3rem; margin-top:6px;" onclick="mostrar()">remove_red_eye</i></div>
+                    <input id="senha" name="senha" type="password" class="field" placeholder="defina uma senha" required>
+                </div>
 
                 <h6><i class="material-icons right">lock_open</i>Confirmar Senha:</h6>
-                <input id="confirmar_senha" name="confirmar_senha" type="password" placeholder="confirme sua senha" onblur="validarSenha()" class="validate" required>
-
+                <div class="input-field col s6">
+                    <div class="text-align: -webkit-center"><i class="material-icons postfix right-align" style="font-size:1.3rem; margin-top:6px;" onclick="mostrar_confirmacao()">remove_red_eye</i></div>
+                    <input id="confirmar_senha" name="confirmar_senha" type="password" placeholder="confirme sua senha" onblur="validarSenha()" class="field" required>
+                </div>
                 <br>
 
                 <button type="submit" class="waves-effect waves-light btn btn_a center-align">Confirmar<i class="material-icons right">check</i></button>
@@ -153,6 +158,24 @@ if(!is_null($reset)) {
 
         }
     }
+    </script>
+    <script>
+        function mostrar() {
+            var senha = document.getElementById("senha");
+            if (senha.type === "password") {
+                senha.type = "text";
+            } else {
+                senha.type = "password";
+            }
+        }
+        function mostrar_confirmacao() {
+            var senha = document.getElementById("confirmar_senha");
+            if (senha.type === "password") {
+                senha.type = "text";
+            } else {
+                senha.type = "password";
+            }
+        }
     </script>
 </body>
 

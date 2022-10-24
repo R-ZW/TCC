@@ -4,8 +4,6 @@
     include_once "../_______necessarios/.conexao_bd.php";
 
     $id_curso = $_GET['id_curso'];
-    $i = $_GET['i'];
-
 
     $sql = "SELECT * FROM cursos WHERE id_curso=$id_curso";
     $resultado = mysqli_query($conexao, $sql);
@@ -26,14 +24,6 @@
 
     }
 
-    if($i==0){
-
-        header ("Location: ../index/produtor/PROD____home_produtor.php");
-
-    } elseif($i==1) {
-
-        header ("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
-
-    } 
+    echo "<script>window.history.go(-1);</script>";
 
 ?>

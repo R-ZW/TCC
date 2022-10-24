@@ -1,97 +1,84 @@
-<?php
-session_start();
-?>
-<!DOCTYPE html>
-<html lang="pt">
+    <form action="../../_____cursos/____C2_insere_curso.php" method="post" id="criar_curso" enctype="multipart/form-data">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Criação de Curso</title>
-    
-    <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <h4 class="center-align">Criar Curso</h4><br>
 
-    <!--Another Icon Font-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="../_.materialize/css/materialize.min.css"  media="screen,projection"/>
-
-    <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-    <!--Link with configs-->
-    <link rel="stylesheet" type="text/css" href="../_.materialize/css/configs.css">
-    
-</head>
-
-<body class="container">
-
-    <?php
-    
-    require_once "../_______necessarios/.conexao_bd.php";
-    
-    $email = $_SESSION['email'];
-
-    ?>
-
-    <center><h3 class="bold">Criação de Curso</h3></center>
-
-    <br>
-
-    <form action="____C2_insere_curso.php" method="post" enctype="multipart/form-data" id="insere_curso">
-
-        <big>Nome do curso:</big> <input type="text" name="nome_curso" required><br>
-
-        <br>
-
-        <big>Descrição do curso:</big><input type="text" name="descricao_curso" required><br>
-
-        <br>
-
-        <big>Imagem do curso:</big><br><br><input type="file" name="endereco_imagem_curso" accept="image/*"><br>
-
-        <br>
-
-        <big>Certificado de conclusão do curso (só disponível caso haja questionários válidos):</big><br><br><input type="file" name="endereco_certificado_curso" accept="image/*,.pdf"><br>
+        <h6 class="bold">Nome do curso:<i class="material-icons right">border_color</i></h6>
+        <input id="field" type="text" name="nome_curso" placeholder="insira o nome do curso" required>
 
         <br>
         <br>
 
-        <big>Visibilidade do curso:</big><br><br>
-        
+        <h6 class="bold">Descrição do curso:<i class="material-icons right">subject</i></h6>
+        <div class="input-field col s12">
+        <textarea id="field" type="text" name="descricao_curso" placeholder="insira a descrição do curso" class="materialize-textarea" style="text-align:justify" required></textarea>
+        </div>
+
+        <h6 class="bold">Imagem do curso (16x9):<i class="material-icons right">image</i></h6>
+
+        <div class="file-field">
+            <div class="waves-effect waves-light btn grey darken-4" style="margin-left:39%;">
+                <span class="bold"><i class="material-icons left">upload</i> Selecionar Arquivo</span>
+                <input id="endereco_imagem_curso_cadastro" name="endereco_imagem_curso" type="file" style="text-align: -webkit-center;" accept="image/*" onchange="previewImagem()">
+            </div>
+        </div>
+
+        <br>
+        <br>
+        <br>
+        <h6 class="bold center-align" style="font-style:italic;">preview:</h6>
+        <div class="card-panel hoverable">
+            <div class="row">
+                <div class="col s5">
+                
+                    <br>
+                    <img id="imagem_curso_cadastro" src="../../_.imgs_default/sem_imagem.png" width="300em" height="169em">
+            
+                </div>
+            
+                <div class="col s7">
+
+                    <h5 class="bold center-align">[*nome do curso*]</h5>
+                    <br>
+                    <h6 style="text-align:justify; font-size:1.3em;">[*descrição do curso*].</h6>
+
+                </div> 
+            </div>
+        </div>
+        <br>
+
+        <h6 class="bold">Visibilidade do curso: <i class="material-icons right">remove_red_eye</i></h6><br>
+
         <div class="switch">
             
             <label>
 
-            <big>Visível</big>
+            <h6 class="bold">Não visível
 
-            <input type="checkbox" id="visibilidade_curso" name="visibilidade_curso" value="1">
+            <input type="checkbox" id="visibilidade_curso" name="visibilidade_curso" value="1" checked>
 
             <span class="lever"></span>
 
-            <big>Não visível</big>
+            Visível</h6>
 
             </label>
+            
         </div>
-        
+
         <br>
         <br>
 
-        <input type="hidden" name="email" value="<?php echo $email; ?>">
+        <div class="right">
 
-        <center>
-        <button type="submit" class="waves-effect waves-light btn bold">ENVIAR<i class="material-icons right">check</i></button>
-        <button type="reset" class="waves-effect waves-light btn bold">REDEFINIR<i class="material-icons right">refresh</i></button>
-        <a href="../index/produtor/PROD____home_produtor.php?email=<?php echo $email; ?>" class="waves-effect waves-light btn bold">Cancelar <i class="material-icons right">close</i></a>
-        </center>
+            <a href="#!" class="modal-close waves-effect waves-light btn bold"
+            style="background-color: #212121 !important;">cancelar<i class="material-icons right">close</i>
+            </a>
 
+            <button type="submit" class="waves-effect waves-light btn bold"
+            style="background-color: #212121 !important;">ENVIAR<i class="material-icons right">check</i>
+            </button>
+
+            <br>
+            <br>
+
+        </div> 
     </form>
-
-    <!--Import jQuery before materialize.js-->
-    <script type="text/javascript" src="../_.materialize/js/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript" src="../_.materialize/js/materialize.min.js"></script>
-    
-</body>
-
-</html>

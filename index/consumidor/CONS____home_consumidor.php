@@ -5,7 +5,7 @@ require_once "../../_______necessarios/.funcoes.php";
 
 if (!isset($_SESSION['id_usuario'])) {
     $_SESSION['mensagem'] = "Você deve primeiro realizar o login!";
-    header("Location: ../index/entrada.php");
+    header("Location: ../entrada.php");
 }
 
 $email= $_SESSION['email'];
@@ -134,8 +134,10 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
     </ul>
 
     <main class="container">
+
         <br>
         <br>
+
         <?php 
 
             //obtenção dos cursos associados ao usuário como consumidor-
@@ -171,7 +173,6 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
             } else {
                 $fav = 0;
             }
-            
 
             $offset = $limite * ($p - 1);
 
@@ -181,11 +182,11 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
                     <div class='input-field col s10'>";
                     if($pesquisa != ""){
 
-                        echo "<a href='CONS____home_consumidor.php?limite=$limite' style='color:#212121;'><i class='material-icons postfix'>clear</i></a>";
+                        echo "<a href='CONS____home_consumidor.php?limite=$limite&fav=$fav' style='color:#212121;'><i class='material-icons postfix'>clear</i></a>";
             
                     }
             echo "  <i class='material-icons prefix' type='submit'>search</i></button>
-                    <input type='text' id='field' name='pesquisa' placeholder='Buscar'> ";
+                    <input type='text' id='field' name='pesquisa' value='$pesquisa' placeholder='Buscar'> ";
                 
             echo "
                     </div>
@@ -194,7 +195,7 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
                         <ul class='pagination'>";
                         if($limite == 5){
                             echo "
-                            <li class='active deep-purple lighten-2'><a href='CONS____home_consumidor.php?limite=5&p=1&pesquisa=$pesquisa'>5</a></li>
+                            <li class='active deep-purple lighten-2'><a href='CONS____home_consumidor.php?limite=5&p=1&pesquisa=$pesquisa&fav=$fav'>5</a></li>
                             <li class='waves-effect'><a href='CONS____home_consumidor.php?limite=10&pesquisa=$pesquisa&fav=$fav'>10</a></li>
                             <li class='waves-effect'><a href='CONS____home_consumidor.php?limite=15&pesquisa=$pesquisa&fav=$fav'>15</a></li>
                             ";
@@ -223,13 +224,13 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
             if($fav==0){
 
                 echo "<a href='CONS____home_consumidor.php?limite=5&pesquisa=$pesquisa&fav=1' class='btn waves-effect waves-light white'>
-                        <div style='color: #673ab7;' class='bold valign-wrapper'>APENAS FAVORITOS &nbsp<i class='fa fa-star-o'></i></div>
+                        <div style='color: #673ab7;' class='bold valign-wrapper'>MOSTRAR APENAS FAVORITOS &nbsp<i class='fa fa-star-o'></i></div>
                       </a>";
 
             } else {
 
                 echo "<a href='CONS____home_consumidor.php?limite=5&pesquisa=$pesquisa&fav=0' class='btn waves-effect waves-light deep-purple'>
-                        <div style='color: #FFFFFF;' class='bold valign-wrapper'>APENAS FAVORITOS &nbsp<i class='fa fa-star'></i></div>
+                        <div style='color: #FFFFFF;' class='bold valign-wrapper'>MOSTRAR APENAS FAVORITOS &nbsp<i class='fa fa-star'></i></div>
                       </a>";
 
             }
@@ -264,11 +265,11 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
                             
                             if(isset($descricao_curso[$b])){
 
-                                if(strlen($descricao_curso[$b])>=460){
+                                if(strlen($descricao_curso[$b])>=350){
 
                                     $str = $descricao_curso[$b];
                 
-                                    $p1 = substr("$str", 0, 460);
+                                    $p1 = substr("$str", 0, 350);
                                     $p2 = "$p1"."...";
                 
                                     $descricao_curso[$b]= $p2;
@@ -405,17 +406,17 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
 
                                         if($situacao_favorito_curso[$i] == "favorito"){
 
-                                            echo "<center><a href='../../_____cursos/favorito_curso.php?id_curso=".$id_curso[$i]."&i=0' style='color:#673ab7;'><i class='fa fa-star fa-2x'></i></a></center>";
+                                            echo "<div style='text-align: -webkit-center'><a href='../../_____cursos/favorito_curso.php?id_curso=".$id_curso[$i]."&i=0' style='color:#673ab7;'><i class='fa fa-star fa-2x'></i></a></div>";
 
                                         } else {
 
-                                            echo "<center><a href='../../_____cursos/favorito_curso.php?id_curso=".$id_curso[$i]."&i=0' style='color:#673ab7;'><i class='fa fa-star-o fa-2x'></i></a></center>";
+                                            echo "<div style='text-align: -webkit-center'><a href='../../_____cursos/favorito_curso.php?id_curso=".$id_curso[$i]."&i=0' style='color:#673ab7;'><i class='fa fa-star-o fa-2x'></i></a></div>";
 
                                         }
 
                                     } else {
 
-                                        echo "<center><a href='../../_____cursos/favorito_curso.php?id_curso=".$id_curso[$i]."&i=0' style='color:#673ab7;'><i class='fa fa-star-o fa-2x'></i></a></center>";
+                                        echo "<div style='text-align: -webkit-center'><a href='../../_____cursos/favorito_curso.php?id_curso=".$id_curso[$i]."&i=0' style='color:#673ab7;'><i class='fa fa-star-o fa-2x'></i></a></div>";
 
                                     }
 
@@ -441,7 +442,7 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
                     $pAntecessora = $p-1;
 
                     echo "<li class='waves-effect'>
-                            <a href='CONS____home_consumidor.php?limite=$limite&p=$pAntecessora&pesquisa=$pesquisa'>
+                            <a href='CONS____home_consumidor.php?limite=$limite&p=$pAntecessora&pesquisa=$pesquisa&fav=$fav'>
                                 <i class='material-icons'>chevron_left</i>
                             </a>
                           </li>";
@@ -458,7 +459,7 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
 
                             } else {
 
-                                echo "<li class='waves-effect'><a href='CONS____home_consumidor.php?limite=$limite&p=$i&pesquisa=$pesquisa'>$i</a></li>";
+                                echo "<li class='waves-effect'><a href='CONS____home_consumidor.php?limite=$limite&p=$i&pesquisa=$pesquisa&fav=$fav'>$i</a></li>";
 
                             }
                              
@@ -479,7 +480,7 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
                     $pSucessora = $p+1;
                     
                     echo "<li class='waves-effect'>
-                            <a href='CONS____home_consumidor.php?limite=$limite&p=$pSucessora&pesquisa=$pesquisa'>
+                            <a href='CONS____home_consumidor.php?limite=$limite&p=$pSucessora&pesquisa=$pesquisa&fav=$fav'>
                                 <i class='material-icons'>chevron_right</i>
                             </a>
                             </li>";
@@ -529,12 +530,12 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
             edge: 'right'
         });
         });
-    </script>
-    <script>
+        
         $(document).ready(function(){
         $('.modal').modal();
         });
     </script>
+    <
     <script type="text/javascript">
     function validarSenha() {
         senha = document.getElementById("senha").value;
@@ -578,6 +579,24 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
 
                 preview.src="";
 
+            }
+        }
+    </script>
+    <script>
+        function mostrar() {
+            var senha = document.getElementById("senha");
+            if (senha.type === "password") {
+                senha.type = "text";
+            } else {
+                senha.type = "password";
+            }
+        }
+        function mostrar_confirmacao() {
+            var senha = document.getElementById("confirmar_senha");
+            if (senha.type === "password") {
+                senha.type = "text";
+            } else {
+                senha.type = "password";
             }
         }
     </script>

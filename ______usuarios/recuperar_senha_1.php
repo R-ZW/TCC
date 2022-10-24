@@ -63,7 +63,7 @@ require_once "../_______necessarios/.funcoes.php";
             <form action="recuperar_senha_2.php" method="POST">
 
                 <h6><i class="material-icons right">mail</i>Email:</h6>
-                <input id="email" name="email" type="email" class="validate" placeholder="insira seu email aqui" required>
+                <input id="email" name="email" type="email" class="field" placeholder="insira seu email aqui" required>
 
                 <br>
 
@@ -73,8 +73,6 @@ require_once "../_______necessarios/.funcoes.php";
 
                 <a href="../index/entrada.php" class="waves-effect waves-light btn btn_a center-align">Cancelar <i class="material-icons right">close</i></a>
 
-                <br>
-                
             </form>
 
         </div>

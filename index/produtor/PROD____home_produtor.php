@@ -1,9 +1,21 @@
 <?php
 session_start();
-
+require_once "../../_______necessarios/.conexao_bd.php";
 require_once "../../_______necessarios/.funcoes.php";
 
+if (!isset($_SESSION['id_usuario'])) {
+    $_SESSION['mensagem'] = "Você deve primeiro realizar o login!";
+    header("Location: ../entrada.php");
+}
 echo exibeMensagens();
+
+$email= $_SESSION['email'];
+
+$sql_1 = "SELECT * FROM usuarios WHERE id_usuario='".$_SESSION['id_usuario']."'";
+$resultado_1 = mysqli_query($conexao, $sql_1);
+$linha_1 = mysqli_fetch_assoc($resultado_1);
+$nome_usuario = $linha_1['nome_usuario'];
+$endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -11,7 +23,6 @@ echo exibeMensagens();
 <head>
     <meta charset="UTF-8">
     <title>Home Produtor</title>
-
 
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -26,253 +37,626 @@ echo exibeMensagens();
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <!--Link with configs-->
+    <link rel="stylesheet" type="text/css" href="../.assets/css_home.css">
     <link rel="stylesheet" type="text/css" href="../../_.materialize/css/configs.css">
 
 </head>
 
-<body class="container">
+<body>
 
-    <h2 class="center-align bold">Home Produtor</h2>	
-
-    <?php 
-
-        include_once "../../_______necessarios/.conexao_bd.php";
-
-        $email= $_SESSION['email'];
+    <div id="configs" class="modal">
+        <div class="modal-content">
         
-        echo "<br><center><a href='../consumidor/CONS____home_consumidor.php' class='white-text'><div class='waves-effect waves-light btn bold'>PERMUTAR CONTA <i class='material-icons right'>sync</i></div></a></center><br><br>";
+            <?php include "../../______usuarios/__U1_form_altera_usuario.php";?>
 
-        //obtenção dos cursos associados ao usuário como produtor-
-        $sql = "SELECT id_curso FROM relacao_usuario_curso WHERE email='$email' AND tipo_relacao='produtor'";
-        $resultado = mysqli_query($conexao,$sql);
+        </div>
+    </div>
 
-        while($linha = mysqli_fetch_assoc($resultado))
-        {
-            $id_curso1[]= $linha['id_curso'];
-        }
-        //-
-
-        if(isset($_GET['pesquisa'])){
-
-            $pesquisa = $_GET['pesquisa'];
-
-        } else {
-
-            $pesquisa = "";
-
-        }
-
+    <div id="criar_curso" class="modal">
+        <div class="modal-content">
         
-        if(isset($_GET['p'])){
+            <?php include "../../_____cursos/____C1_form_insere_curso.php";?>
 
-            $p = $_GET['p'];
+        </div>
+    </div>
 
-        } else {
-
-            $p = 1;
-            
-        }
-
-
-        if(isset($_GET['limite'])){
-
-            $limite = $_GET['limite'];
-            
-        } else {
-
-            $limite = 5;
-
-        }
-
-        $offset = $limite * ($p - 1);
+    <div id="excluir" class="modal">
+        <div class="modal-content">
         
-        echo "
-            <form action='' method='GET'>
-            <input type='text' name='pesquisa' size='75'><input type='submit' value='pesquisar'> ";
+            <h5 class="center-align">Deseja realmente excluir sua conta?</h5>
+            <br><br><br>
 
-            if($pesquisa != ""){
+            <div class="center-align">
 
-                echo "<a href='PROD____home_produtor.php?limite=$limite'>cancelar</a>";
-    
-            }
-            
-        echo "
-            </form>
+                <a href="../../______usuarios/_D1_excluir_usuario.php" class="modal-trigger waves-effect waves-light btn bold"
+                style="background-color: #e53935 !important;">CONFIRMAR<i class="material-icons right">delete_forever</i>
+                </a>
+
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+
+                <a href="#!" class="modal-close waves-effect waves-light btn bold"
+                style="background-color: #212121 !important;">CANCELAR<i class="material-icons right">close</i>
+                </a>
+
+            </div>
             <br>
-            Cursos por página:
-                <a href='PROD____home_produtor.php?limite=5&p=1&pesquisa=$pesquisa'>5</a>
-                <a href='PROD____home_produtor.php?limite=10&p=1&pesquisa=$pesquisa'>10</a>
-                <a href='PROD____home_produtor.php?limite=15&p=1&pesquisa=$pesquisa'>15</a>
-            <br><br>
-        ";
 
-        if(isset($id_curso1)){
-            //obtenção dos dados dos cursos
-            $b=0;
-            while($b<count($id_curso1)){
+        </div>
+    </div>
 
-                $sqlb[$b]= "SELECT * 
-                            FROM cursos 
-                            WHERE id_curso=".$id_curso1[$b]." 
-                            AND nome_curso LIKE '%$pesquisa%'";
-                $resultadob[$b] = mysqli_query($conexao,$sqlb[$b]); 
+    <nav>
+        <div class="nav-wrapper grey darken-4">
+
+        <a href='../consumidor/CONS____home_consumidor.php' class='white-text' style='margin-left: 25px;'>
+            <div class='btn-floating btn-small waves-effect waves-light deep-purple'>
+                <i class='material-icons' style='line-height:33px; margin-right: 1px;'>sync</i>
+            </div>
+        </a>
+
+        <a href="#!" class="breadcrumb">HOME PRODUTOR</a>
+
+        <ul class="right valign-wrapper" style="height:90px;">
+
+            <a href="#" data-target="slide-out" class="sidenav-trigger" style="width:auto; height:90px;">
+                <i class="material-icons" style="margin-top:13.5px">chevron_left</i>
+                <div class="center-align" style="font-size:large; font-weight:500; margin-top:12px; width:auto;">
+                    <?=$nome_usuario;?>
+                </div>
+                <div class="right">
+                    <img style="border-radius: 100%; width: 50px; height: 50px; margin-top:19px; margin-left:13px;" src="<?= $endereco_imagem_usuario;?>">
+                </div>
+            </a>
     
-                if($resultadob[$b]){
+        </ul>
+        </div>
+    </nav>
 
-                    while($linhab[$b] = mysqli_fetch_assoc($resultadob[$b]))
-                    {
+    <ul id="slide-out" class="sidenav">
+        <li>
+            <div class="user-view">
 
-                        $id_curso[] = $linhab[$b]['id_curso'];
-                        $nome_curso[]= $linhab[$b]['nome_curso'];
-                        $descricao_curso[]= $linhab[$b]['descricao_curso'];
-                        $endereco_imagem_curso[]= $linhab[$b]['endereco_imagem_curso'];
-                        $visibilidade_curso[]= $linhab[$b]['visibilidade_curso'];
+              <div class="background">
+                <img src="../../_.imgs_default/nebulosas/1.png">
+              </div>
 
+              <a href="#user"><img class="circle" src="<?= $endereco_imagem_usuario;?>"></a>
+              <a href="#name"><span class="white-text name"><?= $nome_usuario;?></span></a>
+              <a href="#email"><span class="white-text email"><?= $_SESSION['email'];?></span></a>
+            
+            </div>
+        </li>
+        <li>
+            <a href="#configs" class="modal-trigger waves-effect">Configurações de Conta
+            <i class="material-icons right" style="margin:0px;">build</i></a>
+        </li>
+        <li>
+            <a href='../../______usuarios/logout.php' class="waves-effect">Fazer Logout
+            <i class="material-icons right" style="margin:0px;">exit_to_app</i></a>
+        </li>
+
+        <li><div class="divider"></div></li>
+
+        <br>
+        
+    </ul>
+
+    <main class="container">	
+
+        <br>
+        <br>
+
+        <?php 
+
+            //obtenção dos cursos associados ao usuário como produtor-
+            $sql = "SELECT id_curso FROM relacao_usuario_curso WHERE email='$email' AND tipo_relacao='produtor'";
+            $resultado = mysqli_query($conexao,$sql);
+
+            while($linha = mysqli_fetch_assoc($resultado))
+            {
+                $id_curso1[]= $linha['id_curso'];
+            }
+            //-
+
+            if(isset($_GET['pesquisa'])){
+                $pesquisa = $_GET['pesquisa'];
+            } else {
+                $pesquisa = "";
+            }
+
+            if(isset($_GET['p'])){
+                $p = $_GET['p'];
+            } else {
+                $p = 1;
+            }
+
+            if(isset($_GET['limite'])){
+                $limite = $_GET['limite'];
+            } else {
+                $limite = 5;
+            }
+
+            $offset = $limite * ($p - 1);
+            
+            echo "
+                <div class='row'>
+                    <form action='' method='GET' class='col s12' style='padding:0px;'>
+                    <div class='input-field col s10'>";
+                    if($pesquisa != ""){
+
+                        echo "<a href='PROD____home_produtor.php?limite=$limite' style='color:#212121;'><i class='material-icons postfix'>clear</i></a>";
+            
                     }
+            echo "  <i class='material-icons prefix' type='submit'>search</i></button>
+                    <input type='text' id='field' name='pesquisa' value='$pesquisa' placeholder='Buscar'> ";
+                
+            echo "
+                    </div>
+                    <div class='col s2 center-align'>
+                        Cursos por página:
+                        <ul class='pagination'>";
+                        if($limite == 5){
+                            echo "
+                            <li class='active deep-purple lighten-2'><a href='PROD____home_produtor.php?limite=5&p=1&pesquisa=$pesquisa'>5</a></li>
+                            <li class='waves-effect'><a href='PROD____home_produtor.php?limite=10&pesquisa=$pesquisa'>10</a></li>
+                            <li class='waves-effect'><a href='PROD____home_produtor.php?limite=15&pesquisa=$pesquisa'>15</a></li>
+                            ";
+                        }
+                        if($limite == 10){
+                            echo "
+                            <li class='waves-effect'><a href='PROD____home_produtor.php?limite=5&pesquisa=$pesquisa'>5</a></li>
+                            <li class='active deep-purple'><a href='PROD____home_produtor.php?limite=10&pesquisa=$pesquisa'>10</a></li>
+                            <li class='waves-effect'><a href='PROD____home_produtor.php?limite=15&pesquisa=$pesquisa'>15</a></li>
+                            ";
+                        }
+                        if($limite == 15){
+                            echo "
+                            <li class='waves-effect'><a href='PROD____home_produtor.php?limite=5&pesquisa=$pesquisa'>5</a></li>
+                            <li class='waves-effect'><a href='PROD____home_produtor.php?limite=10&pesquisa=$pesquisa'>10</a></li>
+                            <li class='active deep-purple darken-4'><a href='PROD____home_produtor.php?limite=15&pesquisa=$pesquisa'>15</a></li>
+                            ";
+                        }
+            echo "
+                        </ul>
+                </div>
+                </form>
+                </div>
+                <div class='center-align'>
+                <a href='#criar_curso' class='modal-trigger btn waves-effect waves-light deep-purple'>
+                    <div style='color: #FFFFFF;' class='bold valign-wrapper'>ADICIONAR CURSO &nbsp<i class='material-icons'>add</i></div>
+                </a>
+                </div>
+                <br>";
 
-                    if(isset($descricao_curso[$b])){
+            if(isset($id_curso1)){
+                //obtenção dos dados dos cursos
+                $b=0;
+                while($b<count($id_curso1)){
 
-                        if(strlen($descricao_curso[$b])>=950){
+                    $sqlb[$b]= "SELECT * 
+                                FROM cursos 
+                                WHERE id_curso=".$id_curso1[$b]." 
+                                AND nome_curso LIKE '%$pesquisa%'";
+                    $resultadob[$b] = mysqli_query($conexao,$sqlb[$b]); 
+        
+                    if($resultadob[$b]){
 
-                            $str = $descricao_curso[$b];
-        
-                            $p1 = substr("$str", 0, 950);
-                            $p2 = "$p1"."...";
-        
-                            $descricao_curso[$b]= $p2;
-        
+                        while($linhab[$b] = mysqli_fetch_assoc($resultadob[$b]))
+                        {
+
+                            $id_curso[] = $linhab[$b]['id_curso'];
+                            $nome_curso[]= $linhab[$b]['nome_curso'];
+                            $descricao_curso[]= $linhab[$b]['descricao_curso'];
+                            $descricao_curso1[]= $linhab[$b]['descricao_curso'];
+                            $endereco_imagem_curso[]= $linhab[$b]['endereco_imagem_curso'];
+                            $visibilidade_curso[]= $linhab[$b]['visibilidade_curso'];
+
+                        }
+
+                        if(isset($descricao_curso[$b])){
+
+                            if(strlen($descricao_curso[$b])>=350){
+
+                                $str= $descricao_curso[$b];
+            
+                                $p1 = substr("$str", 0, 350);
+                                $p2 = "$p1"."...";
+            
+                                $descricao_curso[$b]= $p2;
+            
+                            } 
+
                         }
 
                     }
+                    
+                    $b++;
 
                 }
-                
-                $b++;
 
             }
+            //-
 
-        }
-        //-
+            if(isset($id_curso)){
 
-        if(isset($id_curso)){
+                $ultima_pagina = ceil(count($id_curso) / $limite);
+                $limitep = $limite * $p;
 
-            $ultima_pagina = ceil(count($id_curso) / $limite);
-            $limitep = $limite * $p;
+                if($p*$limite > count($id_curso)+($limite-1)){
 
-            if($p*$limite > count($id_curso)+($limite-1)){
+                    echo "Número de página inválido!";
 
-                echo "Número de página inválido!";
+                } else {
 
-            } else {
+                    for($i=$offset; $i<count($id_curso) and $i<$limitep; $i++){
 
-                for($i=$offset; $i<count($id_curso) and $i<$limitep; $i++){
+                        echo "
 
-                    echo "
-
-                        <a href='PROD___tela_curso_produtor.php?id_curso=" . $id_curso[$i] . "' class='link-curso'>
-                        
-                            <div class='card-panel hoverable'>
-
-                                <div class='row'>
-
-                                    <div class='col s4 m4 l4 flow-text'>
-                                    
-                                        <img src=" . $endereco_imagem_curso[$i] ." class='img-curso'>
+                            <div id='excluir_curso_$i' class='modal'>
+                                <div class='modal-content'>
                                 
-                                    </div>
-                                
+                                    <h5 class='center-align'>Deseja realmente excluir o curso ".$nome_curso[$i]."?</h5>
+                                    <br><br><br>
+
                                     <div class='center-align'>
 
-                                        <h4 class='bold'>" . $nome_curso[$i] . "</h4>
-                                        
-                                        <h6 class='descricao-curso'>" . $descricao_curso[$i] . "<br><br>
+                                        <a href='../../_____cursos/_D1_excluir_curso.php?id_curso=" . $id_curso[$i] . "' class='modal-trigger waves-effect waves-light btn bold'
+                                        style='background-color: #e53935 !important;'>CONFIRMAR<i class='material-icons right'>delete_forever</i>
+                                        </a>
 
-                                    </div> 
+                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+
+                                        <a href='#!' class='modal-close waves-effect waves-light btn bold'
+                                        style='background-color: #212121 !important;'>CANCELAR<i class='material-icons right'>close</i>
+                                        </a>
+
+                                    </div>
+                                    <br>
 
                                 </div>
-                                <div class='center-align'>
-
-                                    <a href='../../_____cursos/__U1_form_altera_curso.php?id_curso=" . $id_curso[$i] . "&i=0' class='edita-exclui'><i class='material-icons small'>edit</i></a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                                    <a href='../../_____cursos/_D1_excluir_curso.php?id_curso=" . $id_curso[$i] . "' class='edita-exclui'><i class='material-icons small'>delete</i></a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
-                                
-                                    if($visibilidade_curso[$i] == "visível"){
-
-                                        echo "<a href='../../_____cursos/inversao_situacao_visibilidade_curso.php?id_curso=".$id_curso[$i]."&i=0' class='edita-exclui'><i class='fa fa-eye fa-2x'></i></a>";
-                        
-                                    } else {
-                        
-                                        echo "<a href='../../_____cursos/inversao_situacao_visibilidade_curso.php?id_curso=".$id_curso[$i]."&i=0' class='edita-exclui'><i class='fa fa-eye-slash fa-2x'></i></a>";
-                                        
-                                    }
-                    echo"    
-                                </div>
-                                
                             </div>
+
+                            <div id='editar_curso_$i' class='modal'>
+                                <div class='modal-content'>
+
+                                    <form action='../../_____cursos/__U2_altera_curso.php' method='post' id='editar_curso$i' enctype='multipart/form-data'>
+
+                                        <h4 class='center-align'>Editar Curso</h4><br>
+
+                                        <h6 class='bold'>Nome do curso:<i class='material-icons right'>border_color</i></h6>
+                                        <input id='field' type='text' name='nome_curso' placeholder='insira o nome do curso' value='".$nome_curso[$i]."' required>
+
+                                        <br>
+                                        <br>
+
+                                        <h6 class='bold'>Descrição do curso:<i class='material-icons right'>subject</i></h6>
+                                        <div class='input-field col s12'>
+                                        <textarea id='field' type='text' name='descricao_curso' placeholder='insira a descrição do curso' class='materialize-textarea' form='editar_curso$i' style='text-align:justify'required>".$descricao_curso1[$i]."</textarea>
+                                        </div>
+
+                                        <h6 class='bold'>Imagem do curso (16x9):<i class='material-icons right'>image</i></h6>
                         
-                        </a>
-                        <br>
+                                        <div class='file-field'>
+                                            <div class='waves-effect waves-light btn grey darken-4' style='margin-left:39%;'>
+                                                <span class='bold'><i class='material-icons left'>upload</i> Selecionar Arquivo</span>
+                                                <input id='endereco_imagem_curso_edicao' name='endereco_imagem_curso' type='file' accept='image/*' form='editar_curso$i' onchange='previewImagemEditar()'>
+                                            </div>
+                                        </div>
+
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <h6 class='bold center-align' style='font-style:italic;'>preview:</h6>
+                                        <div class='card-panel hoverable'>
+                                            <div class='row'>
+                                                <div class='col s5'>
+                                                
+                                                    <br>
+                                                    <img id='imagem_curso_edicao' src='" . $endereco_imagem_curso[$i] ."' width='300em' height='169em'>
+                                            
+                                                </div>
+                                            
+                                                <div class='col s7'>
+
+                                                    <h5 class='bold center-align'>[*nome do curso*]</h5>
+                                                    <br>
+                                                    <h6 style='text-align:justify; font-size:1.3em;'>[*descrição do curso*].</h6>
+
+                                                </div> 
+                                            </div>
+                                        </div>
+                                        <br>
+
+                                        <h6 class='bold'>Visibilidade do curso: <i class='material-icons right'>remove_red_eye</i></h6><br>
+                                        
+                                        <div class='switch'>
+                                            
+                                            <label>
+
+                                            <h6 class='bold'>Não visível";
+                                            
+                                                if($visibilidade_curso[$i] == "não-visível"){
+
+                                                    echo "<input type='checkbox' id='visibilidade_curso' name='visibilidade_curso' value='1'>";
+
+                                                } else {
+
+                                                    echo "<input type='checkbox' id='visibilidade_curso' name='visibilidade_curso' value='1' checked>";
+
+                                                }
+                                            
+                                        echo "
+
+                                            <span class='lever'></span>
+
+                                            Visível</h6>
+
+                                            </label>
+                                            
+                                        </div>
+
+                                        <br>
+                                        <br>
+
+                                        <input type='hidden' name='endereco_imagem_curso_pre_alteracao' value='".$endereco_imagem_curso[$i]."'>
+                                        <input type='hidden' name='id_curso' value='".$id_curso[$i]."'>
+
+                                        <div class='right'>
+
+                                            <a href='#!' class='modal-close waves-effect waves-light btn bold'
+                                            style='background-color: #212121 !important;'>cancelar<i class='material-icons right'>close</i>
+                                            </a>
+
+                                            <button type='submit' class='waves-effect waves-light btn bold'
+                                            style='background-color: #212121 !important;'>ENVIAR<i class='material-icons right'>check</i>
+                                            </button>
+
+                                            <br>
+                                            <br>
+
+                                        </div> 
+                                    </form>
+                                </div>
+                            </div>
+
+                            <a href='PROD___tela_curso_produtor.php?id_curso=" . $id_curso[$i] . "' style='color:black;'>
                             
-                    ";
+                                <div class='card-panel hoverable'>
+                                    <div class='row'>
+                                        <div class='col s5'>
+                                        
+                                            <br>
+                                            <img src=" . $endereco_imagem_curso[$i] ." width='400em' height='225em'>
+                                    
+                                        </div>
+                                    
+                                        <div class='col s7'>
+
+                                            <h4 class='bold center-align'>" . $nome_curso[$i] . "</h4>
+                                            <br>
+                                            <h6 style='text-align:justify; font-size:1.3em;'>" . $descricao_curso[$i] . "</h6>
+
+                                        </div> 
+                                    </div>
+                                    <div class='center-align' style='height:31.5px'>
+
+                                        <a href='#editar_curso_$i' class='modal-trigger' style='color:#673ab7; vertical-align: text-bottom;'><i class='material-icons small'>edit</i></a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                        <a href='#excluir_curso_$i' class='modal-trigger' style='color:#673ab7; vertical-align: text-bottom;'><i class='material-icons small'>delete</i></a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+                                    
+                                        if($visibilidade_curso[$i] == "visível"){
+
+                                            echo "<a href='../../_____cursos/inversao_situacao_visibilidade_curso.php?id_curso=".$id_curso[$i]."' style='color:#673ab7; vertical-align: super;'><i class='fa fa-eye fa-2x'></i></a>";
+                            
+                                        } else {
+                            
+                                            echo "<a href='../../_____cursos/inversao_situacao_visibilidade_curso.php?id_curso=".$id_curso[$i]."' style='color:#673ab7; vertical-align: super;'><i class='fa fa-eye-slash fa-2x'></i></a>";
+                                            
+                                        }
+                        echo"    
+                                    </div>
+                                    
+                                </div>
+                            
+                            </a>
+                            <br>
+                                
+                        ";
+
+                    }
+
+                }
+                
+                echo "<ul class='pagination center-align'>";
+
+                if($p==1){
+
+                    echo "<li class='disabled'><a href='#!'><i class='material-icons'>chevron_left</i></a></li>";
+                
+                } else {
+
+                    $pAntecessora = $p-1;
+
+                    echo "<li class='waves-effect'>
+                            <a href='PROD____home_produtor.php?limite=$limite&p=$pAntecessora&pesquisa=$pesquisa'>
+                                <i class='material-icons'>chevron_left</i>
+                            </a>
+                          </li>";
 
                 }
 
-            }
-            
-            if($ultima_pagina > 1){
+                    if($ultima_pagina > 1){
 
-                echo "<center>";
+                        for($i=1; $i<=$ultima_pagina; $i++){
 
-                for($i=1; $i<=$ultima_pagina; $i++){
+                            if($i==$p){
 
-                    echo "<a href='PROD____home_produtor.php?limite=$limite&p=$i&pesquisa=$pesquisa'>$i</a> ";
+                              echo "<li class='active deep-purple'><a href='#!'>$i</a></li>";  
+
+                            } else {
+
+                                echo "<li class='waves-effect'><a href='PROD____home_produtor.php?limite=$limite&p=$i&pesquisa=$pesquisa'>$i</a></li>";
+
+                            }
+                             
+                        }
+
+                    } else {
+
+                        echo "<li class='active deep-purple'><a href='#!'>1</a></li>";
+                        
+                    }
+
+                if($p==$ultima_pagina){
+
+                    echo "<li class='disabled'><a href='#!'><i class='material-icons'>chevron_right</i></a></li>";
+                
+                } else {
+
+                    $pSucessora = $p+1;
+                    
+                    echo "<li class='waves-effect'>
+                            <a href='PROD____home_produtor.php?limite=$limite&p=$pSucessora&pesquisa=$pesquisa'>
+                                <i class='material-icons'>chevron_right</i>
+                            </a>
+                            </li>";
 
                 }
 
-                echo "</center>";
+                echo "</ul>";
 
             } else {
 
-                echo "<center>1</center>";
-                
+                echo "<h4>Não foram encontrados cursos!</h4>";
+
             }
 
-        } else {
-
-            echo "<h4>Não foram encontrados cursos!</h4>";
-
-        }
-
-        $sql_1 = "SELECT * FROM usuarios WHERE id_usuario='".$_SESSION['id_usuario']."'";
-        $resultado_1 = mysqli_query($conexao, $sql_1);
-
-        $linha_1 = mysqli_fetch_assoc($resultado_1);
-
-        $nome_usuario = $linha_1['nome_usuario'];
-        $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
-
-        echo "<br>
-        
-              <img src='$endereco_imagem_usuario' width='5%'> 
-              
-              $nome_usuario
-
-              <a href='../../______usuarios/logout.php'>logout</a>
-              
-              <a href='../../______usuarios/__U1_form_altera_usuario.php'>editar</a>
-              
-              <a href='../../______usuarios/_D1_excluir_usuario.php'>excluir</a>";
-
-    ?>
-
+        ?>
+    </main>
     <br>
-
-    <div class='center-align'><a href='../../_____cursos/____C1_form_insere_curso.php' class='btn-floating btn-large waves-effect waves-light'><i class='material-icons'>add</i></a></div>
-
-    <br> 
+    <br>
+    <footer class="page-footer transparent" style="padding-top:10px;">
+        <div class="container">
+        <div class="row" style="margin-bottom:0px;">
+            <div class="col s11">
+            <h5 class="black-text">TRABALHO DE CONCLUSÃO DE CURSO</h5>
+            <p class="grey-text text-darken-1" style="font-size:1.4em;">Sistema de acesso e manutenção de cursos online.</p>
+            </div>
+            <div class="col s1">
+            <ul class="right-align">
+                <li style="padding-bottom:7px;"><img src="../../_.imgs_default/logo_iffar.png" width="65px" height="115px"></li>
+            </ul>
+            </div>
+        </div>
+        </div>
+        <div class="footer-copyright grey darken-4">
+        <div class="container">
+        © 2022 NEBULA
+        <div class="grey-text text-lighten-4 right right-align" href="#!">Todos os direitos reservados</div>
+        </div>
+        </div>
+    </footer>
 
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="../../_.materialize/js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="../../_.materialize/js/materialize.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+        $('.sidenav').sidenav({
+            edge: 'right'
+        });
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+        $('.modal').modal();
+        });
+    </script>
+    <script type="text/javascript">
+    function validarSenha() {
+        senha = document.getElementById("senha").value;
+        rs = document.getElementById("confirmar_senha");
+        repetirSenha = document.getElementById("confirmar_senha").value;
+
+        if (senha == repetirSenha) {
+            
+            rs.setCustomValidity('');
+            rs.checkValidity();
+            return true;
+
+        } else {
+
+            rs.setCustomValidity('As senhas não conferem');
+            rs.checkValidity();
+            rs.reportValidity();
+            return false;
+
+        }
+    }
+    </script>
+    <script>
+        function previewImagem(){
+            let imagem = document.querySelector('input[id=endereco_imagem_curso_cadastro]').files[0];
+            let preview = document.querySelector('#imagem_curso_cadastro');
+
+            let reader = new FileReader();
+
+            reader.onloadend = function(){
+
+                preview.src=reader.result;
+
+            }
+
+            if(imagem){
+
+                reader.readAsDataURL(imagem);
+
+            } else {
+
+                preview.src="";
+
+            }
+        }
+        function previewImagemEditar(){
+            let imagem = document.querySelector('input[id=endereco_imagem_curso_edicao]').files[0];
+            let preview = document.querySelector('#imagem_curso_edicao');
+
+            let reader = new FileReader();
+
+            reader.onloadend = function(){
+
+                preview.src=reader.result;
+
+            }
+
+            if(imagem){
+
+                reader.readAsDataURL(imagem);
+
+            } else {
+
+                preview.src="";
+
+            }
+        }
+    </script>
+    <script>
+        function mostrar() {
+            var senha = document.getElementById("senha");
+            if (senha.type === "password") {
+                senha.type = "text";
+            } else {
+                senha.type = "password";
+            }
+        }
+        function mostrar_confirmacao() {
+            var senha = document.getElementById("confirmar_senha");
+            if (senha.type === "password") {
+                senha.type = "text";
+            } else {
+                senha.type = "password";
+            }
+        }
+    </script>
 
 </body>
 
