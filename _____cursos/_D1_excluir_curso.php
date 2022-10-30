@@ -1,4 +1,5 @@
 <?php
+session_start();
 
     include "../_______necessarios/.conexao_bd.php";
 
@@ -21,6 +22,8 @@
 
     if(isset($li)){
 
+        $_SESSION['mensagem'] = "Por motivos éticos, não é possível excluir o curso pois <span class='bold'>existem consumidores associados a ele</span>! <br>
+        Para que seja possível fazer a exclusão é necessário que o curso não possua nenhum consumidor.";
         header("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
         
         die;
@@ -225,31 +228,16 @@
         $endereco_imagem_curso= $endereco_imagem_cur[1] ."/". $endereco_imagem_cur[0];
         unlink($endereco_imagem_curso);
 
-        if($linha_4['endereco_certificado_curso'] != "sem-certificado"){
-
-            $endereco_certificadoc= $linha_4['endereco_certificado_curso'];
-            $endereco_certificado_c= explode("/", $endereco_certificadoc);
-            $endereco_certificado_cur= array_reverse($endereco_certificado_c);
-            $endereco_certificado_curso= $endereco_certificado_cur[1] ."/". $endereco_certificado_cur[0];
-            unlink($endereco_certificado_curso);
-
-        }
-
         $sql_5 = "DELETE FROM cursos WHERE id_curso=$id_curso";
         $resultado_5 = mysqli_query($conexao,$sql_5);
         //-
 
-
-        mysqli_close($conexao);
-
         if($resultado and $resultado_1 and $resultado_2 and $resultado_3){
 
+            $_SESSION['mensagem'] = "Curso excluído com sucesso!";
             header("Location: ../index/produtor/PROD____home_produtor.php");
 
         }
     }
 
 ?>
-
-</body>
-</html>

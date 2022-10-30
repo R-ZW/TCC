@@ -47,11 +47,11 @@ require_once "../_______necessarios/.funcoes.php";
             if($_SESSION['mensagem'] == "Mensagem enviada com sucesso!" or 
                $_SESSION['mensagem'] == "Nova senha foi redefinida com sucesso!"){
 
-                echo "<div class='green-text bold-text'>" . exibeMensagens() . "</div>";
+                echo "<span class='green-text' style='font-weight:500 !important;'>" . exibeMensagens() . "</span>";
 
             } else {
 
-                echo "<div class='red-text bold-text'>" . exibeMensagens() . "</div>";
+                echo "<span class='red-text' style='font-weight:500 !important;'>" . exibeMensagens() . "</span>";
 
             }
 

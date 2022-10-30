@@ -1,5 +1,5 @@
 <?php
-    session_start();
+session_start();
     
     echo '<meta charset="UTF-8">';
 
@@ -49,8 +49,9 @@
     $sql = "UPDATE cursos SET nome_curso='$nome_curso', descricao_curso='$descricao_curso', endereco_imagem_curso='$endereco_imagem_curso', visibilidade_curso='$visibilidade_curso' WHERE id_curso=$id_curso"; 
     $resultado = mysqli_query($conexao,$sql);
 
-    if($resultado and $i==0){
+    if($resultado){
 
+        $_SESSION['mensagem'] = "Alterações salvas com sucesso!";
         echo "<script>window.history.go(-1);</script>";
 
     }

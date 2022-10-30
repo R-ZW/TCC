@@ -1,4 +1,6 @@
 <?php
+session_start();
+
     echo '<meta charset="UTF-8">';
 
     include "../_______necessarios/.conexao_bd.php";
@@ -35,11 +37,11 @@
 
     if(isset($_POST['visibilidade_modulo'])){
 
-        $visibilidade_modulo = "não-visível";
+        $visibilidade_modulo = "visível";
 
     } else {
 
-        $visibilidade_modulo = "visível";
+        $visibilidade_modulo = "não-visível";
 
     }
 
@@ -52,11 +54,10 @@
 
     $id_curso = $linha_1['id_curso'];
 
-    mysqli_close($conexao);
-
     if($resultado){
 
-        header("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
+        $_SESSION['mensagem'] = "Alterações salvas com sucesso!";
+        echo "<script>window.history.go(-1);</script>";
 
     }
 ?>

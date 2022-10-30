@@ -28,7 +28,7 @@
 
     if($resultado and $resultado_1){
 
-        header ("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
+        echo "<script>window.history.go(-1);</script>";
 
     } 
 

@@ -7,7 +7,6 @@ if (!isset($_SESSION['id_usuario'])) {
     $_SESSION['mensagem'] = "Você deve primeiro realizar o login!";
     header("Location: ../entrada.php");
 }
-echo exibeMensagens();
 
 $email= $_SESSION['email'];
 
@@ -43,6 +42,21 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
 </head>
 
 <body>
+
+    <div id="mensagem" class="modal">
+        <div class="modal-content justify">
+        
+            <h4 class="center-align">Mensagem</h4>
+
+            <br>
+
+            <h6 style='font-size:1.5em;'><?php echo $_SESSION['mensagem'];?></h6>
+
+        </div>
+        <div class='modal-footer'>
+            <a href='#!' class='modal-close waves-effect waves-purple btn-flat'>ok</a>
+        </div>
+    </div>
 
     <div id="configs" class="modal">
         <div class="modal-content">
@@ -87,13 +101,7 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
     <nav>
         <div class="nav-wrapper grey darken-4">
 
-        <a href='../consumidor/CONS____home_consumidor.php' class='white-text' style='margin-left: 25px;'>
-            <div class='btn-floating btn-small waves-effect waves-light deep-purple'>
-                <i class='material-icons' style='line-height:33px; margin-right: 1px;'>sync</i>
-            </div>
-        </a>
-
-        <a href="#!" class="breadcrumb">HOME PRODUTOR</a>
+        <a href="#!" class="breadcrumb" style='margin-left:30px;'>HOME PRODUTOR</a>
 
         <ul class="right valign-wrapper" style="height:90px;">
 
@@ -128,6 +136,10 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
         <li>
             <a href="#configs" class="modal-trigger waves-effect">Configurações de Conta
             <i class="material-icons right" style="margin:0px;">build</i></a>
+        </li>
+        <li>
+            <a href='../consumidor/CONS____home_consumidor.php' class="waves-effect">Permutar Conta
+            <i class="material-icons right" style="margin:0px;">sync</i></a>
         </li>
         <li>
             <a href='../../______usuarios/logout.php' class="waves-effect">Fazer Logout
@@ -245,25 +257,10 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
 
                             $id_curso[] = $linhab[$b]['id_curso'];
                             $nome_curso[]= $linhab[$b]['nome_curso'];
-                            $descricao_curso[]= $linhab[$b]['descricao_curso'];
+                            $descricao_curso[]= substr($linhab[$b]['descricao_curso'], 0, 320) . "...";
                             $descricao_curso1[]= $linhab[$b]['descricao_curso'];
                             $endereco_imagem_curso[]= $linhab[$b]['endereco_imagem_curso'];
                             $visibilidade_curso[]= $linhab[$b]['visibilidade_curso'];
-
-                        }
-
-                        if(isset($descricao_curso[$b])){
-
-                            if(strlen($descricao_curso[$b])>=350){
-
-                                $str= $descricao_curso[$b];
-            
-                                $p1 = substr("$str", 0, 350);
-                                $p2 = "$p1"."...";
-            
-                                $descricao_curso[$b]= $p2;
-            
-                            } 
 
                         }
 
@@ -283,18 +280,45 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
 
                 if($p*$limite > count($id_curso)+($limite-1)){
 
-                    echo "Número de página inválido!";
+                    echo "<div style='font-size:2.5em; font-weight:500;'>Número de página inválido!</div>";
 
                 } else {
 
                     for($i=$offset; $i<count($id_curso) and $i<$limitep; $i++){
 
                         echo "
+                            <script>
+                            function previewImagemEditar$i(){
+                                let imagem = document.querySelector('input[id=endereco_imagem_curso_edicao$i]').files[0];
+                                let preview = document.querySelector('#imagem_curso_edicao$i');
+                                let preview1 = document.querySelector('#imagem_curso_edicao_1_$i');
+                    
+                                let reader = new FileReader();
+                    
+                                reader.onloadend = function(){
+                    
+                                    preview.src=reader.result;
+                                    preview1.src=reader.result;
+                    
+                                }
+                    
+                                if(imagem){
+                    
+                                    reader.readAsDataURL(imagem);
+                    
+                                } else {
+                    
+                                    preview.src=".'""'.";
+                                    preview1.src=".'""'.";
+                    
+                                }
+                            }
+                            </script>
 
                             <div id='excluir_curso_$i' class='modal'>
                                 <div class='modal-content'>
                                 
-                                    <h5 class='center-align'>Deseja realmente excluir o curso ".$nome_curso[$i]."?</h5>
+                                    <h5 class='center-align'>Deseja realmente excluir o curso <span class='bold'>".$nome_curso[$i]."</span>?</h5>
                                     <br><br><br>
 
                                     <div class='center-align'>
@@ -329,7 +353,7 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
                                         <br>
 
                                         <h6 class='bold'>Descrição do curso:<i class='material-icons right'>subject</i></h6>
-                                        <div class='input-field col s12'>
+                                        <div class='input-field'>
                                         <textarea id='field' type='text' name='descricao_curso' placeholder='insira a descrição do curso' class='materialize-textarea' form='editar_curso$i' style='text-align:justify'required>".$descricao_curso1[$i]."</textarea>
                                         </div>
 
@@ -338,20 +362,20 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
                                         <div class='file-field'>
                                             <div class='waves-effect waves-light btn grey darken-4' style='margin-left:39%;'>
                                                 <span class='bold'><i class='material-icons left'>upload</i> Selecionar Arquivo</span>
-                                                <input id='endereco_imagem_curso_edicao' name='endereco_imagem_curso' type='file' accept='image/*' form='editar_curso$i' onchange='previewImagemEditar()'>
+                                                <input id='endereco_imagem_curso_edicao$i' name='endereco_imagem_curso' type='file' accept='image/*' onchange='previewImagemEditar$i()'>
                                             </div>
                                         </div>
 
                                         <br>
                                         <br>
                                         <br>
-                                        <h6 class='bold center-align' style='font-style:italic;'>preview:</h6>
+                                        <h6 class='bold center-align' style='font-style:italic;'>preview da home:</h6>
                                         <div class='card-panel hoverable'>
                                             <div class='row'>
                                                 <div class='col s5'>
                                                 
                                                     <br>
-                                                    <img id='imagem_curso_edicao' src='" . $endereco_imagem_curso[$i] ."' width='300em' height='169em'>
+                                                    <img id='imagem_curso_edicao$i' src='" . $endereco_imagem_curso[$i] ."' width='300em' height='169em' style='border-radius:4%;'>
                                             
                                                 </div>
                                             
@@ -364,6 +388,25 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
                                                 </div> 
                                             </div>
                                         </div>
+                                        <br>
+                                        <h6 class='bold center-align' style='font-style:italic;'>preview da tela de curso:</h6>
+                                        <div class='col s12' style='padding:0px;'>
+                                            <div class='card meddium'>
+
+                                                <div class='card-image'>
+                                                    <img id='imagem_curso_edicao_1_$i' src='" . $endereco_imagem_curso[$i] ."' style='filter: brightness(80%);' width='900em' height='506.25em'>
+                                                    <div class='card-title' style='width:100%; font-weight:400; font-size:2em; text-align: -webkit-center; backdrop-filter: brightness(70%)'>
+                                                        [*nome do curso*]
+                                                    </div>
+                                                </div>
+
+                                                <div class='card-content'>
+                                                    <h6 style='text-align: justify; font-size:1.5em;'>[*descrição do curso*]</h6>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
                                         <br>
 
                                         <h6 class='bold'>Visibilidade do curso: <i class='material-icons right'>remove_red_eye</i></h6><br>
@@ -425,7 +468,7 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
                                         <div class='col s5'>
                                         
                                             <br>
-                                            <img src=" . $endereco_imagem_curso[$i] ." width='400em' height='225em'>
+                                            <img src=" . $endereco_imagem_curso[$i] ." width='400em' height='225em' style='border-radius:4%;'>
                                     
                                         </div>
                                     
@@ -525,7 +568,7 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
 
             } else {
 
-                echo "<h4>Não foram encontrados cursos!</h4>";
+                echo "<div style='font-size:2.5em; font-weight:500;'>Não foram encontrados cursos!</div>";
 
             }
 
@@ -533,21 +576,21 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
     </main>
     <br>
     <br>
-    <footer class="page-footer transparent" style="padding-top:10px;">
+    <footer class="page-footer grey darken-4" style="padding-top:10px;">
         <div class="container">
         <div class="row" style="margin-bottom:0px;">
             <div class="col s11">
-            <h5 class="black-text">TRABALHO DE CONCLUSÃO DE CURSO</h5>
-            <p class="grey-text text-darken-1" style="font-size:1.4em;">Sistema de acesso e manutenção de cursos online.</p>
+            <h5 class="grey-text text-lighten-4">TRABALHO DE CONCLUSÃO DE CURSO</h5>
+            <p class="grey-text text-lighten-2" style="font-size:1.4em;">Sistema de acesso e manutenção de cursos online.</p>
             </div>
-            <div class="col s1">
+            <div class="col s1" style="height:117px;">
             <ul class="right-align">
-                <li style="padding-bottom:7px;"><img src="../../_.imgs_default/logo_iffar.png" width="65px" height="115px"></li>
+                <li style="padding-bottom:7px;"><img src="../../_.imgs_default/logo_iffar.png" width="60px" height="91px"></li>
             </ul>
             </div>
         </div>
         </div>
-        <div class="footer-copyright grey darken-4">
+        <div class="footer-copyright grey darken-4" style="padding-top:0px">
         <div class="container">
         © 2022 NEBULA
         <div class="grey-text text-lighten-4 right right-align" href="#!">Todos os direitos reservados</div>
@@ -564,45 +607,73 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
         $('.sidenav').sidenav({
             edge: 'right'
         });
-        });
-    </script>
-    <script>
-        $(document).ready(function(){
+
         $('.modal').modal();
-        });
-    </script>
-    <script type="text/javascript">
-    function validarSenha() {
-        senha = document.getElementById("senha").value;
-        rs = document.getElementById("confirmar_senha");
-        repetirSenha = document.getElementById("confirmar_senha").value;
 
-        if (senha == repetirSenha) {
-            
-            rs.setCustomValidity('');
-            rs.checkValidity();
-            return true;
-
-        } else {
-
-            rs.setCustomValidity('As senhas não conferem');
-            rs.checkValidity();
-            rs.reportValidity();
-            return false;
-
+        <?php
+        if(isset($_SESSION['mensagem'])){
+            echo "$('#mensagem').modal('open');"; 
+            unset($_SESSION['mensagem']);
         }
-    }
-    </script>
-    <script>
+        ?>
+        
+        });
+
+        function validarSenha() {
+            senha = document.getElementById("senha").value;
+            rs = document.getElementById("confirmar_senha");
+            repetirSenha = document.getElementById("confirmar_senha").value;
+
+            if (senha == repetirSenha) {
+                
+                rs.setCustomValidity('');
+                rs.checkValidity();
+                return true;
+
+            } else {
+
+                rs.setCustomValidity('As senhas não conferem');
+                rs.checkValidity();
+                rs.reportValidity();
+                return false;
+
+            }
+        }
+
         function previewImagem(){
+            let imagem = document.querySelector('input[name=endereco_imagem_usuario]').files[0];
+            let preview = document.querySelector('#imagem_usuario');
+
+            let reader = new FileReader();
+
+            reader.onloadend = function(){
+
+                preview.src=reader.result;
+
+            }
+
+            if(imagem){
+
+                reader.readAsDataURL(imagem);
+
+            } else {
+
+                preview.src="";
+
+            }
+        }
+
+        function previewImagemCurso(){
             let imagem = document.querySelector('input[id=endereco_imagem_curso_cadastro]').files[0];
             let preview = document.querySelector('#imagem_curso_cadastro');
+            let preview1 = document.querySelector('#imagem_curso_cadastro_1');
 
             let reader = new FileReader();
 
             reader.onloadend = function(){
 
                 preview.src=reader.result;
+                preview1.src=reader.result;
 
             }
 
@@ -613,33 +684,11 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
             } else {
 
                 preview.src="";
+                preview1.src="";
 
             }
         }
-        function previewImagemEditar(){
-            let imagem = document.querySelector('input[id=endereco_imagem_curso_edicao]').files[0];
-            let preview = document.querySelector('#imagem_curso_edicao');
 
-            let reader = new FileReader();
-
-            reader.onloadend = function(){
-
-                preview.src=reader.result;
-
-            }
-
-            if(imagem){
-
-                reader.readAsDataURL(imagem);
-
-            } else {
-
-                preview.src="";
-
-            }
-        }
-    </script>
-    <script>
         function mostrar() {
             var senha = document.getElementById("senha");
             if (senha.type === "password") {

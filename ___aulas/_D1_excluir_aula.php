@@ -1,5 +1,6 @@
 <?php
-    
+session_start();
+ 
     include "../_______necessarios/.conexao_bd.php";
 
     $id_aula = $_GET['id_aula'];
@@ -149,6 +150,7 @@
 
     if($resultado and $resultado_1 and $resultado_2 and $resultado_3 and $resultado_4 and $resultado_5 and $resultado_6 and $resultado_7){
 
+        $_SESSION['mensagem'] = "Aula excluída com sucesso!";
         header("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
 
     }

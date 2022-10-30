@@ -19,7 +19,7 @@ $linha = mysqli_fetch_assoc($resultado);
             <h6 class='bold'>Imagem de Perfil (1x1):<i class="material-icons right">image</i></h6>
             
                 <div style="display: block !important; text-align: -webkit-center !important;">
-                    <img src="<?=$endereco_imagem_usuario;?>" style="text-align: -webkit-center; border-radius: 100%; width: 240px; height: 240px;">
+                    <img src="<?=$endereco_imagem_usuario;?>" id="imagem_usuario" style="text-align: -webkit-center; border-radius: 100%; width: 240px; height: 240px;">
                 </div>
 
                 <br>

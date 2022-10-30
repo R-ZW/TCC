@@ -1,5 +1,5 @@
 <?php
-    
+session_start();
     include "../_______necessarios/.conexao_bd.php";
 
     $email = $_GET['email'];
@@ -10,18 +10,15 @@
     $resultado = mysqli_query($conexao,$sql);
     //-
 
-
     //excluindo a relação do usuário com os questionários-
     $sql_1 = "DELETE FROM relacao_usuario_questionario WHERE email='$email' AND id_curso=$id_curso";
     $resultado_1 = mysqli_query($conexao,$sql_1);
     //-
 
-
     //excluindo o favorito do usuário com o curso-
     $sql_2 = "DELETE FROM favoritos_curso WHERE email='$email' AND id_curso=$id_curso";
     $resultado_2 = mysqli_query($conexao,$sql_2);
     //-
-
 
     //selecionando os módulos que pertencem ao curso-
     $sql_3 = "SELECT id_modulo FROM modulos WHERE id_curso=$id_curso";
@@ -68,10 +65,9 @@
         }
     }
 
-    mysqli_close($conexao);
-
     if($resultado){
 
+        $_SESSION['mensagem'] = "Usuário desassociado com sucesso!";
         header("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
 
     }

@@ -1,4 +1,5 @@
 <?php
+session_start();
     echo '<meta charset="UTF-8">';
 
     include "../_______necessarios/.conexao_bd.php";
@@ -13,15 +14,31 @@
 
     } else {
 
-        $sql = "SELECT * FROM relacao_usuario_curso WHERE email='$email_novo' AND tipo_relacao='consumidor'";
-        $resultado = mysqli_query($conexao,$sql);
+        //verificando se o email existe no banco-
+        $s= "SELECT * FROM usuarios WHERE email='$email_novo'";
+        $r= mysqli_query($conexao, $s);
+        $l= mysqli_fetch_assoc($r);
+        //-
 
-        $linha = mysqli_fetch_array($resultado);
+        //obtendo id_relacao_usuario_curso
+        $sq = "SELECT id_relacao_usuario_curso FROM relacao_usuario_curso WHERE email='$email_novo' AND id_curso=$id_curso AND tipo_relacao='consumidor'";
+        $result = mysqli_query($conexao, $sq);
+        $linha = mysqli_fetch_assoc($result);
+        //-
 
 
+        if(!isset($l)){
+
+            $_SESSION['mensagem'] = "O usuário informado não existe!";
+            header("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
+            die;
+    
+        }
         if(isset($linha)){
 
+            $_SESSION['mensagem'] = "O usuário já está associado ao curso!";
             header("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
+            die;
 
         } else {
 
@@ -36,6 +53,7 @@
             $resultado_2 = mysqli_query($conexao,$sql_2);
             //-
 
+            $_SESSION['mensagem'] = "Usuário associado com sucesso!";
             header("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
 
         }

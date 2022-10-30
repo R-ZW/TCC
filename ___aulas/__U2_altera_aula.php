@@ -1,4 +1,6 @@
 <?php
+session_start();
+
     echo '<meta charset="UTF-8">';
 
     include "../_______necessarios/.conexao_bd.php";
@@ -23,7 +25,6 @@
     //obtido o id_curso
 
     $endereco_imagem_aula_pre_alteracao = $_POST['endereco_imagem_aula_pre_alteracao'];
-    $i = $_POST['i'];
 
     $nome_aula = $_POST['nome_aula'];
     $descricao_aula = $_POST['descricao_aula'];
@@ -54,11 +55,11 @@
 
     if(isset($_POST['visibilidade_aula'])){
 
-        $visibilidade_aula = "não-visível";
+        $visibilidade_aula = "visível";
 
     } else {
 
-        $visibilidade_aula = "visível";
+        $visibilidade_aula = "não-visível";
 
     }
 
@@ -66,15 +67,10 @@
     $sql_2 = "UPDATE aulas SET nome_aula='$nome_aula', descricao_aula='$descricao_aula', endereco_imagem_aula='$endereco_imagem_aula', visibilidade_aula='$visibilidade_aula' WHERE id_aula=$id_aula"; 
     $resultado_2 = mysqli_query($conexao,$sql_2);
 
-    mysqli_close($conexao);
+    if($resultado and $resultado_1 and $resultado_2){
 
-    if($resultado and $resultado_1 and $resultado_2 and $i==0){
-
-        header("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
-
-    }elseif($resultado and $resultado_1 and $resultado_2 and $i==1){
-
-        header("Location: ../index/produtor/PROD__tela_aula_produtor.php?id_aula=$id_aula");
+        $_SESSION['mensagem'] = "Alterações salvas com sucesso!";
+        echo "<script>window.history.go(-1);</script>";
 
     }
 ?>

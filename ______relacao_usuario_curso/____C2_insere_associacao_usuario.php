@@ -1,23 +1,38 @@
 <?php
+session_start();
 
     include_once "../_______necessarios/.conexao_bd.php";
 
-    $email= strtolower($_POST['email']);
-
+    $email= $_POST['email'];
     $id_curso = $_POST['id_curso'];
 
     date_default_timezone_set('America/Sao_Paulo');
     $data = date("Y-m-d H:i:s");
 
+    //verificando se o email existe no banco-
+    $s= "SELECT * FROM usuarios WHERE email='$email'";
+    $r= mysqli_query($conexao, $s);
+    $l= mysqli_fetch_assoc($r);
+    //-
+
     //obtendo id_relacao_usuario_curso
     $sq = "SELECT id_relacao_usuario_curso FROM relacao_usuario_curso WHERE email='$email' AND id_curso=$id_curso AND tipo_relacao='consumidor'";
     $result = mysqli_query($conexao, $sq);
     $linha = mysqli_fetch_assoc($result);
-    //obtido id_relacao_usuario_curso
+    //-
 
-    if(isset($linha)){
+    if(!isset($l)){
 
+        $_SESSION['mensagem'] = "O usuário informado não existe!";
         header("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
+        die;
+
+    }
+    if(isset($linha)){
+   
+        $_SESSION['mensagem'] = "O usuário já está associado ao curso!";
+        header("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
+        die;
 
     } else {
 
@@ -27,7 +42,6 @@
 
         $resultado = mysqli_query($conexao,$sql);
         // -
-
 
         //obtendo os módulos que pertencem ao curso-
         $sql_1 = "SELECT id_modulo FROM modulos WHERE id_curso=$id_curso";
@@ -40,7 +54,6 @@
 
         }
         //-
-
 
         //obtendo as aulas que pertencem ao curso-
         if(isset($id_modulo) or isset($linha_1)){
@@ -61,7 +74,6 @@
 
         }
         //-
-
 
         //obtendo os questionários que pertencem ao curso-
         if(isset($id_aula) or isset($linhaa)){
@@ -100,10 +112,9 @@
 
     }
 
-    mysqli_close($conexao);
-
     if($resultado)
     {
+        $_SESSION['mensagem'] = "Usuário associado com sucesso!";
 	    header("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
     }
 

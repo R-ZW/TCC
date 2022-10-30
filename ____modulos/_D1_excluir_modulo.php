@@ -1,5 +1,6 @@
 <?php
-    
+session_start();
+   
     include "../_______necessarios/.conexao_bd.php";
 
     $id_modulo = $_GET['id_modulo'];
@@ -15,7 +16,9 @@
     $endereco_imagem_m= explode("/", $endereco_imagemm);
     $endereco_imagem_mo= array_reverse($endereco_imagem_m);
     $endereco_imagem_modulo= $endereco_imagem_mo[1] ."/". $endereco_imagem_mo[0];
-    unlink($endereco_imagem_modulo);
+    if($endereco_imagem_modulo != "../___aulas/imgs_aula/sem_imagem.png"){
+        unlink($endereco_imagem_modulo);
+    }
     //-
 
 
@@ -32,8 +35,8 @@
         $endereco_imagema[$ind]= $linha_1['endereco_imagem_aula'];
         $endereco_imagem_a[$ind]= explode("/", $endereco_imagema[$ind]);
         $endereco_imagem_au[$ind]= array_reverse($endereco_imagem_a[$ind]);
-        $endereco_imagem_aula[$ind]= $endereco_imagem_au[$ind][0];
-        unlink("../___aulas/imgs_aula/".$endereco_imagem_aula[$ind]);
+        $endereco_imagem_aula[$ind]= "../___aulas/imgs_aula/".$endereco_imagem_au[$ind][0];
+        unlink($endereco_imagem_aula[$ind]);
 
     }
     //-
@@ -187,11 +190,9 @@
 
     }
 
-
-    mysqli_close($conexao);
-
     if($resultado and $resultado_1 and $resultado_3){
 
+        $_SESSION['mensagem'] = "Módulo excluído com sucesso!";
         header("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
 
     }

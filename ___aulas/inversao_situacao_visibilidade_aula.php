@@ -5,8 +5,6 @@
 
     $id_curso = $_GET['id_curso'];
     $id_aula = $_GET['id_aula'];
-    $i = $_GET['i'];
-
 
     $sql = "SELECT * FROM aulas WHERE id_aula=$id_aula";
     $resultado = mysqli_query($conexao, $sql);
@@ -27,14 +25,6 @@
 
     }
 
-    if($i==0){
-
-        header ("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
-
-    } elseif($i==1){
-
-        header ("Location: ../index/produtor/PROD__tela_aula_produtor.php?id_aula=$id_aula");
-
-    }
+    echo "<script>window.history.go(-1);</script>";
 
 ?>

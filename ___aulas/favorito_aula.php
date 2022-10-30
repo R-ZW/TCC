@@ -1,5 +1,5 @@
 <?php
-    session_start();
+session_start();
 
     include_once "../_______necessarios/.conexao_bd.php";
 
@@ -10,16 +10,17 @@
     $resultado = mysqli_query($conexao, $sql);
 
     $linha = mysqli_fetch_assoc($resultado);
-    $situacao_favorito_aula = $linha['situacao_favorito_aula'];
+    if(isset($linha)){
+        $situacao_favorito_aula = $linha['situacao_favorito_aula'];
+    }
 
-
-    if(is_null($situacao_favorito_aula)){
+    if(!isset($linha)){
 
         $sql_1 = "INSERT INTO favoritos_aula (email, id_aula, situacao_favorito_aula) 
                                        VALUES ('$email','$id_aula','favorito')";
         $resultado_1 = mysqli_query($conexao, $sql_1);
 
-        header("Location: ../index/consumidor/CONS__tela_aula_consumidor.php?id_aula=$id_aula");
+        echo "<script>window.history.go(-1);</script>";
 
         die;
 
@@ -37,6 +38,6 @@
 
     }
 
-    header("Location: ../index/consumidor/CONS__tela_aula_consumidor.php?id_aula=$id_aula");
+    echo "<script>window.history.go(-1);</script>";
 
 ?>

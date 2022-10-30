@@ -7,7 +7,6 @@ if (!isset($_SESSION['id_usuario'])) {
 $_SESSION['mensagem'] = "Você deve primeiro realizar o login!";
 header("Location: ../entrada.php");
 }
-echo exibeMensagens();
 
 $email_produtor= $_SESSION['email'];
 
@@ -44,6 +43,49 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
 
 <body>
 
+    <div id="mensagem" class="modal">
+        <div class="modal-content justify">
+        
+            <h4 class="center-align">Mensagem</h4>
+
+            <br>
+
+            <h6 style='font-size:1.5em;'><?php echo $_SESSION['mensagem'];?></h6>
+
+        </div>
+        <div class='modal-footer'>
+            <a href='#!' class='modal-close waves-effect waves-purple btn-flat'>ok</a>
+        </div>
+    </div>
+
+    <div id="info" class="modal">
+        <div class="modal-content justify" style="font-size:1.25em;">
+        
+            <p>O certificado é dedicado aos consumidores que concluíram o curso,
+            contendo o <span class="bold">nome do consumidor</span>, o
+            <span class="bold">nome do curso</span> e a <span class="bold">carga horária</span> do mesmo.
+            Para que o certificado fique disponível para os consumidores, além de ter sido adicionado, é necessário que
+            o curso possua forma de avaliação válida, sendo isso, no caso, questionário(s) válido(s).</p>
+
+            <br style="font-size:0.3em;">
+
+            <p>Caso o curso possua questionários válidos, ao lado do botão de cadastro/edição de 
+            certificado será mostrado o ícone: <i class="material-icons deep-purple-text" style="vertical-align: middle;">check_circle</i></p>
+
+            <p>Caso o curso não possua, será mostrado: <i class="material-icons deep-purple-text" style="vertical-align: middle;">cancel</i></p>
+
+            <br style="font-size:0.5em;">
+
+            Sendo possível criar um certificado mesmo sem questionários válidos, mas que não será 
+            disponibilizado aos consumidores. Por fim, um questionário só é considerado válido quando há pelo menos 
+            uma questão válida, ou seja, uma questão que possua pelo menos uma resposta correta.
+
+        </div>
+        <div class='modal-footer'>
+            <a href='#!' class='modal-close waves-effect waves-purple btn-flat'>Ok</a>
+        </div>
+    </div>
+
     <div id="configs" class="modal">
         <div class="modal-content">
         
@@ -79,13 +121,7 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
     <nav>
         <div class="nav-wrapper grey darken-4">
 
-        <a href='../consumidor/CONS____home_consumidor.php' class='white-text' style='margin-left: 25px;'>
-            <div class='btn-floating btn-small waves-effect waves-light deep-purple'>
-                <i class='material-icons' style='line-height:33px; margin-right: 1px;'>sync</i>
-            </div>
-        </a>
-
-        <a href="PROD____home_produtor.php" class="breadcrumb">HOME PRODUTOR</a>
+        <a href="PROD____home_produtor.php" class="breadcrumb" style='margin-left:30px;'>HOME PRODUTOR</a>
         <a href="#!" class="breadcrumb">CURSO</a>
 
         <ul class="right valign-wrapper" style="height:90px;">
@@ -123,14 +159,17 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
             <i class="material-icons right" style="margin:0px;">build</i></a>
         </li>
         <li>
+            <a href='../consumidor/CONS____home_consumidor.php' class="waves-effect">Permutar Conta
+            <i class="material-icons right" style="margin:0px;">sync</i></a>
+        </li>
+        <li>
             <a href='../../______usuarios/logout.php' class="waves-effect">Fazer Logout
             <i class="material-icons right" style="margin:0px;">exit_to_app</i></a>
         </li>
 
         <li><div class="divider"></div></li>
 
-        <br>
-        
+        <br> 
     </ul>
 
     <main class="container">	
@@ -153,7 +192,7 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
                 $nome_curso= $linha['nome_curso'];
                 $descricao_curso = $linha['descricao_curso'];
                 $endereco_imagem_curso = $linha['endereco_imagem_curso'];
-                $endereco_certificado_curso = $linha['endereco_certificado_curso'];
+                $certificado_curso = $linha['certificado_curso'];
                 $visibilidade_curso = $linha['visibilidade_curso'];
 
             } 
@@ -264,8 +303,232 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
                 //-
                 //----------------------
 
-
                 echo "
+                    <script>
+                        function previewImagemModulo(){
+                            let imagem = document.querySelector('input[id=endereco_imagem_modulo_cadastro]').files[0];
+                            let preview = document.querySelector('#imagem_modulo');
+                
+                            let reader = new FileReader();
+                
+                            reader.onloadend = function(){
+                
+                                preview.src=reader.result;
+                
+                            }
+                
+                            if(imagem){
+                
+                                reader.readAsDataURL(imagem);
+                
+                            } else {
+                
+                                preview.src=".'""'.";
+                
+                            }
+                        }
+                    </script>
+
+                    <div id='criar_modulo' class='modal'>
+                        <div class='modal-content'>
+
+                        <form action='../../____modulos/____C2_insere_modulo.php' method='post' id='criar_modulo' enctype='multipart/form-data'>
+
+                            <h4 class='center-align'>Criar Módulo</h4><br>
+                    
+                            <h6 class='bold'>Nome do módulo:<i class='material-icons right'>border_color</i></h6>
+                            <input id='field' type='text' name='nome_modulo' placeholder='insira o nome do módulo' required>
+                    
+                            <br>
+                            <br>
+                    
+                            <h6 class='bold'>Descrição do módulo:<i class='material-icons right'>subject</i></h6>
+                            <div class='input-field col s12'>
+                            <textarea id='field' type='text' name='descricao_modulo' placeholder='insira a descrição do módulo' class='materialize-textarea' style='text-align:justify' required></textarea>
+                            </div>
+                    
+                            <h6 class='bold'>Imagem do módulo (16x9):<i class='material-icons right'>image</i></h6>
+                    
+                            <div class='file-field'>
+                                <div class='waves-effect waves-light btn grey darken-4' style='margin-left:39%;'>
+                                    <span class='bold'><i class='material-icons left'>upload</i> Selecionar Arquivo</span>
+                                    <input id='endereco_imagem_modulo_cadastro' name='endereco_imagem_modulo' type='file' style='text-align: -webkit-center;' accept='image/*' onchange='previewImagemModulo()'>
+                                </div>
+                            </div>
+                    
+                            <br>
+                            <br>
+                            <br>
+                            <h6 class='bold center-align' style='font-style:italic;'>preview:</h6>
+                            <div class='collapsible-header'>
+                                <div class='col s3' style='margin-left:0px;'>
+                                    <img id='imagem_modulo' src='../../_.imgs_default/sem_imagem.png' width='230em' height='129.4em' style='border-radius:4%;'>
+                                </div>
+                    
+                                <div class='col s1 valign-wrapper left' style='margin-left:0px;'>
+                                    <i class='material-icons' style='vertical-align: middle; font-size:2.33em !important;'>arrow_drop_down</i>
+                                </div>
+                    
+                                <div class='col s7 valign-wrapper' style='margin-left:0px; padding-left:0px;'>
+                                    <span style='font-size:1.85em; font-weight:400;'>[*nome do módulo*]</span>
+                                </div>
+                            </div>
+                    
+                            <br>
+                    
+                            <h6 class='bold'>Visibilidade do módulo: <i class='material-icons right'>remove_red_eye</i></h6><br>
+                    
+                            <div class='switch'>
+                                
+                                <label>
+                    
+                                <h6 class='bold'>Não visível
+                    
+                                <input type='checkbox' id='visibilidade_modulo' name='visibilidade_modulo' value='1' checked>
+                    
+                                <span class='lever'></span>
+                    
+                                Visível</h6>
+                    
+                                </label>
+                                
+                            </div>
+                    
+                            <input type='hidden' name='id_curso' value='$id_curso''>
+                    
+                            <br>
+                            <br>
+                    
+                            <div class='right'>
+                    
+                                <a href='#!' class='modal-close waves-effect waves-light btn bold'
+                                style='background-color: #212121 !important;'>cancelar<i class='material-icons right'>close</i>
+                                </a>
+                    
+                                <button type='submit' class='waves-effect waves-light btn bold'
+                                style='background-color: #212121 !important;'>ENVIAR<i class='material-icons right'>check</i>
+                                </button>
+                    
+                                <br>
+                                <br>
+                    
+                            </div> 
+                        </form>
+                        </div>
+                    </div>
+
+                    <div id='cadastro_certificado' class='modal'>
+
+                        <div class='modal-content'>
+
+                            <h4 class='center-align'>Cadastrar Certificado</h4><br>
+
+                            <form action='../../_____cursos/certificados_curso/_C2_U2_insere_altera_certificado.php?id_curso=$id_curso&i=0' method='post'>
+
+                                <h6 class='bold'>Carga horária (em horas):<i class='material-icons right'>access_time</i></h6>
+                                <input id='field' type='number' name='carga_horaria' placeholder='insira a carga horária do curso' required>
+
+                                <br>
+                                <br>
+                    
+                                <div class='right'>
+
+                                    <a href='#!' class='modal-close waves-effect waves-light btn bold'
+                                    style='background-color: #212121 !important;'>cancelar<i class='material-icons right'>close</i>
+                                    </a>
+
+                                    <button type='submit' class='waves-effect waves-light btn bold'
+                                    style='background-color: #212121 !important;'>ENVIAR<i class='material-icons right'>check</i>
+                                    </button>
+
+                                    <br>
+                                    <br>
+
+                                </div> 
+
+                            </form>
+                
+                        </div>
+                    </div>
+                    <div id='edicao_certificado' class='modal'>
+                        <div class='modal-content'>
+
+                            <h4 class='center-align'>Editar Certificado</h4><br>
+
+                            <form action='../../_____cursos/certificados_curso/_C2_U2_insere_altera_certificado.php?id_curso=$id_curso&i=1' method='post'>
+
+                                <h6 class='bold'>Carga horária (em horas):<i class='material-icons right'>access_time</i></h6>
+                                <input id='field' type='number' name='carga_horaria' placeholder='insira a carga horária do curso' value='$certificado_curso' required>
+
+                                <br>
+                                <br>
+                    
+                                <div class='right'>
+
+                                    <a href='#!' class='modal-close waves-effect waves-light btn bold'
+                                    style='background-color: #212121 !important;'>cancelar<i class='material-icons right'>close</i>
+                                    </a>
+
+                                    <button type='submit' class='waves-effect waves-light btn bold'
+                                    style='background-color: #212121 !important;'>ENVIAR<i class='material-icons right'>check</i>
+                                    </button>
+
+                                    <br>
+                                    <br>
+
+                                </div> 
+                            </form>
+                        </div>
+                    </div>
+
+                    <div id='excluir_certificado' class='modal'>
+                        <div class='modal-content'>
+                    
+                        <h5 class='center-align'>Deseja realmente remover o certificado do curso?</h5>
+                        <br><br><br>
+            
+                        <div class='center-align'>
+            
+                            <a href='../../_____cursos/certificados_curso/_D1_excluir_certificado.php?id_curso=$id_curso' class='modal-trigger waves-effect waves-light btn bold'
+                            style='background-color: #e53935 !important;'>CONFIRMAR<i class='material-icons right'>delete_forever</i>
+                            </a>
+            
+                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            
+                            <a href='#!' class='modal-close waves-effect waves-light btn bold'
+                            style='background-color: #212121 !important;'>CANCELAR<i class='material-icons right'>close</i>
+                            </a>
+            
+                            </div>
+                            <br>
+                
+                        </div>
+                    </div>
+
+                    <div id='excluir_curso' class='modal'>
+                        <div class='modal-content'>
+                    
+                        <h5 class='center-align'>Deseja realmente excluir o curso <span class='bold'>$nome_curso</span>?</h5>
+                        <br><br><br>
+            
+                        <div class='center-align'>
+            
+                            <a href='../../_____cursos/_D1_excluir_curso.php?id_curso=$id_curso' class='modal-trigger waves-effect waves-light btn bold'
+                            style='background-color: #e53935 !important;'>CONFIRMAR<i class='material-icons right'>delete_forever</i>
+                            </a>
+            
+                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            
+                            <a href='#!' class='modal-close waves-effect waves-light btn bold'
+                            style='background-color: #212121 !important;'>CANCELAR<i class='material-icons right'>close</i>
+                            </a>
+            
+                            </div>
+                            <br>
+                
+                        </div>
+                    </div>
+                
                     <div id='editar_curso' class='modal'>
                         <div class='modal-content'>
 
@@ -280,8 +543,8 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
                                 <br>
 
                                 <h6 class='bold'>Descrição do curso:<i class='material-icons right'>subject</i></h6>
-                                <div class='input-field col s12'>
-                                <textarea id='field' type='text' name='descricao_curso' placeholder='insira a descrição do curso' class='materialize-textarea' form='editar_curso' style='text-align:justify'required>$descricao_curso</textarea>
+                                <div class='input-field'>
+                                <textarea id='field' type='text' name='descricao_curso' placeholder='insira a descrição do curso' class='materialize-textarea' style='text-align:justify'required>$descricao_curso</textarea>
                                 </div>
 
                                 <h6 class='bold'>Imagem do curso (16x9):<i class='material-icons right'>image</i></h6>
@@ -289,20 +552,20 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
                                 <div class='file-field'>
                                     <div class='waves-effect waves-light btn grey darken-4' style='margin-left:39%;'>
                                         <span class='bold'><i class='material-icons left'>upload</i> Selecionar Arquivo</span>
-                                        <input id='endereco_imagem_curso_edicao' name='endereco_imagem_curso' type='file' accept='image/*' form='editar_curso' onchange='previewImagemEditar()'>
+                                        <input id='endereco_imagem_curso_edicao' name='endereco_imagem_curso' type='file' accept='image/*' onchange='previewImagemEditar()'>
                                     </div>
                                 </div>
 
                                 <br>
                                 <br>
                                 <br>
-                                <h6 class='bold center-align' style='font-style:italic;'>preview:</h6>
+                                <h6 class='bold center-align' style='font-style:italic;'>preview da home:</h6>
                                 <div class='card-panel hoverable'>
                                     <div class='row'>
                                         <div class='col s5'>
                                         
                                             <br>
-                                            <img id='imagem_curso_edicao' src='$endereco_imagem_curso' width='300em' height='169em'>
+                                            <img id='imagem_curso_edicao' src='$endereco_imagem_curso' width='300em' height='169em' style='border-radius:4%;'>
                                     
                                         </div>
                                     
@@ -313,6 +576,24 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
                                             <h6 style='text-align:justify; font-size:1.3em;'>[*descrição do curso*].</h6>
 
                                         </div> 
+                                    </div>
+                                </div>
+                                <br>
+                                <h6 class='bold center-align' style='font-style:italic;'>preview da tela de curso:</h6>
+                                <div class='col s12' style='padding:0px;'>
+                                    <div class='card meddium'>
+
+                                        <div class='card-image'>
+                                            <img id='imagem_curso_edicao_1' src='$endereco_imagem_curso' style='filter: brightness(80%);' width='900em' height='506.25em'>
+                                            <div class='card-title' style='width:100%; font-weight:400; font-size:2em; text-align: -webkit-center; backdrop-filter: brightness(70%)'>
+                                                [*nome do curso*]
+                                            </div>
+                                        </div>
+
+                                        <div class='card-content'>
+                                            <h6 style='text-align: justify; font-size:1.5em;'>[*descrição do curso*]</h6>
+                                        </div>
+
                                     </div>
                                 </div>
                                 <br>
@@ -369,10 +650,8 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
                         </div>
                     </div>
                 
-                
-                    <div class='row'>
-                        <div class='col s12'>
-                            <div class='card meddium'>
+                    <div class='col s12' style='padding:0px;'>
+                        <div class='card meddium'>
 
                             <div class='card-image'>
                                 <img src='$endereco_imagem_curso' style='filter: brightness(80%);' width='1200em' height='675em'>
@@ -383,126 +662,687 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
                             <div class='card-content'>
                                 <h6 style='text-align: justify; font-size:1.5em;'>$descricao_curso</h6>
                             </div>
-                            <div class='card-action center'>
-                                <a href='#editar_curso' class='modal-trigger' style='color:#212121; vertical-align: text-bottom;'><i class='material-icons' style='font-size:2.5em !important;'>edit</i></a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                                <a href='#excluir_curso' class='modal-trigger' style='color:#212121; vertical-align: text-bottom;'><i class='material-icons' style='font-size:2.5em !important;'>delete</i></a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
 
-                    if($visibilidade_curso == "visível"){
-
-                        echo "  <a href='../../_____cursos/inversao_situacao_visibilidade_curso.php?id_curso=$id_curso' style='color:#212121; vertical-align: super; font-size:2.5em;'><i class='fa fa-eye'></i></a>";
-        
-                    } else {
-        
-                        echo "  <a href='../../_____cursos/inversao_situacao_visibilidade_curso.php?id_curso=$id_curso' style='color:#212121; vertical-align: super;'><i class='fa fa-eye-slash fa-2x'></i></a>";
+                            <div class='card-action'>
+                                <br>
+                                <span>";
                         
-                    }
+                                    if(!isset($id_alternativa_valida) and $certificado_curso=="sem-certificado"){
 
-                echo"       </div>
+                                        echo "<a href='#cadastro_certificado' class='modal-trigger waves-effect waves-light bold btn' style='background-color:#212121; font-size:1.1em; vertical-align: middle; text-align:center;'>
+                                            ADICIONAR CERTIFICADO<i class='material-icons left'>chrome_reader_mode</i>
+                                            </a>";
+                                        echo "<i class='material-icons deep-purple-text' style='font-size:2.5em; vertical-align: middle;'>cancel</i>";
+
+                                    } elseif(!isset($id_alternativa_valida) and $certificado_curso!="sem-certificado"){
+
+                                        echo "<a href='#excluir_certificado' class='modal-trigger' style='color:#212121; vertical-align: middle; margin-right:12px;'><i class='material-icons' style='font-size:2em; vertical-align: middle;'>delete</i></a>
+                                            <a href='../../_____cursos/certificados_curso/gerar_certificado.php?id_curso=$id_curso' style='color:#212121; vertical-align: middle; margin-right:12px;'><i class='material-icons' style='font-size:2em; vertical-align: middle;'>download</i></a>
+                                            <a href='#edicao_certificado' class='modal-trigger waves-effect waves-light bold btn' style='background-color:#212121; font-size:1.1em;vertical-align: middle; text-align:center;'>
+                                            EDITAR CERTIFICADO<i class='material-icons left'>edit</i>
+                                            </a>";
+                                        echo "<i class='material-icons deep-purple-text' style='font-size:2.5em; vertical-align: middle;'>cancel</i>";
+
+                                    } elseif(isset($id_alternativa_valida) and $certificado_curso=="sem-certificado"){
+
+                                        echo "<a href='#cadastro_certificado' class='modal-trigger waves-effect waves-light bold btn' style='background-color:#212121; font-size:1.1em;vertical-align: middle; text-align:center;'>
+                                            ADICIONAR CERTIFICADO<i class='material-icons left'>chrome_reader_mode</i>
+                                            </a>";
+                                        echo "<i class='material-icons deep-purple-text' style='font-size:2.5em; vertical-align: middle;'>check_circle</i>";
+
+                                    } elseif(isset($id_alternativa_valida) and $certificado_curso!="sem-certificado"){
+
+                                        echo "<a href='#excluir_certificado' class='modal-trigger' style='color:#212121; vertical-align: middle; margin-right:12px;'><i class='material-icons' style='font-size:2em; vertical-align: middle;'>delete</i></a>
+                                            <a href='../../_____cursos/certificados_curso/gerar_certificado.php?id_curso=$id_curso' style='color:#212121; vertical-align: middle; margin-right:12px;'><i class='material-icons' style='font-size:2em; vertical-align: middle;'>download</i></a>
+                                            <a href='#edicao_certificado' class='modal-trigger waves-effect waves-light bold btn' style='background-color:#212121; font-size:1.1em;vertical-align: middle; text-align:center;'>
+                                            EDITAR CERTIFICADO<i class='material-icons left'>edit</i>
+                                            </a>";
+                                        echo "<i class='material-icons deep-purple-text' style='font-size:2.5em; vertical-align: middle;'>check_circle</i>";
+
+                                    }
+
+                                    echo "<a href='#info' class='modal-trigger' style='color:#212121; vertical-align: middle;'><i class='material-icons' style='font-size:2.5em; vertical-align: middle;'>info</i></a>
+                                </span>
+
+                                <span class='right'>
+                                    <a href='#editar_curso' class='modal-trigger' style='color:#212121; vertical-align: top;'>
+                                        <i class='material-icons' style='font-size:2.5em !important; vertical-align: middle;'>edit</i>
+                                    </a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+
+                                    <a href='#excluir_curso' class='modal-trigger' style='color:#212121; vertical-align: top;'>
+                                        <i class='material-icons' style='font-size:2.5em !important; vertical-align: middle;'>delete</i>
+                                    </a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+
+                                    if($visibilidade_curso == "visível"){
+
+                                        echo "<a href='../../_____cursos/inversao_situacao_visibilidade_curso.php?id_curso=$id_curso' style='color:#212121; font-size:2.5em; line-height:0; vertical-align: text-bottom;'>
+                                                <i class='fa fa-eye' style='padding-bottom:15px;'></i>
+                                                </a>";
+                        
+                                    } else {
+                        
+                                        echo "<a href='../../_____cursos/inversao_situacao_visibilidade_curso.php?id_curso=$id_curso' style='color:#212121; font-size:2.5em; line-height:0; vertical-align: text-bottom;'>
+                                                <i class='fa fa-eye-slash style='vertical-align: text-bottom;'></i>
+                                                </a>";
+                                        
+                                    }
+
+        echo "                  </span>
+                            </div>
+                            <br>
                         </div>
-                    </div>";
+                    </div>
+                    <br><br>
+                    ";
 
-                if(!isset($id_alternativa_valida) and $endereco_certificado_curso=="sem-certificado"){
+                echo "
+                        <ul class='collapsible' 
+                        style='border:1px solid #DCDCDC; border-radius:10px; 
+                        box-shadow: 0 0 0 0 rgb(0 0 0), 0 0 0 -0 rgb(0 0 0), 0 0 0 0 rgb(0 0 0);'>
+                        <li>
+                            <div class='collapsible-header valign-wrapper' style='border:0px; border-radius:10px; border-color:#DCDCDC;'>
+                                <div class='row valign-wrapper' style='margin:0px; width:100%;'>
 
-                    echo "ESTE CURSO NÃO POSSUI CERTIFICADO, E SE POSSUI-SE NÃO ESTARIA VÁLIDO PARA DOWNLOAD";
+                                    <div class='col s9 valign-wrapper'>
+                                        <i class='material-icons left' style='font-size:2.5em;'>arrow_drop_down</i>    
+                                        <div style='font-size:2.5em; font-weight:500;'>Módulos</div> 
+                                    </div>
 
-                } elseif(!isset($id_alternativa_valida) and $endereco_certificado_curso!="sem-certificado"){
-
-                    echo "ESTE CURSO POSSUI CERTIFICADO, PORÉM NÃO ESTÁ VÁLIDO PARA DOWNLOAD";
-
-                } elseif(isset($id_alternativa_valida) and $endereco_certificado_curso=="sem-certificado"){
-
-                    echo "ESTE CURSO NÃO POSSUI CERTIFICADO, PORÉM, CASO POSSUI-SE ESTARIA VÁLIDO PARA DOWNLOAD";
-
-                } elseif(isset($id_alternativa_valida) and $endereco_certificado_curso!="sem-certificado"){
-
-                    echo "<a href='$endereco_certificado_curso' download class='white-text'><div class='waves-effect waves-light btn bold'>BAIXAR CERTIFICADO<i class='material-icons right'>download</i></div></a></h5><br>";
-
-                }
-
-                
-                echo "<br><br>";
-            
+                                    <div class='col s3 center'>
+                                        <a href='#criar_modulo' class='modal-trigger'>
+                                            <div class='waves-effect waves-light btn deep-purple bold' style='font-size:1.1em;'>
+                                                ADICIONAR MÓDULO<i class='material-icons left' style='margin-right:8px;'>add</i>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='collapsible-body' style='border:0px; border-radius:10px;'>";
                 if(isset($id_modulo) or isset($linha_1)){
 
-                    for($i=0 ; $i<count($id_modulo) ; $i++){
+                                    for($i=0 ; $i<count($id_modulo) ; $i++){
 
-                        echo "<br>
-                        <div class='card-panel'>
-                            <div class='row'>
-                                <h4 class='bold center-align'>" . $nome_modulo[$i] . " 
-                                <a href='../../____modulos/__U1_form_altera_modulo.php?id_modulo=".$id_modulo[$i]."' class='link-curso'> <i class='material-icons small'>edit</i></a>
-                                <a href='../../____modulos/_D1_excluir_modulo.php?id_modulo=".$id_modulo[$i]."' class='link-curso'><i class='material-icons small'>delete</i></a> ";
+                                        echo "
+                                            <script>
+                                                function previewImagemEditarModulo$i(){
+                                                    let imagem = document.querySelector('input[id=endereco_imagem_modulo_edicao$i]').files[0];
+                                                    let preview = document.querySelector('#imagem_modulo_edicao$i');
+                                        
+                                                    let reader = new FileReader();
+                                        
+                                                    reader.onloadend = function(){
+                                        
+                                                        preview.src=reader.result;
+                                        
+                                                    }
+                                        
+                                                    if(imagem){
+                                        
+                                                        reader.readAsDataURL(imagem);
+                                        
+                                                    } else {
+                                        
+                                                        preview.src=".'""'.";
+                                        
+                                                    }
+                                                }
 
-                                if($visibilidade_modulo[$i] == "visível"){
+                                                function previewImagemAula$i(){
+                                                    let imagem = document.querySelector('input[id=endereco_imagem_aula_cadastro_$i]').files[0];
+                                                    let preview = document.querySelector('#imagem_aula_criacao_$i');
+                                                    let preview1 = document.querySelector('#imagem_aula_criacao_1_$i');
+                                        
+                                                    let reader = new FileReader();
+                                        
+                                                    reader.onloadend = function(){
+                                        
+                                                        preview.src=reader.result;
+                                                        preview1.src=reader.result;
+                                        
+                                                    }
+                                        
+                                                    if(imagem){
+                                        
+                                                        reader.readAsDataURL(imagem);
+                                        
+                                                    } else {
+                                        
+                                                        preview.src=".'""'.";
+                                                        preview1.src=".'""'.";
+                                        
+                                                    }
+                                                }
+                                            </script>
 
-                                    echo "<a href='../../____modulos/inversao_situacao_visibilidade_modulo.php?id_curso=$id_curso&id_modulo=".$id_modulo[$i]."' class='link-curso'><i class='fa fa-eye'></i></a>";
+                                            <div id='excluir_modulo_$i' class='modal'>
+                                                <div class='modal-content'>
+                                            
+                                                    <h5 class='center-align'>Deseja realmente excluir o módulo <span class='bold'>".$nome_modulo[$i]."</span>?</h5>
+                                                    <br><br><br>
+                                        
+                                                    <div class='center-align'>
+                                        
+                                                        <a href='../../____modulos/_D1_excluir_modulo.php?id_modulo=".$id_modulo[$i]."' class='modal-trigger waves-effect waves-light btn bold'
+                                                        style='background-color: #e53935 !important;'>CONFIRMAR<i class='material-icons right'>delete_forever</i>
+                                                        </a>
+                                        
+                                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                        
+                                                        <a href='#!' class='modal-close waves-effect waves-light btn bold'
+                                                        style='background-color: #212121 !important;'>CANCELAR<i class='material-icons right'>close</i>
+                                                        </a>
+                                        
+                                                    </div>
+
+                                                    <br>
+                                                    
+                                                </div>
+                                            </div>
+
+                                            <div id='editar_modulo_$i' class='modal'>
+                                                <div class='modal-content'>
+
+                                                    <form action='../../____modulos/__U2_altera_modulo.php' method='post' id='editar_modulo$i' enctype='multipart/form-data'>
+
+                                                        <h4 class='center-align'>Editar Modulo</h4><br>
+
+                                                        <h6 class='bold'>Nome do módulo:<i class='material-icons right'>border_color</i></h6>
+                                                        <input id='field' type='text' name='nome_modulo' placeholder='insira o nome do módulo' value='".$nome_modulo[$i]."' required>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <h6 class='bold'>Descrição do módulo:<i class='material-icons right'>subject</i></h6>
+                                                        <div class='input-field'>
+                                                            <textarea id='field' type='text' name='descricao_modulo' placeholder='insira a descrição do módulo' class='materialize-textarea' form='editar_modulo$i' style='text-align:justify'required>".$descricao_modulo[$i]."</textarea>
+                                                        </div>
+
+                                                        <h6 class='bold'>Imagem do módulo (16x9):<i class='material-icons right'>image</i></h6>
+                                        
+                                                        <div class='file-field'>
+                                                            <div class='waves-effect waves-light btn grey darken-4' style='margin-left:39%;'>
+                                                                <span class='bold'><i class='material-icons left'>upload</i> Selecionar Arquivo</span>
+                                                                <input id='endereco_imagem_modulo_edicao$i' name='endereco_imagem_modulo' type='file' accept='image/*' onchange='previewImagemEditarModulo$i()'>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+                                                        <br>
+
+                                                        <h6 class='bold center-align' style='font-style:italic;'>preview:</h6>
+                                                        <div class='collapsible-header'>
+                                                            <div class='col s3' style='margin-left:0px;'>
+                                                                <img id='imagem_modulo_edicao$i' src='" . $endereco_imagem_modulo[$i] ."' width='230em' height='129.4em' style='border-radius:4%;'>
+                                                            </div>
+
+                                                            <div class='col s1 valign-wrapper left' style='margin-left:0px;'>
+                                                                <i class='material-icons' style='vertical-align: middle; font-size:2.33em !important;'>arrow_drop_down</i>
+                                                            </div>
+
+                                                            <div class='col s7 valign-wrapper' style='margin-left:0px; padding-left:0px;'>
+                                                                <span style='font-size:1.85em; font-weight:400;'>[*nome do módulo*]</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+
+                                                        <h6 class='bold'>Visibilidade do módulo: <i class='material-icons right'>remove_red_eye</i></h6><br>
+                                                        
+                                                        <div class='switch'>
+                                                            
+                                                            <label>
+
+                                                                <h6 class='bold'>Não visível";
+                                                                
+                                                                    if($visibilidade_modulo[$i] == "não-visível"){
+
+                                                                        echo "<input type='checkbox' id='visibilidade_modulo' name='visibilidade_modulo' value='1'>";
+
+                                                                    } else {
+
+                                                                        echo "<input type='checkbox' id='visibilidade_modulo' name='visibilidade_modulo' value='1' checked>";
+
+                                                                    }
+                                                                
+                        echo "
+
+                                                                <span class='lever'></span>
+
+                                                                Visível</h6>
+
+                                                            </label>
+                                                            
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <input type='hidden' name='endereco_imagem_modulo_pre_alteracao' value='".$endereco_imagem_modulo[$i]."'>
+                                                        <input type='hidden' name='id_modulo' value='".$id_modulo[$i]."'>
+
+                                                        <div class='right'>
+
+                                                            <a href='#!' class='modal-close waves-effect waves-light btn bold'
+                                                            style='background-color: #212121 !important;'>cancelar<i class='material-icons right'>close</i>
+                                                            </a>
+
+                                                            <button type='submit' class='waves-effect waves-light btn bold'
+                                                            style='background-color: #212121 !important;'>ENVIAR<i class='material-icons right'>check</i>
+                                                            </button>
+
+                                                            <br>
+                                                            <br>
+
+                                                        </div> 
+                                                    </form>
+                                                </div>
+                                            </div>
+
+                                            <div id='criar_aula_$i' class='modal'>
+                                                <div class='modal-content'>
+
+                                                <form action='../../___aulas/____C2_insere_aula.php' method='post' id='criar_aula' enctype='multipart/form-data'>
+
+                                                    <h4 class='center-align'>Criar Aula</h4><br>
+                                            
+                                                    <h6 class='bold'>Nome da aula:<i class='material-icons right'>border_color</i></h6>
+                                                    <input id='field' type='text' name='nome_aula' placeholder='insira o nome do aula' required>
+                                            
+                                                    <br>
+                                                    <br>
+                                            
+                                                    <h6 class='bold'>Descrição da aula:<i class='material-icons right'>subject</i></h6>
+                                                    <div class='input-field col s12'>
+                                                    <textarea id='field' type='text' name='descricao_aula' placeholder='insira a descrição do aula' class='materialize-textarea' style='text-align:justify' required></textarea>
+                                                    </div>
+                                            
+                                                    <h6 class='bold'>Imagem da aula (16x9):<i class='material-icons right'>image</i></h6>
+                                            
+                                                    <div class='file-field'>
+                                                        <div class='waves-effect waves-light btn grey darken-4' style='margin-left:39%;'>
+                                                            <span class='bold'><i class='material-icons left'>upload</i> Selecionar Arquivo</span>
+                                                            <input id='endereco_imagem_aula_cadastro_$i' name='endereco_imagem_aula' type='file' style='text-align: -webkit-center;' accept='image/*' onchange='previewImagemAula$i()'>
+                                                        </div>
+                                                    </div>
+                                            
+                                                    <br>
+                                                    <br>
+                                                    <br>
+                                                    <h6 class='bold center-align' style='font-style:italic;'>preview da tela de curso:</h6>
+                                        
+                                                    <div class='row' style='margin-bottom:20px; border: 1px solid #9575cd; border-radius:10px;'>
+                                                        <div class='col s12 hoverable' style='padding-top:10px; padding-bottom:10px; border-radius:10px;'> 
+                                                            <div class='col s9 center-align valign-wrapper' style='margin:0px; padding:0px; height:112.5px;'>
+                                                                <span style='font-size:1.5em;'>[*nome da aula*]</span>
+                                                            </div>
+                                                            <div class='col s3 right-align' style='margin:0px; padding:0px; height:112.5px;'>
+                                                                <img id='imagem_aula_criacao_$i' src='../../_.imgs_default/sem_imagem.png' width='190em' height='112.5em' style='border-radius:4%;'>
+                                                                <i class='material-icons right valign-wrapper' style='height:112.5px;'>play_circle_filled</i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <br>
+                                                    <h6 class='bold center-align' style='font-style:italic;'>preview da tela de aula:</h6>
+                                                    <div class='col s12' style='padding:0px;'>
+                                                        <div class='card meddium'>
+
+                                                            <div class='card-image'>
+                                                                <img id='imagem_aula_criacao_1_$i' src='../../_.imgs_default/sem_imagem.png' style='filter: brightness(80%);' width='900em' height='506.25em'>
+                                                                <div class='card-title' style='width:100%; font-weight:400; font-size:2em; text-align: -webkit-center; backdrop-filter: brightness(70%)'>
+                                                                    [*nome da aula*]
+                                                                </div>
+                                                            </div>
+
+                                                            <div class='card-content'>
+                                                                <h6 style='text-align: justify; font-size:1.5em;'>[*descrição da aula*]</h6>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                            
+                                                    <br>
+                                            
+                                                    <h6 class='bold'>Visibilidade da aula: <i class='material-icons right'>remove_red_eye</i></h6><br>
+                                            
+                                                    <div class='switch'>
+                                                        
+                                                        <label>
+                                            
+                                                        <h6 class='bold'>Não visível
+                                            
+                                                        <input type='checkbox' id='visibilidade_aula' name='visibilidade_aula' value='1' checked>
+                                            
+                                                        <span class='lever'></span>
+                                            
+                                                        Visível</h6>
+                                            
+                                                        </label>
+                                                        
+                                                    </div>
+                                            
+                                                    <input type='hidden' name='id_modulo' value='".$id_modulo[$i]."'>
+                                            
+                                                    <br>
+                                                    <br>
+                                            
+                                                    <div class='right'>
+                                            
+                                                        <a href='#!' class='modal-close waves-effect waves-light btn bold'
+                                                        style='background-color: #212121 !important;'>cancelar<i class='material-icons right'>close</i>
+                                                        </a>
+                                            
+                                                        <button type='submit' class='waves-effect waves-light btn bold'
+                                                        style='background-color: #212121 !important;'>ENVIAR<i class='material-icons right'>check</i>
+                                                        </button>
+                                            
+                                                        <br>
+                                                        <br>
+                                            
+                                                    </div> 
+                                                </form>
+                                                </div>
+                                            </div>
+                                             
+                                            <div class='row' style='margin-bottom:30px; border-radius:10px;'>
+                                                <ul class='collapsible hoverable' style='border-radius:10px; border: 1.5px solid #7e57c2;'>
+                                                    <li> 
+                                                        <div class='collapsible-header' style='border-radius:10px; border:0px white;'>
+
+                                                            <div class='col s3' style='margin-left:0px;'>
+                                                                <img src='".$endereco_imagem_modulo[$i]."' width='300em' height='169em' class='left' style='border-radius:4%;'>
+                                                            </div>
+
+                                                            <div class='col s1 valign-wrapper' style='margin-left:0px;'>
+                                                                <i class='material-icons' style='vertical-align: middle; font-size:3.2em !important;'>arrow_drop_down</i>
+                                                            </div>
+
+                                                            <div class='col s7 valign-wrapper' style='margin-left:0px; padding-left:0px;'>
+                                                                <span style='font-size:2em; font-weight:400;'>" . $nome_modulo[$i] . "
+                                                                </span>
+                                                            </div>
+                                                            
+                                                            <div class='col s2 valign-wrapper' style='margin-left:0px;'>
+
+                                                                <a href='#editar_modulo_$i' class='modal-trigger' style='vertical-align: middle; color:#212121;'> 
+                                                                    <i class='material-icons' style='vertical-align: middle; font-size:2.3em !important;'>edit</i>
+                                                                </a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+
+                                                                <a href='#excluir_modulo_$i' class='modal-trigger' style='vertical-align: middle; color:#212121;'>
+                                                                    <i class='material-icons' style='vertical-align: middle; font-size:2.3em !important;'>delete</i>
+                                                                </a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+
+                                                                if($visibilidade_modulo[$i] == "visível"){
+
+                                                                    echo "<a href='../../____modulos/inversao_situacao_visibilidade_modulo.php?id_curso=$id_curso&id_modulo=".$id_modulo[$i]."' style='vertical-align: middle; color:#212121;'>
+                                                                            <i class='fa fa-eye' style='font-size:2.3em !important;'></i>
+                                                                          </a>";
+                                                    
+                                                                } else {
+                                                    
+                                                                    echo "<a href='../../____modulos/inversao_situacao_visibilidade_modulo.php?id_curso=$id_curso&id_modulo=".$id_modulo[$i]."' style='vertical-align: middle; color:#212121;'>
+                                                                            <i class='fa fa-eye-slash' style='font-size:2.3em !important;'></i>
+                                                                          </a>";
+                                                                    
+                                                                }
+
+                                            echo"           </div>
+                                                        </div>
+                                                        <div class='collapsible-body' style='border-radius:10px;'>
+                                                            
+                                                            <div class='justify'>
+                                                                <span style='font-size:1.3em;'>" . $descricao_modulo[$i] . "<br><br></span>
+                                                            </div>
+
+                                                            <hr style='border-color:#ffffff8a; width:100%; margin-top:5px; margin-bottom:8px;'>
+                                                            <br>
+
+                                                            <div class='card-action'>
+                                                                
+                                                                <div class='col s12 center-align' style='margin-bottom:18px;'>
+                                                                    <a href='#criar_aula_$i' class='modal-trigger'>
+                                                                        <div class='waves-effect waves-light btn bold deep-purple'>ADICIONAR AULA<i class='material-icons left'>add</i></div>
+                                                                    </a>
+                                                                </div>
+                                                                <br><br><br>
+
+                                                    ";
+                                        
+                                                    if(isset($id_aula[$i])){
+
+                                                        for($j=0 ; $j<count($id_aula[$i]) ; $j++){
+
+                                                            echo "
+                                                                <script>
+                                                                    function previewImagemAulaEdicao_$i".'_'."$j(){
+                                                                        let imagem = document.querySelector('input[id=endereco_imagem_aula_edicao_$i".'_'."$j]').files[0];
+                                                                        let preview = document.querySelector('#imagem_aula_edicao_$i".'_'."$j');
+                                                                        let preview1 = document.querySelector('#imagem_aula_edicao_1_$i".'_'."$j');
+                                                            
+                                                                        let reader = new FileReader();
+                                                            
+                                                                        reader.onloadend = function(){
+                                                            
+                                                                            preview.src=reader.result;
+                                                                            preview1.src=reader.result;
+                                                            
+                                                                        }
+                                                            
+                                                                        if(imagem){
+                                                            
+                                                                            reader.readAsDataURL(imagem);
+                                                            
+                                                                        } else {
+                                                            
+                                                                            preview.src=".'""'.";
+                                                                            preview1.src=".'""'.";
+                                                            
+                                                                        }
+                                                                    }
+                                                                </script>
+                                                                <div id='excluir_aula_[$i][$j]' class='modal'>
+                                                                    <div class='modal-content'>
+                                                                
+                                                                        <h5 class='center-align'>Deseja realmente excluir a aula <span class='bold'>".$nome_aula[$i][$j]."</span>?</h5>
+                                                                        <br><br><br>
+                                                            
+                                                                        <div class='center-align'>
+                                                            
+                                                                            <a href='../../___aulas/_D1_excluir_aula.php?id_aula=".$id_aula[$i][$j]."' class='modal-trigger waves-effect waves-light btn bold'
+                                                                            style='background-color: #e53935 !important;'>CONFIRMAR<i class='material-icons right'>delete_forever</i>
+                                                                            </a>
+                                                            
+                                                                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                                            
+                                                                            <a href='#!' class='modal-close waves-effect waves-light btn bold'
+                                                                            style='background-color: #212121 !important;'>CANCELAR<i class='material-icons right'>close</i>
+                                                                            </a>
+                                                            
+                                                                        </div>
                     
-                                } else {
-                    
-                                    echo "<a href='../../____modulos/inversao_situacao_visibilidade_modulo.php?id_curso=$id_curso&id_modulo=".$id_modulo[$i]."' class='link-curso'><i class='fa fa-eye-slash'></i></a>";
-                                    
-                                }
+                                                                        <br>
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                                <div id='editar_aula_[$i][$j]' class='modal'>
+                                                                    <div class='modal-content'>
 
-    echo"                            
-                                </h4><br><br>
-                                    <div class='col s4 m4 l4 flow-text'>
-                                    
-                                        <img src=" . $endereco_imagem_modulo[$i] ." class='img-curso'>
-                                
-                                    </div>
-                                
-                                    <div class='center-align'>
-                                        <h5 class='descricao-modulo'>" . $descricao_modulo[$i] . "<br><br>
-                                    </div>
-                            </div>";
-                        
-                        if(isset($id_aula[$i])){
+                                                                    <form action='../../___aulas/__U2_altera_aula.php' method='post' id='editar_aula' enctype='multipart/form-data'>
 
-                            for($j=0 ; $j<count($id_aula[$i]) ; $j++){
+                                                                        <h4 class='center-align'>Editar Aula</h4><br>
+                                                                
+                                                                        <h6 class='bold'>Nome da aula:<i class='material-icons right'>border_color</i></h6>
+                                                                        <input id='field' type='text' name='nome_aula' value='".$nome_aula[$i][$j]."' placeholder='insira o nome do aula' required>
+                                                                
+                                                                        <br>
+                                                                        <br>
+                                                                
+                                                                        <h6 class='bold'>Descrição da aula:<i class='material-icons right'>subject</i></h6>
+                                                                        <div class='input-field'>
+                                                                        <textarea id='field' type='text' name='descricao_aula' placeholder='insira a descrição do aula' class='materialize-textarea' style='text-align:justify' required>".$descricao_aula[$i][$j]."</textarea>
+                                                                        </div>
+                                                                
+                                                                        <h6 class='bold'>Imagem da aula (16x9):<i class='material-icons right'>image</i></h6>
+                                                                
+                                                                        <div class='file-field'>
+                                                                            <div class='waves-effect waves-light btn grey darken-4' style='margin-left:39%;'>
+                                                                                <span class='bold'><i class='material-icons left'>upload</i> Selecionar Arquivo</span>
+                                                                                <input id='endereco_imagem_aula_edicao_$i".'_'."$j' name='endereco_imagem_aula' type='file' style='text-align: -webkit-center;' accept='image/*' onchange='previewImagemAulaEdicao_$i".'_'."$j()'>
+                                                                            </div>
+                                                                        </div>
+                                                                
+                                                                        <br>
+                                                                        <br>
+                                                                        <br>
+                                                                        <h6 class='bold center-align' style='font-style:italic;'>preview da tela de curso:</h6>
+                                                            
+                                                                        <div class='row' style='margin-bottom:20px; border: 1px solid #9575cd; border-radius:10px;'>
+                                                                            <div class='col s12 hoverable' style='padding-top:10px; padding-bottom:10px; border-radius:10px;'> 
+                                                                                <div class='col s9 center-align valign-wrapper' style='margin:0px; padding:0px; height:112.5px;'>
+                                                                                    <span style='font-size:1.5em;'>[*nome da aula*]</span>
+                                                                                </div>
+                                                                                <div class='col s3 right-align' style='margin:0px; padding:0px; height:112.5px;'>
+                                                                                    <img id='imagem_aula_edicao_$i".'_'."$j' src='".$endereco_imagem_aula[$i][$j]."' width='190em' height='112.5em' style='border-radius:4%;'>
+                                                                                    <i class='material-icons right valign-wrapper' style='height:112.5px;'>play_circle_filled</i>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
 
-                                echo "<big>- <a href='PROD__tela_aula_produtor.php?id_aula=".$id_aula[$i][$j]."'>".$nome_aula[$i][$j]."</a> </big> 
-                                <a href='../../___aulas/__U1_form_altera_aula.php?id_aula=".$id_aula[$i][$j]."&i=0'class='link-curso'><i class='material-icons'>edit</i></a>
-                                <a href='../../___aulas/_D1_excluir_aula.php?id_aula=".$id_aula[$i][$j]."'class='link-curso'><i class='material-icons'>delete</i></a> ";
+                                                                        <br>
+                                                                        <h6 class='bold center-align' style='font-style:italic;'>preview da tela de aula:</h6>
+                                                                        <div class='col s12' style='padding:0px;'>
+                                                                            <div class='card meddium'>
 
-                                if($visibilidade_aula[$i][$j] == "visível"){
+                                                                                <div class='card-image'>
+                                                                                    <img id='imagem_aula_edicao_1_$i".'_'."$j' src='".$endereco_imagem_aula[$i][$j]."' style='filter: brightness(80%);' width='900em' height='506.25em'>
+                                                                                    <div class='card-title' style='width:100%; font-weight:400; font-size:2em; text-align: -webkit-center; backdrop-filter: brightness(70%)'>
+                                                                                        [*nome da aula*]
+                                                                                    </div>
+                                                                                </div>
 
-                                    echo "<a href='../../___aulas/inversao_situacao_visibilidade_aula.php?id_curso=$id_curso&id_aula=".$id_aula[$i][$j]."&i=0' class='link-curso'><i class='fa fa-eye fa-2x'></i></a><br>";
-                    
-                                } else {
-                    
-                                    echo "<a href='../../___aulas/inversao_situacao_visibilidade_aula.php?id_curso=$id_curso&id_aula=".$id_aula[$i][$j]."&i=0' class='link-curso'><i class='fa fa-eye-slash fa-2x'></i></a><br>";
-                                    
-                                }
+                                                                                <div class='card-content'>
+                                                                                    <h6 style='text-align: justify; font-size:1.5em;'>[*descrição da aula*]</h6>
+                                                                                </div>
 
-                            }
+                                                                            </div>
+                                                                            <br>
+                                                                        </div>                                                                                                    
+                                                                
+                                                                        <h6 class='bold'>Visibilidade da aula: <i class='material-icons right'>remove_red_eye</i></h6><br>
+                                                                
+                                                                        <div class='switch'>
+                                                            
+                                                                            <label>
 
-                        } else {
+                                                                                <h6 class='bold'>Não visível";
+                                                                                
+                                                                                    if($visibilidade_aula[$i][$j] == "não-visível"){
 
-                                echo "<big>Não existem aulas cadastradas neste módulo.</big><br>";
+                                                                                        echo "<input type='checkbox' id='visibilidade_aula' name='visibilidade_aula' value='1'>";
 
-                        }
+                                                                                    } else {
 
-                        echo "<br><a href='../../___aulas/____C1_form_insere_aula.php?id_modulo=" . $id_modulo[$i] . "'class='white-text'><div class='waves-effect waves-light btn bold'>ADICIONAR AULA<i class='material-icons left'>add</i></div></a><br><br>";
-                        echo "</div><br>";
-                        
-                    } 
+                                                                                        echo "<input type='checkbox' id='visibilidade_aula' name='visibilidade_aula' value='1' checked>";
+
+                                                                                    }
+                                                                                
+                                        echo "
+
+                                                                                <span class='lever'></span>
+
+                                                                                Visível</h6>
+
+                                                                            </label>
+                                                                            
+                                                                        </div>
+                                                                
+                                                                        <input type='hidden' name='id_aula' value='".$id_aula[$i][$j]."'>
+                                                                        <input type='hidden' name='endereco_imagem_aula_pre_alteracao' value='".$endereco_imagem_aula[$i][$j]."'>
+                                                                
+                                                                        <br>
+                                                                        <br>
+                                                                
+                                                                        <div class='right'>
+                                                                
+                                                                            <a href='#!' class='modal-close waves-effect waves-light btn bold'
+                                                                            style='background-color: #212121 !important;'>cancelar<i class='material-icons right'>close</i>
+                                                                            </a>
+                                                                
+                                                                            <button type='submit' class='waves-effect waves-light btn bold'
+                                                                            style='background-color: #212121 !important;'>ENVIAR<i class='material-icons right'>check</i>
+                                                                            </button>
+                                                                
+                                                                            <br>
+                                                                            <br>
+                                                                
+                                                                        </div> 
+                                                                    </form>
+                                                                    </div>
+                                                                </div>
+                                                                <div class='row' style='margin-bottom:20px; border: 1px solid #9575cd; border-radius:10px;'>
+                                                                    <div class='col s12 hoverable' style='padding-top:10px; padding-bottom:10px; border-radius:10px;'> 
+                                                                        <div class='col s2 valign-wrapper' style='margin:0px; padding:0px; height:112.5px;'>
+
+                                                                            <a class='modal-trigger' href='#editar_aula_[$i][$j]' style='color:#000;'><i class='material-icons' style='font-size:1.75em'>edit</i></a>&nbsp&nbsp&nbsp&nbsp&nbsp 
+                                                                            <a class='modal-trigger' href='#excluir_aula_[$i][$j]' style='color:#000;'><i class='material-icons' style='font-size:1.75em'>delete</i></a>&nbsp&nbsp&nbsp&nbsp&nbsp";
+                                                                            if($visibilidade_aula[$i][$j] == "visível"){
+
+                                                                                echo "<a href='../../___aulas/inversao_situacao_visibilidade_aula.php?id_curso=$id_curso&id_aula=".$id_aula[$i][$j]."' style='color:#000;'><i class='fa fa-eye fa-2x'></i></a><br>";
+                                                                
+                                                                            } else {
+                                                                
+                                                                                echo "<a href='../../___aulas/inversao_situacao_visibilidade_aula.php?id_curso=$id_curso&id_aula=".$id_aula[$i][$j]."' style='color:#000;'><i class='fa fa-eye-slash fa-2x'></i></a><br>";
+                                                                                
+                                                                            }
+
+                                                echo "
+                                                                        </div>
+
+                                                                        <a href='PROD__tela_aula_produtor.php?id_aula=".$id_aula[$i][$j]."' style='color:#000;'>
+                                                                            <div class='col s7 center-align valign-wrapper' style='margin:0px; padding:0px; height:112.5px;'>
+                                                                                <span style='font-size:1.5em;'>".$nome_aula[$i][$j]."</span>
+                                                                            </div>
+                                                                            <div class='col s3 right-align' style='margin:0px; padding:0px; height:112.5px;'>
+                                                                                <img src='".$endereco_imagem_aula[$i][$j]."' width='190em' height='112.5em' style='border-radius:4%;'>
+                                                                                <i class='material-icons right valign-wrapper' style='height:112.5px;'>play_circle_filled</i>
+                                                                            </div>
+                                                                        </a>
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                            ";
+
+                                                        }
+
+                                                    } else {
+
+                                                            echo "<div style='font-size:1.4em; font-weight:500;'>Não existem aulas cadastradas neste módulo.</div><br>";
+
+                                                    }
+                                                    echo "
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                                    ";
+                                }      
 
                 } else {
 
-                    echo "<h5>Não existem módulos cadastrados neste curso.</h5><br><br>";
+                    echo "<div style='font-size:1.8em; font-weight:500;'>Não existem módulos cadastrados neste curso.</div><br><br>";
 
                 }
+                echo "
+                                    </div>
+                                    </li>
+                                </ul>";
 
 
         ?>
-
-    <center><a href='../../____modulos/____C1_form_insere_modulo.php?id_curso=<?php echo $id_curso;?>'class='white-text'><div class='waves-effect waves-light btn bold'>ADICIONAR MÓDULO<i class='material-icons left'>add</i></div></a></center><br>
-
-    <br> 
+ 
     <br>
-
-    <div class="card-panel">
-    <center><h4 class="bold">USUÁRIOS ASSOCIADOS AO CURSO</h4></center><br><br>
 
     <?php
     
@@ -519,38 +1359,194 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
         } 
         //fim da obtenção dos consumidores associados ao curso
     
+        echo "
+
+        <div id='cadastro_consumidor' class='modal'>
+            <div class='modal-content'>
+                <h4 class='center-align'>Associar consumidor ao curso</h4><br>
+
+                <form action='../../______relacao_usuario_curso/____C2_insere_associacao_usuario.php?' method='post'>
+
+                    <h6 class='bold'>Email do usuário:<i class='material-icons right'>email</i></h6>
+                    <input id='field' type='email' name='email' placeholder='insira o email do usuário' required>
+                    <input type='hidden' name='id_curso' value='$id_curso'>
+
+                    <br>
+                    <br>
+        
+                    <div class='right'>
+
+                        <a href='#!' class='modal-close waves-effect waves-light btn bold'
+                        style='background-color: #212121 !important;'>cancelar<i class='material-icons right'>close</i>
+                        </a>
+
+                        <button type='submit' class='waves-effect waves-light btn bold'
+                        style='background-color: #212121 !important;'>ENVIAR<i class='material-icons right'>check</i>
+                        </button>
+
+                        <br>
+                        <br>
+
+                    </div> 
+
+                </form>
+            </div>
+        </div>
+
+        <ul class='collapsible' 
+        style='border:1px solid #DCDCDC; border-radius:10px; 
+        box-shadow: 0 0 0 0 rgb(0 0 0), 0 0 0 -0 rgb(0 0 0), 0 0 0 0 rgb(0 0 0);'>
+        <li>
+            <div class='collapsible-header valign-wrapper' style='border:0px; border-radius:10px; border-color:#DCDCDC;'>
+                <div class='row valign-wrapper' style='margin:0px; width:100%;'>
+
+                    <div class='col s9 valign-wrapper'>
+                        <i class='material-icons left' style='font-size:2.5em;'>arrow_drop_down</i>    
+                        <div style='font-size:2.5em; font-weight:500;'>Consumidores associados ao curso</div> 
+                    </div>
+
+                    <div class='col s3 center'>
+                        <a href='#cadastro_consumidor' class='modal-trigger'>
+                            <div class='waves-effect waves-light btn deep-purple bold' style='font-size:1.1em;'>
+                            ASSOCIAR CONSUMIDOR<i class='material-icons left' style='margin-right:8px;'>person_add</i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class='collapsible-body' style='border:0px; border-radius:10px;'>";
         if(isset($email_consumidor)){
 
             for($h=0 ; $h<count($email_consumidor) ; $h++){
 
+                $sqlh[$h] = "SELECT * FROM usuarios WHERE email='".$email_consumidor[$h]."'"; 
+                $resultadoh[$h] = mysqli_query($conexao,$sqlh[$h]);
+                $linhah[$h] = mysqli_fetch_assoc($resultadoh[$h]);
+
                 $d[$h]= date('d/m/Y',strtotime($data_relacao[$h]));
 
-                echo "<big>- ".$email_consumidor[$h] . " desde " . $d[$h] . " </big>";
-                echo "<a href='../../______relacao_usuario_curso/__U1_form_altera_associacao_usuario.php?email=".$email_consumidor[$h]."&id_curso=$id_curso'class='link-curso'><i class='material-icons'>edit</i></a>
-                      <a href='../../______relacao_usuario_curso/_D1_excluir_associacao_usuario.php?email=".$email_consumidor[$h]."&id_curso=$id_curso'class='link-curso'><i class='material-icons'>delete</i></a><br>";
+                echo "
+                <div id='editar_consumidor_$h' class='modal'>
+                    <div class='modal-content'>
+                        <h4 class='center-align'>Associar consumidor ao curso</h4><br>
+        
+                        <form action='../../______relacao_usuario_curso/__U2_altera_associacao_usuario.php?id_curso=$id_curso' method='post'>
+        
+                            <h6 class='bold'>Email do usuário:<i class='material-icons right'>email</i></h6>
+                            <input id='field' type='email' name='email_novo' value='".$email_consumidor[$h]."' placeholder='insira o email do usuário' required>
+                            <input type='hidden' name='email_antigo' value='".$email_consumidor[$h]."'>
+                            <input type='hidden' name='id_curso' value='$id_curso'>
+        
+                            <br>
+                            <br>
+                
+                            <div class='right'>
+        
+                                <a href='#!' class='modal-close waves-effect waves-light btn bold'
+                                style='background-color: #212121 !important;'>cancelar<i class='material-icons right'>close</i>
+                                </a>
+        
+                                <button type='submit' class='waves-effect waves-light btn bold'
+                                style='background-color: #212121 !important;'>ENVIAR<i class='material-icons right'>check</i>
+                                </button>
+        
+                                <br>
+                                <br>
+        
+                            </div> 
+        
+                        </form>
+                    </div>
+                </div>
+                
+                <div id='excluir_consumidor_$h' class='modal'>
+                    <div class='modal-content'>
+                
+                        <h5 class='center-align'>Deseja realmente desassociar o cosumidor <span class='bold'>".$linhah[$h]['nome_usuario']."</span>?</h5>
+                        <br><br><br>
+            
+                        <div class='center-align'>
+            
+                            <a href='../../______relacao_usuario_curso/_D1_excluir_associacao_usuario.php?email=".$email_consumidor[$h]."&id_curso=$id_curso' class='modal-trigger waves-effect waves-light btn bold'
+                            style='background-color: #e53935 !important;'>CONFIRMAR<i class='material-icons right'>delete_forever</i>
+                            </a>
+            
+                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            
+                            <a href='#!' class='modal-close waves-effect waves-light btn bold'
+                            style='background-color: #212121 !important;'>CANCELAR<i class='material-icons right'>close</i>
+                            </a>
+            
+                        </div>
 
+                        <br>
+                        
+                    </div>
+                </div>";
+
+                echo "
+                    <div class='valign-wrapper' style='margin-bottom:10px;'>
+                        <span class='valign-wrapper' style='font-size:1.3em;'>
+                            <img src='".$linhah[$h]['endereco_imagem_usuario']."' height='40px' width='40px' style='border-radius:100%; margin-right:8px;'>
+                            <span class='bold'>
+                                ".$linhah[$h]['nome_usuario']."
+                            </span> 
+                            &nbsp- ".$email_consumidor[$h] . " - desde " . $d[$h] . " 
+                        </span> &nbsp&nbsp&nbsp&nbsp
+                        <a href='#editar_consumidor_$h' class='modal-trigger' style='color:#000; vertical-align:middle;'>
+                            <i class='material-icons' style='vertical-align:middle;'>edit</i>
+                        </a>&nbsp
+                        <a href='#excluir_consumidor_$h' class='modal-trigger' style='color:#000; vertical-align:middle;'>
+                            <i class='material-icons' style='vertical-align:middle;'>delete</i>
+                        </a>
+                        <br>
+                    </div>";
             }
 
         } else {
 
-            echo "Não existem usuários associados a este curso<br><br>";
+            echo "<div style='font-size:1.8em; font-weight:500;'>Não existem usuários associados a este curso</div><br><br>";
 
         }
+    echo"
+            </div>
+        </li>
+        </ul>";
+
 
     ?>
     <br>
-
-    <a href="../../______relacao_usuario_curso/____C1_form_insere_associacao_usuario.php?id_curso=<?php echo $id_curso;?>"class='white-text'><div class='waves-effect waves-light btn bold'>ASSOCIAR USUÁRIO<i class='material-icons left'>add</i></div></a>
-
     <br>
-    <br>
+    <div class='center-align'>
+        <a href='PROD____home_produtor.php' class='waves-effect waves-light btn deep-purple bold' style='font-size:1.1em;'>
+            Voltar<i class='material-icons left'>keyboard_backspace</i>
+        </a>    
     </div>
-
+    </main>
     <br>
     <br>
-
-    <center><a href='PROD____home_produtor.php'class='white-text'><div class='waves-effect waves-light btn bold'>Voltar<i class='material-icons left'>keyboard_backspace</i></div></a></center><br><br> 
-
+    <br>
+    <footer class="page-footer grey darken-4" style="padding-top:10px;">
+        <div class="container">
+        <div class="row" style="margin-bottom:0px;">
+            <div class="col s11">
+            <h5 class="grey-text text-lighten-4">TRABALHO DE CONCLUSÃO DE CURSO</h5>
+            <p class="grey-text text-lighten-2" style="font-size:1.4em;">Sistema de acesso e manutenção de cursos online.</p>
+            </div>
+            <div class="col s1" style="height:117px;">
+            <ul class="right-align">
+                <li style="padding-bottom:7px;"><img src="../../_.imgs_default/logo_iffar.png" width="60px" height="91px"></li>
+            </ul>
+            </div>
+        </div>
+        </div>
+        <div class="footer-copyright grey darken-4" style="padding-top:0px">
+        <div class="container">
+        © 2022 NEBULA
+        <div class="grey-text text-lighten-4 right right-align" href="#!">Todos os direitos reservados</div>
+        </div>
+        </div>
+    </footer>
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="../../_.materialize/js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="../../_.materialize/js/materialize.min.js"></script>
@@ -560,39 +1556,44 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
         $('.sidenav').sidenav({
             edge: 'right'
         });
-        });
-    </script>
-    <script>
-        $(document).ready(function(){
+
         $('.modal').modal();
-        });
-    </script>
-    <script type="text/javascript">
-    function validarSenha() {
-        senha = document.getElementById("senha").value;
-        rs = document.getElementById("confirmar_senha");
-        repetirSenha = document.getElementById("confirmar_senha").value;
 
-        if (senha == repetirSenha) {
-            
-            rs.setCustomValidity('');
-            rs.checkValidity();
-            return true;
-
-        } else {
-
-            rs.setCustomValidity('As senhas não conferem');
-            rs.checkValidity();
-            rs.reportValidity();
-            return false;
-
+        <?php
+        if(isset($_SESSION['mensagem'])){
+            echo "$('#mensagem').modal('open');"; 
+            unset($_SESSION['mensagem']);
         }
-    }
-    </script>
-    <script>
+        ?>
+
+        $('.collapsible').collapsible();
+
+        });
+
+        function validarSenha() {
+            senha = document.getElementById("senha").value;
+            rs = document.getElementById("confirmar_senha");
+            repetirSenha = document.getElementById("confirmar_senha").value;
+
+            if (senha == repetirSenha) {
+                
+                rs.setCustomValidity('');
+                rs.checkValidity();
+                return true;
+
+            } else {
+
+                rs.setCustomValidity('As senhas não conferem');
+                rs.checkValidity();
+                rs.reportValidity();
+                return false;
+
+            }
+        }
+
         function previewImagem(){
-            let imagem = document.querySelector('input[id=endereco_imagem_curso_cadastro]').files[0];
-            let preview = document.querySelector('#imagem_curso_cadastro');
+            let imagem = document.querySelector('input[name=endereco_imagem_usuario]').files[0];
+            let preview = document.querySelector('#imagem_usuario');
 
             let reader = new FileReader();
 
@@ -612,15 +1613,18 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
 
             }
         }
+
         function previewImagemEditar(){
             let imagem = document.querySelector('input[id=endereco_imagem_curso_edicao]').files[0];
             let preview = document.querySelector('#imagem_curso_edicao');
+            let preview1 = document.querySelector('#imagem_curso_edicao_1');
 
             let reader = new FileReader();
 
             reader.onloadend = function(){
 
                 preview.src=reader.result;
+                preview1.src=reader.result;
 
             }
 
@@ -631,11 +1635,11 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
             } else {
 
                 preview.src="";
+                preview1.src="";
 
             }
         }
-    </script>
-    <script>
+
         function mostrar() {
             var senha = document.getElementById("senha");
             if (senha.type === "password") {
@@ -652,6 +1656,7 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
                 senha.type = "password";
             }
         }
+        
     </script>
     
 </body>

@@ -52,12 +52,12 @@ session_start();
             $_SESSION['email'] = $email;
 
             // redirecionar o usuário
+            $_SESSION['mensagem'] = "Usuário criado com sucesso!";
             header("Location: ../index/consumidor/CONS____home_consumidor.php");
 
         } else {
 
             $_SESSION['mensagem'] = 'Erro ao salvar o usuário no banco de dados! '.mysqli_errno($conexao) . ": " . mysqli_error($conexao);
-            
             header("Location: ____C1_form_cadastro_usuario.php");
 
         }

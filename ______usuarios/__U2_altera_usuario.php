@@ -47,6 +47,7 @@ session_start();
 
     if($resultado){
 
+        $_SESSION['mensagem'] = "Alterações salvas com sucesso!";
         echo "<script>window.history.go(-1);</script>";
 
     }

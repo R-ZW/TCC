@@ -1,4 +1,5 @@
 <?php
+session_start();
 
     include_once "../_______necessarios/.conexao_bd.php";
 
@@ -28,11 +29,11 @@
 
     if(isset($_POST['visibilidade_aula'])){
 
-        $visibilidade_aula = "não-visível";
+        $visibilidade_aula = "visível";
 
     } else {
 
-        $visibilidade_aula = "visível";
+        $visibilidade_aula = "não-visível";
 
     }
 
@@ -56,11 +57,9 @@
     $id_aula = $linha_1['id_aula'];
     // -
 
-
-    mysqli_close($conexao);
-
     if($resultado and $resultado_1)
     {
+        $_SESSION['mensagem'] = "Aula cadastrada com sucesso!";
 	    header("Location: ../index/produtor/PROD__tela_aula_produtor.php?id_aula=$id_aula");
     }
 

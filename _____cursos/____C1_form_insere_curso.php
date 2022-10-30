@@ -18,20 +18,20 @@
         <div class="file-field">
             <div class="waves-effect waves-light btn grey darken-4" style="margin-left:39%;">
                 <span class="bold"><i class="material-icons left">upload</i> Selecionar Arquivo</span>
-                <input id="endereco_imagem_curso_cadastro" name="endereco_imagem_curso" type="file" style="text-align: -webkit-center;" accept="image/*" onchange="previewImagem()">
+                <input id="endereco_imagem_curso_cadastro" name="endereco_imagem_curso" type="file" style="text-align: -webkit-center;" accept="image/*" onchange="previewImagemCurso()">
             </div>
         </div>
 
         <br>
         <br>
         <br>
-        <h6 class="bold center-align" style="font-style:italic;">preview:</h6>
+        <h6 class="bold center-align" style="font-style:italic;">preview da home:</h6>
         <div class="card-panel hoverable">
             <div class="row">
                 <div class="col s5">
                 
                     <br>
-                    <img id="imagem_curso_cadastro" src="../../_.imgs_default/sem_imagem.png" width="300em" height="169em">
+                    <img id="imagem_curso_cadastro" src="../../_.imgs_default/sem_imagem.png" width="300em" height="169em" style="border-radius:4%;">
             
                 </div>
             
@@ -44,6 +44,27 @@
                 </div> 
             </div>
         </div>
+
+        <br>
+
+        <h6 class='bold center-align' style='font-style:italic;'>preview da tela de curso:</h6>
+        <div class='col s12' style='padding:0px;'>
+            <div class='card meddium'>
+
+                <div class='card-image'>
+                    <img id='imagem_curso_cadastro_1' src="../../_.imgs_default/sem_imagem.png" style='filter: brightness(80%);' width='900em' height='506.25em'>
+                    <div class='card-title' style='width:100%; font-weight:400; font-size:2em; text-align: -webkit-center; backdrop-filter: brightness(70%)'>
+                        [*nome do curso*]
+                    </div>
+                </div>
+
+                <div class='card-content'>
+                    <h6 style='text-align: justify; font-size:1.5em;'>[*descrição do curso*]</h6>
+                </div>
+
+            </div>
+        </div>
+
         <br>
 
         <h6 class="bold">Visibilidade do curso: <i class="material-icons right">remove_red_eye</i></h6><br>

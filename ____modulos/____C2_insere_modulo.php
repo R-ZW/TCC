@@ -1,4 +1,5 @@
 <?php
+session_start();
 
     include_once "../_______necessarios/.conexao_bd.php";
 
@@ -28,11 +29,11 @@
 
     if(isset($_POST['visibilidade_modulo'])){
 
-        $visibilidade_modulo = "não-visível";
+        $visibilidade_modulo = "visível";
 
     } else {
 
-        $visibilidade_modulo = "visível";
+        $visibilidade_modulo = "não-visível";
 
     }
 
@@ -47,12 +48,10 @@
     $resultado = mysqli_query($conexao,$sql);
     // -
 
-
-    mysqli_close($conexao);
-
     if($resultado)
     {
-	    header("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
+        $_SESSION['mensagem'] = "Módulo cadastrado com sucesso!";
+        echo "<script>window.history.go(-1);</script>";
     }
 
 ?>

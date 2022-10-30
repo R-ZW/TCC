@@ -4,7 +4,7 @@ session_start();
     
     echo '<meta charset="UTF-8">';
 
-    $email = $_SESSION['email'];
+    $email = $_POST['email'];
 
     $nome_curso= $_POST['nome_curso'];
     $descricao_curso= $_POST['descricao_curso'];
@@ -43,7 +43,7 @@ session_start();
 
 
     //inserindo os dados do curso-
-    $sql = "INSERT INTO cursos(nome_curso, descricao_curso, endereco_imagem_curso, endereco_certificado_curso, visibilidade_curso, data_criacao_curso) 
+    $sql = "INSERT INTO cursos(nome_curso, descricao_curso, endereco_imagem_curso, certificado_curso, visibilidade_curso, data_criacao_curso) 
     VALUES ('$nome_curso', '$descricao_curso', '$endereco_imagem_curso', 'sem-certificado', '$visibilidade_curso', '$data')";
     $resultado = mysqli_query($conexao,$sql);
     //-
@@ -60,6 +60,7 @@ session_start();
 
     if($resultado and $resultado_1)
     {
+        $_SESSION['mensagem'] = "Curso cadastrado com sucesso!";
         header("Location: ../index/produtor/PROD___tela_curso_produtor.php?id_curso=$id_curso");
     }
 

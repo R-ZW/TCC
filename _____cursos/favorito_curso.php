@@ -5,7 +5,6 @@
 
     $email = $_SESSION['email'];
     $id_curso = $_GET['id_curso'];
-    $i = $_GET['i'];
 
     $sql = "SELECT * FROM favoritos_curso WHERE email='$email' AND id_curso=$id_curso";
     $resultado = mysqli_query($conexao, $sql);
@@ -46,13 +45,6 @@
 
     }
 
-    if($i == 0){
-
-        header("Location: ../index/consumidor/CONS____home_consumidor.php");
-    }
-    if($i == 1){
-
-        header("Location: ../index/consumidor/CONS___tela_curso_consumidor.php?id_curso=$id_curso");
-    }
+    echo "<script>window.history.go(-1);</script>";
 
 ?>
