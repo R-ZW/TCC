@@ -21,7 +21,7 @@
 
     if($p>0){
 
-        $_SESSION['mensagem'] = "Você possui $p cursos associados à sua conta como produtor. Para ser possível encerrar a conta, é necessário que não haja nenhum curso associado à ela como produtor.";
+        $_SESSION['mensagem'] = "Você possui $p curso(s) associados a sua conta como produtor. Para ser possível deletar a conta, é necessário que não haja nenhum curso associado a ela como produtor.";
 
         header("Location: ../index/produtor/PROD____home_produtor.php");
 
@@ -50,7 +50,6 @@
         $endereco_imagem_user = $endereco_imagem_us[1] ."/". $endereco_imagem_us[0];
         unlink($endereco_imagem_user);
         
-        mysqli_close($conexao);
         
         if($resultado){
             header("Location: ../index/entrada.php");

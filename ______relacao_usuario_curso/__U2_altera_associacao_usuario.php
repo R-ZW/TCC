@@ -1,12 +1,12 @@
 <?php
 session_start();
+include "../_______necessarios/.conexao_bd.php";
+
     echo '<meta charset="UTF-8">';
 
-    include "../_______necessarios/.conexao_bd.php";
-
-    $email_antigo = $_POST['email_antigo'];
-    $email_novo = strtolower($_POST['email_novo']);
-    $id_curso = $_POST['id_curso'];
+    $email_antigo = mysqli_real_escape_string($conexao,$_POST['email_antigo']);
+    $email_novo = strtolower(mysqli_real_escape_string($conexao,$_POST['email_novo']));
+    $id_curso = mysqli_real_escape_string($conexao,$_POST['id_curso']);
 
     if($email_antigo == $email_novo){
 

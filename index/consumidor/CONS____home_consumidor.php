@@ -23,7 +23,7 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
 <head>
     
     <meta charset="UTF-8">
-    <title>Home Consumidor</title>
+    <title>(C) HOME</title>
 
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -95,7 +95,9 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
     <nav>
         <div class="nav-wrapper grey darken-4">
 
-        <a href="#!" class="breadcrumb" style='margin-left:30px;'>HOME CONSUMIDOR</a>
+        <a href="#!" class="breadcrumb bold" style='margin-left:30px;'>HOME CONSUMIDOR</a>
+
+        <a href="#!" class="brand-logo center"><img src='../../_.imgs_default/logo_n2.png' height="70px" style="margin-top:10px;"></a>
 
         <ul class="right valign-wrapper" style="height:90px;">
 
@@ -164,25 +166,25 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
             //-
 
             if(isset($_GET['pesquisa'])){
-                $pesquisa = $_GET['pesquisa'];
+                $pesquisa = mysqli_real_escape_string($conexao,$_GET['pesquisa']);
             } else {
                 $pesquisa = "";
             }
 
             if(isset($_GET['p'])){
-                $p = $_GET['p'];
+                $p = mysqli_real_escape_string($conexao,$_GET['p']);
             } else {
                 $p = 1;
             }
 
             if(isset($_GET['limite'])){
-                $limite = $_GET['limite'];
+                $limite = mysqli_real_escape_string($conexao,$_GET['limite']);
             } else {
                 $limite = 5;
             }
 
             if(isset($_GET['fav'])){
-                $fav = $_GET['fav'];
+                $fav = mysqli_real_escape_string($conexao,$_GET['fav']);
             } else {
                 $fav = 0;
             }
@@ -271,7 +273,7 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
                                 
                                 $id_curso[] = $linhab[$b]['id_curso'];
                                 $nome_curso[]= $linhab[$b]['nome_curso'];
-                                $descricao_curso[]= substr($linhab[$b]['descricao_curso'], 0, 320) . "...";
+                                $descricao_curso[]= substr($linhab[$b]['descricao_curso'], 0, 320);
                                 $endereco_imagem_curso[]= $linhab[$b]['endereco_imagem_curso'];
 
                             } 
@@ -283,7 +285,7 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
                                     $str = $descricao_curso[$b];
                 
                                     $p1 = substr("$str", 0, 350);
-                                    $p2 = "$p1"."...";
+                                    $p2 = "$p1";
                 
                                     $descricao_curso[$b]= $p2;
                 
@@ -333,7 +335,7 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
                                     
                                     $id_curso[] = $linhab[$b]['id_curso'];
                                     $nome_curso[]= $linhab[$b]['nome_curso'];
-                                    $descricao_curso[]= substr($linhab[$b]['descricao_curso'], 0, 320) . "...";
+                                    $descricao_curso[]= substr($linhab[$b]['descricao_curso'], 0, 320);
                                     $endereco_imagem_curso[]= $linhab[$b]['endereco_imagem_curso'];
 
                                 } 
@@ -489,7 +491,7 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
 
             } else {
 
-                echo "<br><h4>Não foram encontrados cursos!</h4>";
+                echo "<div style='font-size:2.5em; font-weight:500;'><br>Não foram encontrados cursos!</div>";
 
             }
         ?>

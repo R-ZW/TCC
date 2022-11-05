@@ -4,7 +4,7 @@ session_start();
     include_once "../_______necessarios/.conexao_bd.php";
 
     $email = $_SESSION['email'];
-    $id_aula = $_GET['id_aula'];
+    $id_aula = mysqli_real_escape_string($conexao,$_GET['id_aula']);
 
     $sql = "SELECT * FROM favoritos_aula WHERE email='$email' AND id_aula=$id_aula";
     $resultado = mysqli_query($conexao, $sql);

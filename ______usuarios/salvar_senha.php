@@ -3,9 +3,9 @@ session_start();
 require_once "../_______necessarios/.conexao_bd.php";
 require_once "../_______necessarios/.funcoes.php";
 
-$email = $_POST['email'];
-$token = $_POST['token'];
-$senha = $_POST['senha'];
+$email = mysqli_real_escape_string($conexao,$_POST['email']);
+$token = mysqli_real_escape_string($conexao,$_POST['token']);
+$senha = mysqli_real_escape_string($conexao,$_POST['senha']);
 
 $sql = "SELECT * FROM password_reset WHERE email='$email' AND token='$token'";
 $resultado = mysqli_query($conexao, $sql);

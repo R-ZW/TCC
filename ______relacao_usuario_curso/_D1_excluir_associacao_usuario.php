@@ -2,8 +2,8 @@
 session_start();
     include "../_______necessarios/.conexao_bd.php";
 
-    $email = $_GET['email'];
-    $id_curso = $_GET['id_curso'];
+    $email = mysqli_real_escape_string($conexao,$_GET['email']);
+    $id_curso = mysqli_real_escape_string($conexao,$_GET['id_curso']);
 
     //excluindo a relação do usuário com o curso-
     $sql = "DELETE FROM relacao_usuario_curso WHERE email='$email' AND tipo_relacao='consumidor' AND id_curso=$id_curso";

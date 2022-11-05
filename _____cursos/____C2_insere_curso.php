@@ -4,10 +4,10 @@ session_start();
     
     echo '<meta charset="UTF-8">';
 
-    $email = $_POST['email'];
+    $email = $_SESSION['email'];
 
-    $nome_curso= $_POST['nome_curso'];
-    $descricao_curso= $_POST['descricao_curso'];
+    $nome_curso= mysqli_real_escape_string($conexao,$_POST['nome_curso']);
+    $descricao_curso= mysqli_real_escape_string($conexao,$_POST['descricao_curso']);
 
     if(isset($_FILES['endereco_imagem_curso'])){
 

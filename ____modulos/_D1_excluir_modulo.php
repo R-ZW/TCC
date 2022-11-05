@@ -3,7 +3,7 @@ session_start();
    
     include "../_______necessarios/.conexao_bd.php";
 
-    $id_modulo = $_GET['id_modulo'];
+    $id_modulo = mysqli_real_escape_string($conexao,$_GET['id_modulo']);
 
 
     //obtendo o id_curso-

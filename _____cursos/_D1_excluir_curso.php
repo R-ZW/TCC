@@ -3,7 +3,7 @@ session_start();
 
     include "../_______necessarios/.conexao_bd.php";
 
-    $id_curso = $_GET['id_curso'];
+    $id_curso = mysqli_real_escape_string($conexao,$_GET['id_curso']);
 
     //obtendo as relações do banco-
     $sq = "SELECT email FROM relacao_usuario_curso WHERE tipo_relacao='consumidor' AND id_curso=$id_curso";
@@ -44,7 +44,7 @@ session_start();
             $endereco_imagem_m[$ind1]= explode("/", $endereco_imagemm[$ind1]);
             $endereco_imagem_mo[$ind1]= array_reverse($endereco_imagem_m[$ind1]);
             $endereco_imagem_modulo[$ind1]= $endereco_imagem_mo[$ind1][0];
-            unlink("../____modulos/imgs_modulo/".$endereco_imagem_modulo[$ind1]);
+            if(isset($endereco_imagem_modulo[$ind1]) and $endereco_imagem_modulo[$ind1] != "sem-imagem.png"){unlink("../____modulos/imgs_modulo/".$endereco_imagem_modulo[$ind1]);}
 
         }
         //-
@@ -68,7 +68,7 @@ session_start();
                     $endereco_imagem_a[$ind]= explode("/", $endereco_imagema[$ind]);
                     $endereco_imagem_au[$ind]= array_reverse($endereco_imagem_a[$ind]);
                     $endereco_imagem_aula[$ind]= $endereco_imagem_au[$ind][0];
-                    unlink("../___aulas/imgs_aula/".$endereco_imagem_aula[$ind]);
+                    if(isset($endereco_imagem_aula[$ind]) and $endereco_imagem_aula[$ind] != "sem-imagem.png"){unlink("../___aulas/imgs_aula/".$endereco_imagem_aula[$ind]);}
 
                     $ind++;
 
@@ -225,8 +225,8 @@ session_start();
         $endereco_imagemc= $linha_4['endereco_imagem_curso'];
         $endereco_imagem_c= explode("/", $endereco_imagemc);
         $endereco_imagem_cur= array_reverse($endereco_imagem_c);
-        $endereco_imagem_curso= $endereco_imagem_cur[1] ."/". $endereco_imagem_cur[0];
-        unlink($endereco_imagem_curso);
+        $endereco_imagem_curso= $endereco_imagem_cur[0];
+        unlink("../_____cursos/imgs_curso/".$endereco_imagem_curso);
 
         $sql_5 = "DELETE FROM cursos WHERE id_curso=$id_curso";
         $resultado_5 = mysqli_query($conexao,$sql_5);
@@ -236,6 +236,7 @@ session_start();
 
             $_SESSION['mensagem'] = "Curso excluído com sucesso!";
             header("Location: ../index/produtor/PROD____home_produtor.php");
+            die;
 
         }
     }

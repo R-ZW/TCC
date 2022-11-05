@@ -3,10 +3,7 @@
 
     include_once "../_______necessarios/.conexao_bd.php";
 
-    $id_aula = $_GET['id_aula'];
-    $id_questionario = $_GET['id_questionario'];
-    $i = $_GET['i'];
-
+    $id_questionario = mysqli_real_escape_string($conexao,$_GET['id_questionario']);
 
     $sql = "SELECT * FROM questionarios WHERE id_questionario=$id_questionario";
     $resultado = mysqli_query($conexao, $sql);
@@ -27,15 +24,6 @@
 
     }
 
-    if($i == 0){
-
-        header ("Location: ../index/produtor/PROD__tela_aula_produtor.php?id_aula=$id_aula");
-
-    }
-    if($i == 1){
-
-        header ("Location: ../index/produtor/PROD_tela_questionario_produtor.php?id_questionario=$id_questionario");
-
-    }
+    echo "<script>window.history.go(-1);</script>";
 
 ?>

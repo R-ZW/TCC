@@ -2,7 +2,7 @@
 session_start();
     require_once "../_______necessarios/.conexao_bd.php";
 
-    $nome_usuario = $_POST['nome_usuario'];
+    $nome_usuario = mysqli_real_escape_string($conexao,$_POST['nome_usuario']);
     if(isset($_FILES['endereco_imagem_usuario'])){
 
         $ext = strrchr($_FILES['endereco_imagem_usuario']['name'], '.');
@@ -22,8 +22,8 @@ session_start();
     
     }
 
-    $email = strtolower($_POST['email']);
-    $senha = $_POST['senha'];
+    $email = strtolower(mysqli_real_escape_string($conexao,$_POST['email']));
+    $senha = mysqli_real_escape_string($conexao,$_POST['senha']);
 
     $senhaMD5 = md5($senha);
 

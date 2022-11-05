@@ -4,8 +4,7 @@
     include_once "../_______necessarios/.conexao_bd.php";
 
     $email = $_SESSION['email'];
-    $id_curso = $_GET['id_curso'];
-    $id_modulo = $_GET['id_modulo'];
+    $id_modulo = mysqli_real_escape_string($conexao,$_GET['id_modulo']);
 
     $sql = "SELECT * FROM favoritos_modulo WHERE email='$email' AND id_modulo=$id_modulo";
     $resultado = mysqli_query($conexao, $sql);
@@ -20,7 +19,7 @@
                                        VALUES ('$email','$id_modulo','favorito')";
         $resultado_1 = mysqli_query($conexao, $sql_1);
 
-        header("Location: ../index/consumidor/CONS___tela_curso_consumidor.php?id_curso=$id_curso");
+        echo "<script>window.history.go(-1);</script>";
 
         die;
 
@@ -38,6 +37,6 @@
 
     }
 
-    header("Location: ../index/consumidor/CONS___tela_curso_consumidor.php?id_curso=$id_curso");
+    echo "<script>window.history.go(-1);</script>";
 
 ?>

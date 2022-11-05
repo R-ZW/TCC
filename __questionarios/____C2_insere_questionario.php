@@ -1,34 +1,33 @@
 <?php
+session_start();
 
     include_once "../_______necessarios/.conexao_bd.php";
 
-    $id_aula = $_POST['id_aula'];
-    $nome_questionario = $_POST['nome_questionario'];
-
-    if(isset($_POST['distribuicao_questoes'])){
-
-        $distribuicao_questoes = "aleatoria";
-
-    } else {
-
-        $distribuicao_questoes = "padronizada";
-
-    }
-
+    $id_aula = mysqli_real_escape_string($conexao,$_POST['id_aula']);
+    $nome_questionario = mysqli_real_escape_string($conexao,$_POST['nome_questionario']);
     
-    $tempo_numero = $_POST['tempo_numero'];
-    $tempo_unidade = $_POST['tempo_unidade'];
+    $tempo_numero = mysqli_real_escape_string($conexao,$_POST['tempo_numero']);
+    $tempo_unidade = mysqli_real_escape_string($conexao,$_POST['tempo_unidade']);
 
     $tempo_proxima_realizacao = $tempo_numero."-".$tempo_unidade;
 
+    if(isset($_POST['distribuicao_questoes'])){
 
-    if(isset($_POST['visibilidade_questionario'])){
-
-        $visibilidade_questionario = "não-visível";
+        $distribuicao_questoes = "padronizada";
 
     } else {
 
+        $distribuicao_questoes = "aleatoria";
+
+    }
+
+    if(isset($_POST['visibilidade_questionario'])){
+
         $visibilidade_questionario = "visível";
+
+    } else {
+
+        $visibilidade_questionario = "não-visível";
 
     }
 
@@ -96,10 +95,9 @@
     if($resultado)
     {
 
+        $_SESSION['mensagem'] = "Questionário cadastrado com sucesso!";
 	    header("Location: ../index/produtor/PROD_tela_questionario_produtor.php?id_questionario=$id_questionario");
-
+    
     }
-
-    mysqli_close($conexao);
 
 ?>

@@ -5,29 +5,28 @@ session_start();
 
     include "../_______necessarios/.conexao_bd.php";
 
-    $id_aula = $_POST['id_aula'];
+    $id_aula = mysqli_real_escape_string($conexao,$_POST['id_aula']);
 
-    //obtendo o id_modulo
+    //obtendo o id_modulo-
     $sql = "SELECT id_modulo FROM aulas WHERE id_aula=$id_aula";
     $resultado = mysqli_query($conexao, $sql);
     $linha = mysqli_fetch_assoc($resultado);
 
     $id_modulo = $linha['id_modulo'];
-    //obtido o id_modulo
+    //-
 
-
-    //obtendo o id_curso
+    //obtendo o id_curso-
     $sql_1 = "SELECT id_curso FROM modulos WHERE id_modulo=$id_modulo";
     $resultado_1 = mysqli_query($conexao, $sql_1);
     $linha_1 = mysqli_fetch_assoc($resultado_1);
 
     $id_curso = $linha_1['id_curso'];
-    //obtido o id_curso
+    //-
 
-    $endereco_imagem_aula_pre_alteracao = $_POST['endereco_imagem_aula_pre_alteracao'];
-
-    $nome_aula = $_POST['nome_aula'];
-    $descricao_aula = $_POST['descricao_aula'];
+    $endereco_imagem_aula_pre_alteracao = mysqli_real_escape_string($conexao,$_POST['endereco_imagem_aula_pre_alteracao']);
+    
+    $nome_aula = mysqli_real_escape_string($conexao,$_POST['nome_aula']);
+    $descricao_aula = mysqli_real_escape_string($conexao,$_POST['descricao_aula']);
     
     if(isset($_FILES['endereco_imagem_aula'])){
 

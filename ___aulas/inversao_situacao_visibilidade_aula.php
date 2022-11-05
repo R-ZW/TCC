@@ -2,9 +2,8 @@
     session_start();
 
     include_once "../_______necessarios/.conexao_bd.php";
-
-    $id_curso = $_GET['id_curso'];
-    $id_aula = $_GET['id_aula'];
+    
+    $id_aula = mysqli_real_escape_string($conexao,$_GET['id_aula']);
 
     $sql = "SELECT * FROM aulas WHERE id_aula=$id_aula";
     $resultado = mysqli_query($conexao, $sql);

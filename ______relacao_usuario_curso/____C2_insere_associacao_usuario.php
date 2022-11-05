@@ -3,8 +3,8 @@ session_start();
 
     include_once "../_______necessarios/.conexao_bd.php";
 
-    $email= $_POST['email'];
-    $id_curso = $_POST['id_curso'];
+    $email= mysqli_real_escape_string($conexao,$_POST['email']);
+    $id_curso = mysqli_real_escape_string($conexao,$_POST['id_curso']);
 
     date_default_timezone_set('America/Sao_Paulo');
     $data = date("Y-m-d H:i:s");

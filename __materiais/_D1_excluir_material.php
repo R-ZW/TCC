@@ -1,9 +1,9 @@
 <?php
+session_start();
 
     include "../_______necessarios/.conexao_bd.php";
 
-    $id_material = $_GET['id_material'];
-    $id_aula = $_GET['id_aula'];
+    $id_material = mysqli_real_escape_string($conexao,$_GET['id_material']);
 
     $sql = "SELECT * FROM materiais WHERE id_material=$id_material";
     $resultado = mysqli_query($conexao,$sql);
@@ -21,11 +21,11 @@
     $sql_1 = "DELETE FROM materiais WHERE id_material=$id_material";
     $resultado_1 = mysqli_query($conexao,$sql_1);
 
-    mysqli_close($conexao);
-
+    
     if($resultado and $resultado_1){
 
-        header("Location: ../index/produtor/PROD__tela_aula_produtor.php?id_aula=$id_aula");
+        $_SESSION['mensagem'] = "Material excluído com sucesso!";
+        echo "<script>window.history.go(-1);</script>";
 
     }
 

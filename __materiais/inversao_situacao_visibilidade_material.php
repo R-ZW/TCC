@@ -3,10 +3,7 @@
 
     include_once "../_______necessarios/.conexao_bd.php";
 
-    $id_aula = $_GET['id_aula'];
-    $id_material = $_GET['id_material'];
-    $i = $_GET['i'];
-
+    $id_material = mysqli_real_escape_string($conexao,$_GET['id_material']);
 
     $sql = "SELECT * FROM materiais WHERE id_material=$id_material";
     $resultado = mysqli_query($conexao, $sql);
@@ -29,7 +26,7 @@
 
     if($resultado and $resultado_1){
 
-        header ("Location: ../index/produtor/PROD__tela_aula_produtor.php?id_aula=$id_aula");
+        echo "<script>window.history.go(-1);</script>";
 
     }
 

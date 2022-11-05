@@ -7,11 +7,11 @@ session_start();
 
     $email = $_SESSION['email'];
 
-    $id_curso = $_POST['id_curso'];
-    $endereco_imagem_curso_pre_alteracao = $_POST['endereco_imagem_curso_pre_alteracao'];
+    $id_curso = mysqli_real_escape_string($conexao,$_POST['id_curso']);
+    $endereco_imagem_curso_pre_alteracao = mysqli_real_escape_string($conexao,$_POST['endereco_imagem_curso_pre_alteracao']);
 
-    $nome_curso = $_POST['nome_curso'];
-    $descricao_curso = $_POST['descricao_curso'];
+    $nome_curso = mysqli_real_escape_string($conexao,$_POST['nome_curso']);
+    $descricao_curso = mysqli_real_escape_string($conexao,$_POST['descricao_curso']);
 
     if(isset($_FILES['endereco_imagem_curso'])){
 

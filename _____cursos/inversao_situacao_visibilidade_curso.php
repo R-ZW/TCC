@@ -3,7 +3,7 @@
 
     include_once "../_______necessarios/.conexao_bd.php";
 
-    $id_curso = $_GET['id_curso'];
+    $id_curso = mysqli_real_escape_string($conexao,$_GET['id_curso']);
 
     $sql = "SELECT * FROM cursos WHERE id_curso=$id_curso";
     $resultado = mysqli_query($conexao, $sql);

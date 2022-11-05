@@ -23,7 +23,7 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
   
 <head>
     <meta charset="UTF-8">
-    <title>Tela de Curso</title>
+    <title>(C) CURSO</title>
 
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -136,8 +136,10 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
     <nav>
         <div class="nav-wrapper grey darken-4">
 
-        <a href="CONS____home_consumidor.php" class="breadcrumb" style='margin-left:30px;'>HOME CONSUMIDOR</a>
-        <a href="#!" class="breadcrumb">CURSO</a>
+        <a href="CONS____home_consumidor.php" class="breadcrumb bold" style='margin-left:30px;'>HOME CONSUMIDOR</a>
+        <a href="#!" class="breadcrumb bold">CURSO</a>
+
+        <a href="CONS____home_consumidor.php" class="brand-logo center"><img src='../../_.imgs_default/logo_n2.png' height="70px" style="margin-top:10px;"></a>
 
         <ul class="right valign-wrapper" style="height:90px;">
 
@@ -194,7 +196,7 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
 
         <?php 
 
-            $id_curso= $_GET['id_curso'];
+            $id_curso= mysqli_real_escape_string($conexao,$_GET['id_curso']);
 
             $s = "SELECT email FROM relacao_usuario_curso WHERE id_curso=$id_curso AND tipo_relacao='produtor'";
             $r = mysqli_query($conexao, $s);
@@ -630,13 +632,13 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
 
                                     if($situacao_favorito_modulo[$i] == "favorito"){
 
-                                        echo "<a href='../../____modulos/favorito_modulo.php?id_curso=$id_curso&id_modulo=".$id_modulo[$i]."' style='vertical-align: middle; color:#212121;'>
+                                        echo "<a href='../../____modulos/favorito_modulo.php?id_modulo=".$id_modulo[$i]."' style='vertical-align: middle; color:#212121;'>
                                                 <i class='fa fa-star' style='font-size:2.3em !important;'></i>
                                               </a>";
 
                                     } else {
 
-                                        echo "<a href='../../____modulos/favorito_modulo.php?id_curso=$id_curso&id_modulo=".$id_modulo[$i]."' style='vertical-align: middle; color:#212121;'>
+                                        echo "<a href='../../____modulos/favorito_modulo.php?id_modulo=".$id_modulo[$i]."' style='vertical-align: middle; color:#212121;'>
                                                 <i class='fa fa-star-o' style='font-size:2.3em !important;'></i>
                                               </a>";
 
@@ -644,7 +646,7 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
 
                                 } else {
 
-                                    echo "<a href='../../____modulos/favorito_modulo.php?id_curso=$id_curso&id_modulo=".$id_modulo[$i]."' style='vertical-align: middle; color:#212121;'>
+                                    echo "<a href='../../____modulos/favorito_modulo.php?id_modulo=".$id_modulo[$i]."' style='vertical-align: middle; color:#212121;'>
                                             <i class='fa fa-star-o' style='font-size:2.3em !important;'></i>
                                           </a>";
 
@@ -673,6 +675,14 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
                                         <div class='col s12 hoverable' style='padding-left:35px; padding-top:10px; padding-bottom:10px; border-radius:10px;'> 
                                             <div class='col s1 valign-wrapper' style='margin:0px; padding:0px; height:112.5px;'>";
 
+                                                $sq[$i][$j] = "SELECT * FROM questionarios WHERE id_aula=".$id_aula[$i][$j];
+                                                $result[$i][$j] = mysqli_query($conexao, $sq[$i][$j]);
+                                                $l[$i][$j] = mysqli_fetch_assoc($result[$i][$j]);
+                                                
+                                                if(isset($l[$i][$j])){
+                                                    $id_questionario1[$i][$j][] = $l[$i][$j]['id_questionario'];
+                                                }
+
                                                 $sqlij[$i][$j] = "SELECT * FROM favoritos_aula WHERE email='$email' AND id_aula=".$id_aula[$i][$j];
                                                 $resultadoij[$i][$j] = mysqli_query($conexao, $sqlij[$i][$j]);
                 
@@ -690,13 +700,13 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
 
                                                     if($situacao_favorito_aula[$i][$j] == "favorito"){
                 
-                                                        echo "<a href='../../___aulas/favorito_aula.php?id_aula=".$id_aula[$i][$j]."' style='color:#000;''>
+                                                        echo "<a href='../../___aulas/favorito_aula.php?id_aula=".$id_aula[$i][$j]."' style='color:#000; margin-right:20px;''>
                                                                 <i class='fa fa-star fa-2x'></i>
                                                               </a>";
                 
                                                     } else {
                 
-                                                        echo "<a href='../../___aulas/favorito_aula.php?id_aula=".$id_aula[$i][$j]."'style='color:#000;'>
+                                                        echo "<a href='../../___aulas/favorito_aula.php?id_aula=".$id_aula[$i][$j]."'style='color:#000; margin-right:20px;'>
                                                                 <i class='fa fa-star-o fa-2x'></i>
                                                               </a>";
                 
@@ -704,10 +714,37 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
                 
                                                 } else {
                 
-                                                    echo "<a href='../../___aulas/favorito_aula.php?id_aula=".$id_aula[$i][$j]."' style='color:#000;''>
+                                                    echo "<a href='../../___aulas/favorito_aula.php?id_aula=".$id_aula[$i][$j]."' style='color:#000; margin-right:20px;''>
                                                             <i class='fa fa-star-o fa-2x'></i>
                                                           </a>";
                 
+                                                }
+
+                                                if(isset($id_questionario1[$i][$j]) and isset($id_questionario_valido)){
+
+                                                    $u = array_intersect($id_questionario1[$i][$j], $id_questionario_valido);
+
+                                                    if(isset($u)){
+
+                                                        echo "                                                           
+                                                            <div id='info_quest__$i".'_'."$j' class='modal'>
+                                                                <div class='modal-content'>  
+                                                                    <br><br>                                                    
+                                                                    <h6 class='center' style='font-size:1.5em;'>
+                                                                        A aula <span class='bold'>".$nome_aula[$i][$j]."</span> possui questionário. 
+                                                                    </h6>
+                                                                </div>
+
+                                                                <div class='modal-footer'>
+                                                                    <a href='#!' class='modal-close waves-effect waves-purple btn-flat'>Ok</a>
+                                                                </div>
+                                                            </div>
+                                                        
+                                                            <a class='modal-trigger' href='#info_quest__$i".'_'."$j' style='color:#000;'>
+                                                                <i class='fa fa-question-circle-o' style='font-size:1.4em;'></i>
+                                                            <a>";
+                                                    }
+
                                                 }
                                                
                     echo "
@@ -717,7 +754,7 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
                                                 <div class='col s8 center-align valign-wrapper' style='margin:0px; padding:0px; height:112.5px;'>
                                                     <span style='font-size:1.5em;'>".$nome_aula[$i][$j]."</span>
                                                 </div>
-                                                <div class='col s3 right-align' style='margin:0px; padding:0px; height:112.5px;'>
+                                                <div class='col s3 right-align' style='margin:0px; padding:0px; height:112.5px;'>                     
                                                     <img src='".$endereco_imagem_aula[$i][$j]."' width='190em' height='112.5em' style='border-radius:4%;'>
                                                     <i class='material-icons right valign-wrapper' style='height:112.5px;'>play_circle_filled</i>
                                                 </div>

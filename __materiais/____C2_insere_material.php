@@ -1,10 +1,10 @@
 <?php
-
+session_start();
     include_once "../_______necessarios/.conexao_bd.php";
 
-    $id_aula = $_POST['id_aula'];
+    $id_aula = mysqli_real_escape_string($conexao,$_POST['id_aula']);
 
-    $nome_material= $_POST['nome_material'];
+    $nome_material= mysqli_real_escape_string($conexao,$_POST['nome_material']);
     
     if(isset($_FILES['endereco_material'])){
 
@@ -20,11 +20,11 @@
 
     if(isset($_POST['visibilidade_material'])){
 
-        $visibilidade_material = "não-visível";
+        $visibilidade_material = "visível";
 
     } else {
 
-        $visibilidade_material = "visível";
+        $visibilidade_material = "não-visível";
 
     }
 
@@ -40,11 +40,10 @@
     // -
 
 
-    mysqli_close($conexao);
-
     if($resultado)
     {
-	    header("Location: ../index/produtor/PROD__tela_aula_produtor.php?id_aula=$id_aula");
+        $_SESSION['mensagem'] = "Material cadastrado com sucesso!";
+        echo "<script>window.history.go(-1);</script>";
     }
 
 ?>

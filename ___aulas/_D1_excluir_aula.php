@@ -3,7 +3,7 @@ session_start();
  
     include "../_______necessarios/.conexao_bd.php";
 
-    $id_aula = $_GET['id_aula'];
+    $id_aula = mysqli_real_escape_string($conexao,$_GET['id_aula']);
 
     //obtendo o id_modulo para obter o id_curso-
     $sql = "SELECT id_modulo FROM aulas WHERE id_aula=$id_aula";
@@ -145,8 +145,6 @@ session_start();
     $sql_8 = "DELETE FROM favoritos_aula WHERE id_aula=$id_aula";
     $resultado_8 = mysqli_query($conexao, $sql_8);
     //-
-
-    mysqli_close($conexao);
 
     if($resultado and $resultado_1 and $resultado_2 and $resultado_3 and $resultado_4 and $resultado_5 and $resultado_6 and $resultado_7){
 

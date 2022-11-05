@@ -4,9 +4,9 @@ session_start();
     
     echo '<meta charset="UTF-8">';
 
-    $id_curso= $_GET['id_curso'];
-    $i = $_GET['i'];
-    $carga_horaria= $_POST['carga_horaria'];
+    $id_curso= mysqli_real_escape_string($conexao,$_GET['id_curso']);
+    $i = mysqli_real_escape_string($conexao,$_GET['i']);
+    $carga_horaria= mysqli_real_escape_string($conexao,$_POST['carga_horaria']);
 
     $sql = "UPDATE cursos SET certificado_curso='$carga_horaria' WHERE id_curso=$id_curso";
     $resultado = mysqli_query($conexao, $sql);

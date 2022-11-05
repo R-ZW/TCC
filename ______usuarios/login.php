@@ -1,11 +1,10 @@
 <?php
 session_start();
-
-    $email = strtolower($_POST['email']);
-    $senha = $_POST['senha'];
-    $senhaMD5 = md5($senha);
-
     require_once "../_______necessarios/.conexao_bd.php";
+
+    $email = strtolower(mysqli_real_escape_string($conexao,$_POST['email']));
+    $senha = mysqli_real_escape_string($conexao,$_POST['senha']);
+    $senhaMD5 = md5($senha);
 
     $sql = "SELECT * FROM usuarios WHERE email='$email'";
     $resultado = mysqli_query($conexao, $sql);

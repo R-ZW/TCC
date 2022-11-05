@@ -1,9 +1,8 @@
 <?php
-    
+session_start();
     include "../_______necessarios/.conexao_bd.php";
 
-    $id_questionario = $_GET['id_questionario'];
-
+    $id_questionario = mysqli_real_escape_string($conexao,$_GET['id_questionario']);
 
     //obtendo o id_aula-
     $sq = "SELECT id_aula FROM questionarios WHERE id_questionario=$id_questionario";
@@ -58,10 +57,9 @@
     $resultado_3 = mysqli_query($conexao, $sql_3);
     //-
 
-    mysqli_close($conexao);
-
     if($resultado and $resultado_1 and $resultado_2 and $resultado_3){
 
+        $_SESSION['mensagem'] = "Questionário excluído com sucesso!";
         header("Location: ../index/produtor/PROD__tela_aula_produtor.php?id_aula=$id_aula");
 
     }

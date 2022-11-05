@@ -4,9 +4,9 @@ session_start();
 
     $id_usuario = $_SESSION['id_usuario'];
 
-    $endereco_imagem_usuario_pre_alteracao = $_POST['endereco_imagem_usuario_pre_alteracao'];
+    $endereco_imagem_usuario_pre_alteracao = mysqli_real_escape_string($conexao,$_POST['endereco_imagem_usuario_pre_alteracao']);
 
-    $nome_usuario = $_POST['nome_usuario'];
+    $nome_usuario = mysqli_real_escape_string($conexao,$_POST['nome_usuario']);
     if(isset($_FILES['endereco_imagem_usuario'])){
 
         $ext = strrchr($_FILES['endereco_imagem_usuario']['name'], '.');
@@ -31,7 +31,7 @@ session_start();
     
     }
 
-    if($_POST['senha'] != ""){
+    if(mysqli_real_escape_string($conexao,$_POST['senha']) != ""){
         
         $senha = mysqli_real_escape_string($conexao,$_POST['senha']);
         $senha_MD5 = md5($senha);

@@ -6,7 +6,7 @@ session_start();
     use Dompdf\Dompdf;
 
     $email = $_SESSION['email'];
-    $id_curso = $_GET['id_curso'];
+    $id_curso = mysqli_real_escape_string($conexao,$_GET['id_curso']);
 
     $sql = "SELECT * FROM usuarios WHERE email='$email'";
     $resultado = mysqli_query($conexao, $sql);
@@ -19,17 +19,61 @@ session_start();
     $nome_curso = $linha1['nome_curso'];
     $carga_horaria= $linha1['certificado_curso'];
 
-    $dompdf = new Dompdf();
+    $dompdf = new Dompdf(['enable_remote' => true]);
     $dompdf -> loadHtml("
-    
-        <h1 style='text-align:center;'>Certificado de conclusão de curso</h1>
-    
-        <h3>A plataforma Nebula certifica que $nome_usuario, concluiu o curso $nome_curso. <br>
-        <br>
-        Carga horária: $carga_horaria.</h3>
+
+        <!DOCTYPE html>
+        <html lang='pt'>
+        <head>
+            <meta charset='UTF-8'>
+        </head>
+            <body>
+
+                <style>
+                    @page{ 
+                        margin: 0px;
+                    }
+
+                    body{
+                        background-color:#210D30;
+                    }
+                </style>
+
+                <div style='color:#DBDBDB;'>
+
+                    <br><br>
+
+                    <center><img src='http://localhost/TCC/_.imgs_default/logo_n3.png' width='120px' height='138px'></center>
+                    
+                    <br><br><br>
+
+                    <center><span style='font-size:2.5em; font-weight:600;'>CERTIFICADO DE CONCLUSÃO</span></center>
+
+                    <br>
+
+                    <center><span style='font-size:1.6em; font-weight:600;'>CONCEDIDO A</span></center>
+
+                    <br><br><br>
+
+                    <center><span style='font-size:2.8em; font-weight:600;'>$nome_usuario</span></center>
+
+                    <br><br><br><br><br>
+                    
+                    <center>
+                        <span style='font-size:1.6em;'>CERTIFICA-SE A CONCLUSÃO DO CURSO<br><br>
+                            <span style='font-weight:600; font-size:1.5em;'>$nome_curso</span>
+                        </span>
+                    </center>
+
+                    <br><br><br>
+
+                    <center><span style='font-weight:600; font-size:2.3em;'>$carga_horaria horas</span></center>
+                </div>
+            </body>
+        </html>
     
     ");
-    $dompdf -> setPaper('A4', 'landscape');
+    $dompdf -> setPaper("A4", "landscape");
     $dompdf -> render();
     $dompdf -> stream();
 

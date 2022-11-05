@@ -4,7 +4,7 @@ session_start();
     
     echo '<meta charset="UTF-8">';
 
-    $id_curso= $_GET['id_curso'];
+    $id_curso= mysqli_real_escape_string($conexao,$_GET['id_curso']);
 
     $sql = "UPDATE cursos SET certificado_curso='sem-certificado' WHERE id_curso=$id_curso";
     $resultado = mysqli_query($conexao, $sql);

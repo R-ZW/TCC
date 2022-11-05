@@ -1,10 +1,11 @@
 <?php
+session_start();
 
     include_once "../_______necessarios/.conexao_bd.php";
 
-    $id_questao = $_POST['id_questao'];
-    $id_questionario = $_POST['id_questionario'];
-    $desenvolvimento_alternativa = $_POST['desenvolvimento_alternativa'];
+    $id_questao = mysqli_real_escape_string($conexao,$_POST['id_questao']);
+    $id_questionario = mysqli_real_escape_string($conexao,$_POST['id_questionario']);
+    $desenvolvimento_alternativa = mysqli_real_escape_string($conexao,$_POST['desenvolvimento_alternativa']);
 
     if(isset($_POST['validade_alternativa'])){
 
@@ -37,6 +38,8 @@
 
             if($validade_alternativa1[$a] == $validade_alternativa and $validade_alternativa=="correta"){
 
+                $_SESSION['mensagem'] = "Só pode haver uma alternativa correta por questão!";
+
                 header("Location: ../index/produtor/PROD_tela_questionario_produtor.php?id_questionario=$id_questionario");
 
                 die;
@@ -56,14 +59,12 @@
     $resultado_1 = mysqli_query($conexao,$sql_1);
     //-
 
-
     if($resultado and $resultado_1)
     {
 
+        $_SESSION['mensagem'] = "Alternativa cadastrada com sucesso!";
 	    header("Location: ../index/produtor/PROD_tela_questionario_produtor.php?id_questionario=$id_questionario");
 
     }
-
-    mysqli_close($conexao);
 
 ?>

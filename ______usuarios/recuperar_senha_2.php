@@ -11,7 +11,7 @@ require 'PHPMailer-master/src/PHPMailer.php';
 require 'PHPMailer-master/src/SMTP.php';
 
 
-$email = $_POST['email'];
+$email = mysqli_real_escape_string($conexao,$_POST['email']);
 
 $sql = "SELECT * FROM usuarios WHERE email='$email'";
 $resultado = mysqli_query($conexao, $sql);

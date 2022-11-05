@@ -1,17 +1,17 @@
 <?php
+session_start();
     
     include "../_______necessarios/.conexao_bd.php";
 
-    $id_alternativa = $_GET['id_alternativa'];
-    $id_questionario = $_GET['id_questionario'];
+    $id_alternativa = mysqli_real_escape_string($conexao,$_GET['id_alternativa']);
+    $id_questionario = mysqli_real_escape_string($conexao,$_GET['id_questionario']);
 
     $sql = "DELETE FROM alternativas WHERE id_alternativa=$id_alternativa";
     $resultado = mysqli_query($conexao,$sql);
 
-    mysqli_close($conexao);
-
     if($resultado){
 
+        $_SESSION['mensagem'] = "Alternativa excluída com sucesso!";
         header("Location: ../index/produtor/PROD_tela_questionario_produtor.php?id_questionario=$id_questionario");
 
     }

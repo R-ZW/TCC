@@ -5,11 +5,11 @@ session_start();
 
     include "../_______necessarios/.conexao_bd.php";
 
-    $id_modulo = $_POST['id_modulo'];
-    $endereco_imagem_modulo_pre_alteracao = $_POST['endereco_imagem_modulo_pre_alteracao'];
+    $id_modulo = mysqli_real_escape_string($conexao,$_POST['id_modulo']);
+    $endereco_imagem_modulo_pre_alteracao = mysqli_real_escape_string($conexao,$_POST['endereco_imagem_modulo_pre_alteracao']);
 
-    $nome_modulo = $_POST['nome_modulo'];
-    $descricao_modulo = $_POST['descricao_modulo'];
+    $nome_modulo = mysqli_real_escape_string($conexao,$_POST['nome_modulo']);
+    $descricao_modulo = mysqli_real_escape_string($conexao,$_POST['descricao_modulo']);
     
     if(isset($_FILES['endereco_imagem_modulo'])){
 

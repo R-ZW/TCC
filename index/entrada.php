@@ -33,14 +33,12 @@ require_once "../_______necessarios/.funcoes.php";
 
     <div id="wapper">
         <div class="auth-background" style="<?php $i = rand(1, 8); echo "background: url(../_.imgs_default/nebulosas/$i.png);"?>"></div>
-        <div class="panel-auth">
+        <div class="panel-auth" style="padding-top:50px;">
 
-            <h2 style="text-align:center;">Nebula</h2>
+            <div class='center'><img src='../_.imgs_default/logo_n1.png' width="200px" height="230px"></div><br>
 
-            <h5 style="text-align:center; margin-top: 0">Entre usando sua conta</h5>
+            <h5 style="text-align:center; margin-top:0px;">Entre usando sua conta</h5>
 
-            <br>
-            <br>
             <br>
             <?php if (isset($_SESSION['mensagem'])) {
 

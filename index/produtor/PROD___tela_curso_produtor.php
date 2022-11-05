@@ -21,7 +21,7 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
   
 <head>
     <meta charset="UTF-8">
-    <title>Tela de Curso</title>
+    <title>(P) CURSO</title>
     
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -121,8 +121,10 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
     <nav>
         <div class="nav-wrapper grey darken-4">
 
-        <a href="PROD____home_produtor.php" class="breadcrumb" style='margin-left:30px;'>HOME PRODUTOR</a>
-        <a href="#!" class="breadcrumb">CURSO</a>
+        <a href="PROD____home_produtor.php" class="breadcrumb bold" style='margin-left:30px;'>HOME PRODUTOR</a>
+        <a href="#!" class="breadcrumb bold">CURSO</a>
+
+        <a href="PROD____home_produtor.php" class="brand-logo center"><img src='../../_.imgs_default/logo_n2.png' height="70px" style="margin-top:10px;"></a>
 
         <ul class="right valign-wrapper" style="height:90px;">
 
@@ -179,7 +181,7 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
 
         <?php 
 
-            $id_curso= $_GET['id_curso'];
+            $id_curso= mysqli_real_escape_string($conexao,$_GET['id_curso']);
 
             //----------------------        
             //obtenção dos dados do curso-
@@ -1281,18 +1283,18 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
                                                                     </div>
                                                                 </div>
                                                                 <div class='row' style='margin-bottom:20px; border: 1px solid #9575cd; border-radius:10px;'>
-                                                                    <div class='col s12 hoverable' style='padding-top:10px; padding-bottom:10px; border-radius:10px;'> 
+                                                                    <div class='col s12 hoverable' style='padding-top:10px; padding-bottom:10px; padding-left:30px; border-radius:10px;'> 
                                                                         <div class='col s2 valign-wrapper' style='margin:0px; padding:0px; height:112.5px;'>
 
-                                                                            <a class='modal-trigger' href='#editar_aula_[$i][$j]' style='color:#000;'><i class='material-icons' style='font-size:1.75em'>edit</i></a>&nbsp&nbsp&nbsp&nbsp&nbsp 
-                                                                            <a class='modal-trigger' href='#excluir_aula_[$i][$j]' style='color:#000;'><i class='material-icons' style='font-size:1.75em'>delete</i></a>&nbsp&nbsp&nbsp&nbsp&nbsp";
+                                                                            <a class='modal-trigger' href='#editar_aula_[$i][$j]' style='color:#000;'><i class='material-icons' style='font-size:1.75em; vertical-align:bottom;'>edit</i></a>&nbsp&nbsp&nbsp&nbsp&nbsp 
+                                                                            <a class='modal-trigger' href='#excluir_aula_[$i][$j]' style='color:#000;'><i class='material-icons' style='font-size:1.75em; vertical-align:bottom;'>delete</i></a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
                                                                             if($visibilidade_aula[$i][$j] == "visível"){
 
-                                                                                echo "<a href='../../___aulas/inversao_situacao_visibilidade_aula.php?id_curso=$id_curso&id_aula=".$id_aula[$i][$j]."' style='color:#000;'><i class='fa fa-eye fa-2x'></i></a><br>";
+                                                                                echo "<a href='../../___aulas/inversao_situacao_visibilidade_aula.php?id_aula=".$id_aula[$i][$j]."' style='color:#000;'><i class='fa fa-eye' style='font-size:1.75em; vertical-align:bottom;'></i></a><br>";
                                                                 
                                                                             } else {
                                                                 
-                                                                                echo "<a href='../../___aulas/inversao_situacao_visibilidade_aula.php?id_curso=$id_curso&id_aula=".$id_aula[$i][$j]."' style='color:#000;'><i class='fa fa-eye-slash fa-2x'></i></a><br>";
+                                                                                echo "<a href='../../___aulas/inversao_situacao_visibilidade_aula.php?id_aula=".$id_aula[$i][$j]."' style='color:#000;'><i class='fa fa-eye-slash' style='font-size:1.75em; vertical-align:bottom;'></i></a><br>";
                                                                                 
                                                                             }
 
@@ -1317,7 +1319,7 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
 
                                                     } else {
 
-                                                            echo "<div style='font-size:1.4em; font-weight:500;'>Não existem aulas cadastradas neste módulo.</div><br>";
+                                                            echo "<div style='font-size:1.4em; font-weight:500;'>Não existem aulas cadastradas neste módulo</div><br>";
 
                                                     }
                                                     echo "
@@ -1331,7 +1333,7 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
 
                 } else {
 
-                    echo "<div style='font-size:1.8em; font-weight:500;'>Não existem módulos cadastrados neste curso.</div><br><br>";
+                    echo "<div style='font-size:1.8em; font-weight:500;'>Não existem módulos cadastrados neste curso</div><br><br>";
 
                 }
                 echo "

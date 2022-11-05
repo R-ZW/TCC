@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once "../_______necessarios/.funcoes.php";
+include "../_______necessarios/.conexao_bd.php";
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +33,7 @@ require_once "../_______necessarios/.funcoes.php";
 <body>
 
     <div id="wapper">
-        <div class="auth-background" style="<?php $i = $_GET['i']; echo "background: url(../_.imgs_default/nebulosas/$i.png);"?>"></div>
+        <div class="auth-background" style="<?php $i = mysqli_real_escape_string($conexao,$_GET['i']); echo "background: url(../_.imgs_default/nebulosas/$i.png);"?>"></div>
         <div class="panel-auth" style="padding-top: 40px">
 
             <h2 style="text-align:center; margin-top: 0">Nebula</h2>

@@ -3,8 +3,8 @@
 
     include_once "../_______necessarios/.conexao_bd.php";
 
-    $id_curso = $_GET['id_curso'];
-    $id_modulo = $_GET['id_modulo'];
+    $id_curso = mysqli_real_escape_string($conexao,$_GET['id_curso']);
+    $id_modulo = mysqli_real_escape_string($conexao,$_GET['id_modulo']);
 
 
     $sql = "SELECT * FROM modulos WHERE id_modulo=$id_modulo";

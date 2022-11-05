@@ -3,10 +3,10 @@ session_start();
 
     include_once "../_______necessarios/.conexao_bd.php";
 
-    $id_modulo = $_POST['id_modulo'];
+    $id_modulo = mysqli_real_escape_string($conexao,$_POST['id_modulo']);
 
-    $nome_aula= $_POST['nome_aula'];
-    $descricao_aula= $_POST['descricao_aula'];
+    $nome_aula= mysqli_real_escape_string($conexao,$_POST['nome_aula']);
+    $descricao_aula= mysqli_real_escape_string($conexao,$_POST['descricao_aula']);
 
     if(isset($_FILES['endereco_imagem_aula'])){
 
