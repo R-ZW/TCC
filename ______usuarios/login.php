@@ -1,6 +1,12 @@
 <?php
 session_start();
-    require_once "../_______necessarios/.conexao_bd.php";
+require_once "../_______necessarios/.conexao_bd.php";
+
+if (!isset($_POST['email'])) {
+    $_SESSION['mensagem'] = "Você não pode acessar esta página desta forma!";
+    header("Location: ../nebula.php");
+    die;
+}
 
     $email = strtolower(mysqli_real_escape_string($conexao,$_POST['email']));
     $senha = mysqli_real_escape_string($conexao,$_POST['senha']);

@@ -1,7 +1,12 @@
 <?php
 session_start();
+include_once "../_______necessarios/.conexao_bd.php";
 
-    include_once "../_______necessarios/.conexao_bd.php";
+if (!isset($_SESSION['id_usuario'])) {
+    $_SESSION['mensagem'] = "Você deve primeiro realizar o login!";
+    header("Location: ../nebula.php");
+    die;
+}
 
     $id_aula = mysqli_real_escape_string($conexao,$_POST['id_aula']);
     $nome_questionario = mysqli_real_escape_string($conexao,$_POST['nome_questionario']);

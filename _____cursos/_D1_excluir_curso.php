@@ -1,7 +1,12 @@
 <?php
 session_start();
+include "../_______necessarios/.conexao_bd.php";
 
-    include "../_______necessarios/.conexao_bd.php";
+if (!isset($_SESSION['id_usuario'])) {
+    $_SESSION['mensagem'] = "Você deve primeiro realizar o login!";
+    header("Location: ../nebula.php");
+    die;
+}
 
     $id_curso = mysqli_real_escape_string($conexao,$_GET['id_curso']);
 
@@ -44,7 +49,7 @@ session_start();
             $endereco_imagem_m[$ind1]= explode("/", $endereco_imagemm[$ind1]);
             $endereco_imagem_mo[$ind1]= array_reverse($endereco_imagem_m[$ind1]);
             $endereco_imagem_modulo[$ind1]= $endereco_imagem_mo[$ind1][0];
-            if(isset($endereco_imagem_modulo[$ind1]) and $endereco_imagem_modulo[$ind1] != "sem-imagem.png"){unlink("../____modulos/imgs_modulo/".$endereco_imagem_modulo[$ind1]);}
+        if(isset($endereco_imagem_modulo[$ind1]) and $endereco_imagem_modulo[$ind1] != "sem_imagem.png"){unlink("../____modulos/imgs_modulo/".$endereco_imagem_modulo[$ind1]);}
 
         }
         //-
@@ -68,7 +73,7 @@ session_start();
                     $endereco_imagem_a[$ind]= explode("/", $endereco_imagema[$ind]);
                     $endereco_imagem_au[$ind]= array_reverse($endereco_imagem_a[$ind]);
                     $endereco_imagem_aula[$ind]= $endereco_imagem_au[$ind][0];
-                    if(isset($endereco_imagem_aula[$ind]) and $endereco_imagem_aula[$ind] != "sem-imagem.png"){unlink("../___aulas/imgs_aula/".$endereco_imagem_aula[$ind]);}
+                if(isset($endereco_imagem_aula[$ind]) and $endereco_imagem_aula[$ind] != "sem_imagem.png"){unlink("../___aulas/imgs_aula/".$endereco_imagem_aula[$ind]);}
 
                     $ind++;
 
@@ -226,7 +231,7 @@ session_start();
         $endereco_imagem_c= explode("/", $endereco_imagemc);
         $endereco_imagem_cur= array_reverse($endereco_imagem_c);
         $endereco_imagem_curso= $endereco_imagem_cur[0];
-        unlink("../_____cursos/imgs_curso/".$endereco_imagem_curso);
+    if(isset($endereco_imagem_curso) and $endereco_imagem_curso != "sem_imagem.png"){unlink("../_____cursos/imgs_curso/".$endereco_imagem_curso);};
 
         $sql_5 = "DELETE FROM cursos WHERE id_curso=$id_curso";
         $resultado_5 = mysqli_query($conexao,$sql_5);

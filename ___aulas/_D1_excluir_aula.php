@@ -1,7 +1,12 @@
 <?php
 session_start();
- 
-    include "../_______necessarios/.conexao_bd.php";
+include "../_______necessarios/.conexao_bd.php";
+
+if (!isset($_SESSION['id_usuario'])) {
+    $_SESSION['mensagem'] = "Você deve primeiro realizar o login!";
+    header("Location: ../nebula.php");
+    die;
+}
 
     $id_aula = mysqli_real_escape_string($conexao,$_GET['id_aula']);
 
@@ -131,8 +136,8 @@ session_start();
         $endereco_imagema= $linha_6['endereco_imagem_aula'];
         $endereco_imagem_a= explode("/", $endereco_imagema);
         $endereco_imagem_au= array_reverse($endereco_imagem_a);
-        $endereco_imagem_aula= $endereco_imagem_au[1] ."/". $endereco_imagem_au[0];
-        unlink($endereco_imagem_aula);
+        $endereco_imagem_aula= $endereco_imagem_au[0];
+        if(isset($endereco_imagem_aula) and $endereco_imagem_aula != "sem_imagem.png"){unlink("imgs_aula/".$endereco_imagem_aula);}
 
     }
 

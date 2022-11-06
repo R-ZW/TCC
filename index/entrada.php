@@ -10,7 +10,10 @@ require_once "../_______necessarios/.funcoes.php";
 
     <meta charset="UTF-8">
 
-    <title>Nebula</title>
+    <title>NEBULA</title>
+
+    <!--Definindo icone da página-->
+    <link rel="icon" href="../_.imgs_default/logo_nebula.png">
 
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -46,6 +49,10 @@ require_once "../_______necessarios/.funcoes.php";
                $_SESSION['mensagem'] == "Nova senha foi redefinida com sucesso!"){
 
                 echo "<span class='green-text' style='font-weight:500 !important;'>" . exibeMensagens() . "</span>";
+
+            } elseif($_SESSION['mensagem'] == "Usuário excluído com sucesso!") {
+
+                echo "<span style='font-weight:500 !important;'>" . exibeMensagens() . "</span>";
 
             } else {
 

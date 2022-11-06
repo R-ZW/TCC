@@ -1,5 +1,11 @@
 <?php
 
+if (!isset($_SESSION['id_usuario'])) {
+    $_SESSION['mensagem'] = "Você deve primeiro realizar o login!";
+    header("Location: ../nebula.php");
+    die;
+}
+
 $sql = "SELECT * FROM usuarios WHERE id_usuario='" . $_SESSION['id_usuario']."'";
 $resultado = mysqli_query($conexao, $sql);
 $linha = mysqli_fetch_assoc($resultado);

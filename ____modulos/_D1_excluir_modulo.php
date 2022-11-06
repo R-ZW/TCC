@@ -1,10 +1,14 @@
 <?php
 session_start();
-   
-    include "../_______necessarios/.conexao_bd.php";
+include "../_______necessarios/.conexao_bd.php";
+
+if (!isset($_SESSION['id_usuario'])) {
+    $_SESSION['mensagem'] = "Você deve primeiro realizar o login!";
+    header("Location: ../nebula.php");
+    die;
+}
 
     $id_modulo = mysqli_real_escape_string($conexao,$_GET['id_modulo']);
-
 
     //obtendo o id_curso-
     $sql = "SELECT * FROM modulos WHERE id_modulo=$id_modulo";
@@ -15,10 +19,8 @@ session_start();
     $endereco_imagemm= $linha['endereco_imagem_modulo'];
     $endereco_imagem_m= explode("/", $endereco_imagemm);
     $endereco_imagem_mo= array_reverse($endereco_imagem_m);
-    $endereco_imagem_modulo= $endereco_imagem_mo[1] ."/". $endereco_imagem_mo[0];
-    if($endereco_imagem_modulo != "../___aulas/imgs_aula/sem_imagem.png"){
-        unlink($endereco_imagem_modulo);
-    }
+    $endereco_imagem_modulo=$endereco_imagem_mo[0];
+    if(isset($endereco_imagem_modulo) and $endereco_imagem_modulo != "sem_imagem.png"){unlink("imgs_modulo/".$endereco_imagem_modulo);}
     //-
 
 
@@ -35,8 +37,10 @@ session_start();
         $endereco_imagema[$ind]= $linha_1['endereco_imagem_aula'];
         $endereco_imagem_a[$ind]= explode("/", $endereco_imagema[$ind]);
         $endereco_imagem_au[$ind]= array_reverse($endereco_imagem_a[$ind]);
-        $endereco_imagem_aula[$ind]= "../___aulas/imgs_aula/".$endereco_imagem_au[$ind][0];
-        unlink($endereco_imagem_aula[$ind]);
+        $endereco_imagem_aula[$ind]= $endereco_imagem_au[$ind][0];
+    if(isset($endereco_imagem_aula[$ind]) and $endereco_imagem_aula[$ind] != "sem_imagem.png"){unlink("../___aulas/imgs_aula/".$endereco_imagem_aula[$ind]);}
+        
+        $ind++;
 
     }
     //-

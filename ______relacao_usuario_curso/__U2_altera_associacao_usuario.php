@@ -2,7 +2,11 @@
 session_start();
 include "../_______necessarios/.conexao_bd.php";
 
-    echo '<meta charset="UTF-8">';
+if (!isset($_SESSION['id_usuario'])) {
+    $_SESSION['mensagem'] = "Você deve primeiro realizar o login!";
+    header("Location: ../nebula.php");
+    die;
+}
 
     $email_antigo = mysqli_real_escape_string($conexao,$_POST['email_antigo']);
     $email_novo = strtolower(mysqli_real_escape_string($conexao,$_POST['email_novo']));

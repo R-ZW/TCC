@@ -1,13 +1,13 @@
 <?php
 session_start();
-
 require_once "../../_______necessarios/.conexao_bd.php";
 require_once "../../_______necessarios/.funcoes.php";
 
 if (!isset($_SESSION['id_usuario'])) {
     $_SESSION['mensagem'] = "Você deve primeiro realizar o login!";
     header("Location: ../entrada.php");
-    }
+    die;
+}
 
 $email = $_SESSION['email'];
 
@@ -24,6 +24,9 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
 <head>
     <meta charset="UTF-8">
     <title>(C) CURSO</title>
+
+    <!--Definindo icone da página-->
+    <link rel="icon" href="../../_.imgs_default/logo_nebula.png">
 
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">

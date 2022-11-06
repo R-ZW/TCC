@@ -1,6 +1,12 @@
 <?php
-    session_start();
-    require_once "../_______necessarios/.conexao_bd.php";
+session_start();
+require_once "../_______necessarios/.conexao_bd.php";
+
+if (!isset($_SESSION['id_usuario'])) {
+    $_SESSION['mensagem'] = "Você deve primeiro realizar o login!";
+    header("Location: ../nebula.php");
+    die;
+}
 
     $id_usuario= $_SESSION['id_usuario'];
 
@@ -52,10 +58,11 @@
         
         
         if($resultado){
+            session_destroy();
+            session_start();
+            $_SESSION['mensagem'] = "Usuário excluído com sucesso!";
             header("Location: ../index/entrada.php");
         }
-
-        session_destroy();
 
     }
 

@@ -4,8 +4,9 @@ require_once "../../_______necessarios/.conexao_bd.php";
 require_once "../../_______necessarios/.funcoes.php";
 
 if (!isset($_SESSION['id_usuario'])) {
-$_SESSION['mensagem'] = "Você deve primeiro realizar o login!";
-header("Location: ../entrada.php");
+    $_SESSION['mensagem'] = "Você deve primeiro realizar o login!";
+    header("Location: ../entrada.php");
+    die;
 }
 
 $email= $_SESSION['email'];
@@ -32,6 +33,9 @@ $id_aula = $l['id_aula'];
 <head>
     <meta charset="UTF-8">
     <title>(C) QUESTIONÁRIO</title>
+
+    <!--Definindo icone da página-->
+    <link rel="icon" href="../../_.imgs_default/logo_nebula.png">
     
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">

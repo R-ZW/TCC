@@ -3,6 +3,12 @@ session_start();
     require '../../_______necessarios/.conexao_bd.php';
     require 'vendor/autoload.php';
 
+    if (!isset($_SESSION['id_usuario'])) {
+        $_SESSION['mensagem'] = "Você deve primeiro realizar o login!";
+        header("Location: ../../nebula.php");
+        die;
+    }
+
     use Dompdf\Dompdf;
 
     $email = $_SESSION['email'];

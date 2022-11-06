@@ -13,6 +13,9 @@ include "../_______necessarios/.conexao_bd.php";
 
     <title>Criação de Conta</title>
 
+    <!--Definindo icone da página-->
+    <link rel="icon" href="../_.imgs_default/logo_nebula.png">
+
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 

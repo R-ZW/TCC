@@ -1,6 +1,12 @@
 <?php
 session_start();
-    require_once "../_______necessarios/.conexao_bd.php";
+require_once "../_______necessarios/.conexao_bd.php";
+
+if (!isset($_POST['email'])) {
+    $_SESSION['mensagem'] = "Você não pode acessar esta página desta forma!";
+    header("Location: ../nebula.php");
+    die;
+}
 
     $nome_usuario = mysqli_real_escape_string($conexao,$_POST['nome_usuario']);
     if(isset($_FILES['endereco_imagem_usuario'])){

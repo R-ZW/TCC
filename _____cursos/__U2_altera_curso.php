@@ -1,9 +1,12 @@
 <?php
 session_start();
-    
-    echo '<meta charset="UTF-8">';
+include_once "../_______necessarios/.conexao_bd.php";
 
-    include_once "../_______necessarios/.conexao_bd.php";
+if (!isset($_SESSION['id_usuario'])) {
+    $_SESSION['mensagem'] = "Você deve primeiro realizar o login!";
+    header("Location: ../nebula.php");
+    die;
+}
 
     $email = $_SESSION['email'];
 

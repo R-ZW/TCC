@@ -3,6 +3,12 @@ session_start();
 require_once "../_______necessarios/.conexao_bd.php";
 require_once "../_______necessarios/.funcoes.php";
 
+if (!isset($_POST['email']) or !isset($_POST['token'])) {
+    $_SESSION['mensagem'] = "Você não pode acessar esta página desta forma!";
+    header("Location: ../nebula.php");
+    die;
+}
+
 $email = mysqli_real_escape_string($conexao,$_GET['email']);
 $token = mysqli_real_escape_string($conexao,$_GET['token']);
 
@@ -46,6 +52,9 @@ if(!is_null($reset)) {
     <meta charset="UTF-8">
 
     <title>Nebula</title>
+
+    <!--Definindo icone da página-->
+    <link rel="icon" href="../_.imgs_default/logo_nebula.png">
 
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">

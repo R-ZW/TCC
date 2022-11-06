@@ -1,9 +1,12 @@
 <?php
 session_start();
+include "../_______necessarios/.conexao_bd.php";
 
-    echo '<meta charset="UTF-8">';
-
-    include "../_______necessarios/.conexao_bd.php";
+if (!isset($_SESSION['id_usuario'])) {
+    $_SESSION['mensagem'] = "Você deve primeiro realizar o login!";
+    header("Location: ../nebula.php");
+    die;
+}
 
     $id_modulo = mysqli_real_escape_string($conexao,$_POST['id_modulo']);
     $endereco_imagem_modulo_pre_alteracao = mysqli_real_escape_string($conexao,$_POST['endereco_imagem_modulo_pre_alteracao']);
