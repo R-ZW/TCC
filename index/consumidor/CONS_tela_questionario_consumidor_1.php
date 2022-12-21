@@ -272,7 +272,7 @@ $id_aula = $l['id_aula'];
 
             if($data_proxima_realizacao > $data_hoje){
 
-                $_SESSION['mensagem'] = "Você só poderá realizar este questionário novamente na seguinte data/horário: <br><br> <span class='bold'>$data_exibivel as $tempo_exibivel</span>";
+                $_SESSION['mensagem'] = "Você só poderá realizar este questionário novamente na seguinte data/horário: <br><br> <span class='bold'>$data_exibivel às $tempo_exibivel</span>";
                 echo "<script>window.history.go(-1);</script>";
                 
                 die;
@@ -331,12 +331,12 @@ $id_aula = $l['id_aula'];
                         <input type='hidden' name='id_aula' value='$id_aula'>
 
                         <div class='center'>
-                            <button type='submit' class='waves-effect waves-light btn deep-purple bold'>
-                                ENVIAR <i class='material-icons right'>check</i>
-                            </button>
                             <button type='reset' class='waves-effect waves-light btn deep-purple bold'>
                                 REDEFINIR <i class='material-icons right'>sync</i>
                             </button>  
+                            <button type='submit' class='waves-effect waves-light btn deep-purple bold'>
+                                ENVIAR <i class='material-icons right'>check</i>
+                            </button>
                         </div>
                     </form>";
 

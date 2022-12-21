@@ -3,7 +3,7 @@ session_start();
 require_once "../_______necessarios/.conexao_bd.php";
 require_once "../_______necessarios/.funcoes.php";
 
-if (!isset($_POST['email']) or !isset($_POST['token'])) {
+if (!isset($_GET['email']) or !isset($_GET['token'])) {
     $_SESSION['mensagem'] = "Você não pode acessar esta página desta forma!";
     header("Location: ../nebula.php");
     die;

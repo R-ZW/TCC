@@ -61,7 +61,7 @@ if (!is_null($usuario)) {
             $mail->Body = 
                 "Olá,<br> Você solicitou a redefinição da sua senha na plataforma Nebula.<br>
                 Para redefinir a sua senha clique neste
-                <a href=\"" . filter_input(INPUT_SERVER, 'SERVER_NAME') . "/www/TCC/______usuarios/nova_senha.php?email=" . $email . "&token=" . $token . "\">link</a>.<br>
+                <a href=\"" . filter_input(INPUT_SERVER, 'SERVER_NAME') . "/TCC/______usuarios/nova_senha.php?email=" . $email . "&token=" . $token . "\">link</a>.<br>
                 Este link só funcionará uma única vez, e expirará em um dia.<br>
                 <br>
                 Obrigado!";

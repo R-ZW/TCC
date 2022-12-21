@@ -587,7 +587,7 @@ $id_curso = $li['id_curso'];
                                 <div class='file-field'>
                                     <div class='waves-effect waves-light btn grey darken-4' style='margin-left:39%;'>
                                         <span class='bold'><i class='material-icons left'>upload</i> Selecionar Arquivo</span>
-                                        <input id='endereco_material' name='endereco_material' type='file' style='text-align: -webkit-center;' required>
+                                        <input id='endereco_material' name='endereco_material' type='file' style='text-align: -webkit-center;'>
                                     </div><br><br><br>
                                     <div class='file-path-wrapper' style='width:100%';>
                                         <input class='file-path field' id='disabled' type='text' value='".$endereco_material[$i]."'>

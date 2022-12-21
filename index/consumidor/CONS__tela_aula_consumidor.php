@@ -25,12 +25,25 @@ $l = mysqli_fetch_assoc($r);
 $id_modulo = $l['id_modulo'];
 //-
 
-//obtenção do id_curso-
-$sq = "SELECT id_curso FROM modulos WHERE id_modulo=$id_modulo";
-$re = mysqli_query($conexao,$sq);
-$li = mysqli_fetch_assoc($re);
-$id_curso = $li['id_curso'];
-//-
+if(isset($l)){
+    //obtenção do id_curso-
+    $sq = "SELECT id_curso FROM modulos WHERE id_modulo=$id_modulo";
+    $re = mysqli_query($conexao,$sq);
+    $li = mysqli_fetch_assoc($re);
+    $id_curso = $li['id_curso'];
+    //-
+}
+
+$req = "SELECT * FROM relacao_usuario_curso WHERE email='$email' AND id_curso=$id_curso AND tipo_relacao='consumidor'";
+$re = mysqli_query($conexao, $req);
+$lin = mysqli_fetch_assoc($re);
+
+if(!isset($l) or !isset($lin)){
+    $_SESSION['mensagem'] = "Esta aula não está associada a sua conta!";
+    header("Location: CONS____home_consumidor.php");
+    die;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="pt">

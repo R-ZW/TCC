@@ -11,6 +11,16 @@ if (!isset($_SESSION['id_usuario'])) {
 
 $email = $_SESSION['email'];
 
+$req = "SELECT * FROM relacao_usuario_curso WHERE email='$email' AND id_curso=".$_GET['id_curso']." AND tipo_relacao='consumidor'";
+$re = mysqli_query($conexao, $req);
+$lin = mysqli_fetch_assoc($re);
+
+if(!isset($lin)){
+    $_SESSION['mensagem'] = "Este curso não está associado a sua conta!";
+    header("Location: CONS____home_consumidor.php");
+    die;
+}
+
 $sql_1 = "SELECT * FROM usuarios WHERE id_usuario='".$_SESSION['id_usuario']."'";
 $resultado_1 = mysqli_query($conexao, $sql_1);
 $linha_1 = mysqli_fetch_assoc($resultado_1);
@@ -725,9 +735,9 @@ $endereco_imagem_usuario = $linha_1['endereco_imagem_usuario'];
 
                                                 if(isset($id_questionario1[$i][$j]) and isset($id_questionario_valido)){
 
-                                                    $u = array_intersect($id_questionario1[$i][$j], $id_questionario_valido);
+                                                    $u[$i][$j]= array_intersect($id_questionario1[$i][$j], $id_questionario_valido);
 
-                                                    if(isset($u)){
+                                                    if(!empty($u[$i][$j])){
 
                                                         echo "                                                           
                                                             <div id='info_quest__$i".'_'."$j' class='modal'>

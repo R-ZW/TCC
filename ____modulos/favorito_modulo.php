@@ -15,10 +15,12 @@ if (!isset($_SESSION['id_usuario'])) {
     $resultado = mysqli_query($conexao, $sql);
 
     $linha = mysqli_fetch_assoc($resultado);
-    $situacao_favorito_modulo = $linha['situacao_favorito_modulo'];
 
+    if(isset($linha['situacao_favorito_modulo'])){
+        $situacao_favorito_modulo = $linha['situacao_favorito_modulo'];
+    }
 
-    if(is_null($situacao_favorito_modulo)){
+    if(!isset($situacao_favorito_modulo)){
 
         $sql_1 = "INSERT INTO favoritos_modulo (email, id_modulo, situacao_favorito_modulo) 
                                        VALUES ('$email','$id_modulo','favorito')";
